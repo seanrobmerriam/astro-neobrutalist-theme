@@ -1,0 +1,28 @@
+---
+// Page-local layout chrome for the component showcase — not part of the
+// component library, so it lives under pages/ prefixed with `_` to stay
+// out of routing (https://docs.astro.build/en/basics/astro-components/).
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  tone?: "paper" | "ink";
+}
+
+const { id, eyebrow, title, description, tone = "paper" } = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={["scroll-mt-20 border-b-[3px] border-ink px-6 py-16", tone === "ink" ? "bg-ink text-paper" : "bg-paper text-ink"]}
+>
+  <div class="mx-auto max-w-6xl">
+    <div class="mb-10 max-w-xl">
+      {eyebrow && <span class="font-mono text-xs font-bold uppercase tracking-wide opacity-60">{eyebrow}</span>}
+      <h2 class="mt-1 text-balance font-display text-3xl font-extrabold uppercase sm:text-4xl">{title}</h2>
+      {description && <p class="mt-3 text-pretty opacity-75">{description}</p>}
+    </div>
+    <slot />
+  </div>
+</section>

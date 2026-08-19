@@ -1,0 +1,30 @@
+---
+type Accent = "yellow" | "pink" | "blue" | "green" | "orange" | "lavender";
+
+interface Props {
+  label: string;
+  accent?: Accent;
+  class?: string;
+}
+
+const { label, accent = "blue", class: className } = Astro.props;
+
+const accents: Record<Accent, string> = {
+  yellow: "bg-yellow",
+  pink: "bg-pink",
+  blue: "bg-blue",
+  green: "bg-green",
+  orange: "bg-orange",
+  lavender: "bg-lavender",
+};
+---
+
+<span
+  class:list={[
+    "inline-block border-2 border-ink px-3 py-1.5 text-sm/none font-bold tracking-wide text-ink uppercase shadow-brutal-sm",
+    accents[accent],
+    className,
+  ]}
+>
+  {label}
+</span>

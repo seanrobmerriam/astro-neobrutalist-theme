@@ -1,0 +1,40 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Option {
+  label: string;
+  value: string;
+}
+
+interface Props extends Omit<HTMLAttributes<"select">, "class"> {
+  label: string;
+  id: string;
+  options: Option[];
+  placeholder?: string;
+  class?: string;
+}
+
+const { label, id, options, placeholder, class: className, ...rest } = Astro.props;
+---
+
+<label for={id} class="block text-ink">
+  <span class="text-sm font-semibold">{label}</span>
+
+  <select
+    id={id}
+    class:list={[
+      "mt-1 w-full appearance-none border-2 border-ink bg-paper bg-[url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2016%2016%22%3E%3Cpath%20fill=%22black%22%20d=%22M3%206l5%205%205-5z%22/%3E%3C/svg%3E')] bg-[right_0.75rem_center] bg-no-repeat px-3 py-2.5 pr-9 shadow-brutal-sm focus:outline-none focus-visible:shadow-brutal focus-visible:-translate-x-0.5 focus-visible:-translate-y-0.5",
+      className,
+    ]}
+    {...rest}
+  >
+    {placeholder && (
+      <option value="" disabled selected>
+        {placeholder}
+      </option>
+    )}
+    {options.map((option) => (
+      <option value={option.value}>{option.label}</option>
+    ))}
+  </select>
+</label>

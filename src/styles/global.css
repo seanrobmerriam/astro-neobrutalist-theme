@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Clariza Sparks";
+  src:
+    url("../assets/fonts/ClarizaSparks-Regular.woff2") format("woff2"),
+    url("../assets/fonts/ClarizaSparks-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  /* Typography — display/heading/body/mono, per the neubrutalist type system.
+     Clariza Sparks is the theme's signature font: the only local, bundled
+     face, so it carries the loudest roles (display + heading). It ships as
+     a single weight — bold text in these roles relies on the browser's
+     synthesized bold. Body stays on Inter for small-size legibility. */
+  --font-display: "Clariza Sparks", sans-serif;
+  --font-heading: "Clariza Sparks", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "Space Mono", monospace;
+
+  /* Structural neutrals */
+  --color-ink: oklch(0 0 0);
+  --color-paper: oklch(0.9934 0.0107 95.16); /* Off White */
+
+  /* Categorical accents — flat fills only, no gradients */
+  --color-yellow: oklch(0.8789 0.1617 90.94); /* Bold Yellow */
+  --color-pink: oklch(0.7116 0.1812 22.84); /* Coral Pink */
+  --color-blue: oklch(0.7682 0.123 250.03); /* Sky Blue */
+  --color-green: oklch(0.8046 0.1136 149.93); /* Soft Green */
+  --color-orange: oklch(0.7969 0.1443 60.82); /* Orange */
+  --color-lavender: oklch(0.7776 0.1147 292.01); /* Lavender */
+
+  /* Hard offset shadows — zero blur, three-tier system */
+  --shadow-brutal-sm: 3px 3px 0 0 oklch(0 0 0);
+  --shadow-brutal: 5px 5px 0 0 oklch(0 0 0);
+  --shadow-brutal-lg: 8px 8px 0 0 oklch(0 0 0);
+  --shadow-brutal-xl: 12px 12px 0 0 oklch(0 0 0);
+
+  /* Inverted (off-white) shadows for components that sit on a dark surface
+     — a black shadow disappears against the dialog backdrop scrim. */
+  --shadow-brutal-invert-lg: 8px 8px 0 0 oklch(0.9934 0.0107 95.16);
+  --shadow-brutal-invert-xl: 12px 12px 0 0 oklch(0.9934 0.0107 95.16);
+}
+
+/* Square corners are load-bearing to the style. Browser-default radii on */
+/* native controls slip past Tailwind's reset, so zero them explicitly. */
+dialog,
+select,
+input,
+textarea,
+button {
+  border-radius: 0;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+}

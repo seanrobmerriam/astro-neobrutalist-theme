@@ -1,0 +1,34 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends Omit<HTMLAttributes<"input">, "class"> {
+  label: string;
+  id: string;
+  class?: string;
+}
+
+const { label, id, type = "email", class: className, ...rest } = Astro.props;
+---
+
+<label for={id} class="block text-ink">
+  <span class="text-sm font-semibold">{label}</span>
+
+  <div class="relative mt-1">
+    <input
+      id={id}
+      type={type}
+      class:list={[
+        "w-full border-2 border-ink bg-paper py-2.5 pr-11 pl-3 shadow-brutal-sm focus:outline-none focus-visible:shadow-brutal focus-visible:-translate-x-0.5 focus-visible:-translate-y-0.5",
+        className,
+      ]}
+      {...rest}
+    />
+
+    <span class="absolute top-1 right-1 grid size-8 place-content-center bg-ink text-paper" aria-hidden="true">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" class="size-4">
+        <path d="M2 4.5h12v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-7Z" stroke-linejoin="round" />
+        <path d="M2.5 4.75 8 9l5.5-4.25" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </span>
+  </div>
+</label>

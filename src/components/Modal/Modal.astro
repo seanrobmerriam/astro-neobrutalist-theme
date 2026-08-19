@@ -1,0 +1,53 @@
+---
+interface Props {
+  /** Matches the `data-modal-open="id"` attribute on whatever trigger opens this modal. */
+  id: string;
+  title?: string;
+  class?: string;
+}
+
+const { id, title, class: className } = Astro.props;
+---
+
+<dialog
+  id={id}
+  class:list={[
+    "m-auto w-full max-w-md border-[3px] border-ink bg-paper p-0 backdrop:bg-ink/70 open:animate-[modal-in_0.15s_ease-out]",
+    className,
+  ]}
+>
+  <div class="flex items-center justify-between border-b-[3px] border-ink p-4">
+    <h2 class="font-heading text-lg font-bold">{title}</h2>
+    <button
+      type="button"
+      data-dialog-close
+      aria-label="Close dialog"
+      class="flex size-8 shrink-0 items-center justify-center border-2 border-ink bg-paper font-bold shadow-brutal-sm hover:bg-pink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+    >
+      <svg viewBox="0 0 16 16" fill="none" class="size-3.5" stroke="currentColor" stroke-width="2.5">
+        <path d="M3 3l10 10M13 3L3 13" stroke-linecap="square" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="p-6">
+    <slot />
+  </div>
+</dialog>
+
+<style>
+  @keyframes modal-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  import "../../scripts/dialog";
+</script>

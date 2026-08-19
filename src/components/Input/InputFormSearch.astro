@@ -1,0 +1,32 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends Omit<HTMLAttributes<"input">, "class" | "type"> {
+  label: string;
+  id: string;
+  buttonLabel?: string;
+  class?: string;
+}
+
+const { label, id, buttonLabel = "Search", class: className, ...rest } = Astro.props;
+---
+
+<label for={id}>
+  <span class="sr-only">{label}</span>
+
+  <div
+    class:list={[
+      "flex border-2 border-ink shadow-brutal-sm transition-all duration-150 focus-within:-translate-x-0.5 focus-within:-translate-y-0.5 focus-within:shadow-brutal",
+      className,
+    ]}
+  >
+    <input type="search" id={id} class="w-full border-none bg-paper px-3 text-ink focus:ring-0 sm:text-sm" {...rest} />
+
+    <button
+      type="submit"
+      class="whitespace-nowrap bg-yellow px-4 py-2 text-xs font-bold tracking-wide text-ink uppercase hover:bg-yellow/80 focus:outline-none"
+    >
+      {buttonLabel}
+    </button>
+  </div>
+</label>

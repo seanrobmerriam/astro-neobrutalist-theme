@@ -1,0 +1,58 @@
+<div class="flex flex-col gap-3">
+  <details class="group border-2 border-ink shadow-brutal-sm [&_summary::-webkit-details-marker]:hidden">
+    <summary
+      class="flex cursor-pointer items-center justify-between gap-4 bg-paper px-4 py-3 font-heading font-semibold text-ink hover:bg-yellow focus:bg-yellow focus:outline-none"
+    >
+      <span>Does it work with content collections?</span>
+
+      <svg aria-hidden="true" class="size-5 shrink-0 group-open:-rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
+
+    <div class="border-t-2 border-ink p-4">
+      <p class="text-ink/80">
+        Yes — components are plain Astro files with typed props, so they compose with content collections,
+        server islands, or any framework component the same way any other Astro component would.
+      </p>
+    </div>
+  </details>
+
+  <details class="group border-2 border-ink shadow-brutal-sm [&_summary::-webkit-details-marker]:hidden">
+    <summary
+      class="flex cursor-pointer items-center justify-between gap-4 bg-paper px-4 py-3 font-heading font-semibold text-ink hover:bg-yellow focus:bg-yellow focus:outline-none"
+    >
+      <span>Can I change the color palette?</span>
+
+      <svg aria-hidden="true" class="size-5 shrink-0 group-open:-rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
+
+    <div class="border-t-2 border-ink p-4">
+      <p class="text-ink/80">
+        Every color is a single OKLCH token in <code class="font-mono text-sm">global.css</code> — swap the seven
+        values there and the whole theme follows.
+      </p>
+    </div>
+  </details>
+
+  <details class="group border-2 border-ink shadow-brutal-sm [&_summary::-webkit-details-marker]:hidden">
+    <summary
+      class="flex cursor-pointer items-center justify-between gap-4 bg-paper px-4 py-3 font-heading font-semibold text-ink hover:bg-yellow focus:bg-yellow focus:outline-none"
+    >
+      <span>Is any of this locked behind JavaScript?</span>
+
+      <svg aria-hidden="true" class="size-5 shrink-0 group-open:-rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
+
+    <div class="border-t-2 border-ink p-4">
+      <p class="text-ink/80">
+        No — this accordion included. It's a native <code class="font-mono text-sm">&lt;details&gt;</code> element;
+        the only components with a script tag are the ones that genuinely need one, like the Carousel or Modal.
+      </p>
+    </div>
+  </details>
+</div>

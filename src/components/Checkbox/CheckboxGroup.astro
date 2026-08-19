@@ -1,0 +1,43 @@
+---
+interface Option {
+  value: string;
+  label: string;
+  description?: string;
+}
+
+interface Props {
+  legend: string;
+  name: string;
+  options: Option[];
+  class?: string;
+}
+
+const { legend, name, options, class: className } = Astro.props;
+---
+
+<fieldset class={className}>
+  <legend class="sr-only">{legend}</legend>
+
+  <div class="flex flex-col items-start divide-y-2 divide-ink border-2 border-ink bg-paper shadow-brutal">
+    {
+      options.map((option) => (
+        <label
+          for={`${name}-${option.value}`}
+          class="inline-flex w-full items-start gap-3 p-4 hover:bg-yellow/20 focus-within:bg-yellow/20"
+        >
+          <input
+            type="checkbox"
+            name={name}
+            id={`${name}-${option.value}`}
+            value={option.value}
+            class="mt-0.5 size-5 shrink-0 border-2 border-ink bg-paper shadow-brutal-sm checked:bg-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+          />
+          <span class="text-ink">
+            <strong class="font-semibold">{option.label}</strong>
+            {option.description && <p class="mt-0.5 text-sm text-pretty text-ink/70">{option.description}</p>}
+          </span>
+        </label>
+      ))
+    }
+  </div>
+</fieldset>

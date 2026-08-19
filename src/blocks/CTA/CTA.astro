@@ -1,0 +1,59 @@
+---
+import Button from "../../components/Button/Button.astro";
+
+type Accent = "yellow" | "pink" | "blue" | "green" | "orange" | "lavender";
+
+interface Cta {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  id?: string;
+  title: string;
+  description?: string;
+  primaryCta: Cta;
+  secondaryCta?: Cta;
+  accent?: Accent;
+  class?: string;
+}
+
+const { id, title, description, primaryCta, secondaryCta, accent = "yellow", class: className } = Astro.props;
+
+const accents: Record<Accent, string> = {
+  yellow: "bg-yellow",
+  pink: "bg-pink",
+  blue: "bg-blue",
+  green: "bg-green",
+  orange: "bg-orange",
+  lavender: "bg-lavender",
+};
+---
+
+<section id={id} class:list={["mx-auto max-w-6xl px-6 py-10"]}>
+  <div
+    class:list={[
+      "flex flex-col items-center gap-6 border-[3px] border-ink px-8 py-14 text-center shadow-brutal-lg sm:flex-row sm:justify-between sm:text-left",
+      accents[accent],
+      className,
+    ]}
+  >
+    <div>
+      <h2 class="text-balance font-display text-3xl font-extrabold uppercase sm:text-4xl">{title}</h2>
+      {description && <p class="mt-3 max-w-md text-pretty text-ink/80">{description}</p>}
+    </div>
+
+    <div class="flex shrink-0 flex-wrap items-center justify-center gap-3">
+      <Button href={primaryCta.href} variant="outline">
+        {primaryCta.label}
+      </Button>
+      {
+        secondaryCta && (
+          <Button href={secondaryCta.href} variant="ghost">
+            {secondaryCta.label}
+          </Button>
+        )
+      }
+    </div>
+  </div>
+</section>

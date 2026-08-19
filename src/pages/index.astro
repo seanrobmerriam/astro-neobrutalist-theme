@@ -1,11 +1,780 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import LandingLayout from "../layouts/LandingLayout.astro";
+import ShowcaseSection from "./_partials/ShowcaseSection.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Hero from "../blocks/Hero/Hero.astro";
+import FeatureGrid from "../blocks/FeatureGrid/FeatureGrid.astro";
+import CTA from "../blocks/CTA/CTA.astro";
+
+import Button from "../components/Button/Button.astro";
+
+import Badge from "../components/Badge/Badge.astro";
+import BadgeDismiss from "../components/Badge/BadgeDismiss.astro";
+import BadgeStatus from "../components/Badge/BadgeStatus.astro";
+
+import Card from "../components/Card/Card.astro";
+import CardMessage from "../components/Card/CardMessage.astro";
+import CardStacked from "../components/Card/CardStacked.astro";
+
+import Avatar from "../components/Avatar/Avatar.astro";
+import AvatarGroup from "../components/Avatar/AvatarGroup.astro";
+import List from "../components/List/List.astro";
+
+import Accordion from "../components/Accordion/Accordion.astro";
+import AccordionContained from "../components/Accordion/AccordionContained.astro";
+
+import Tabs from "../components/Tab/Tabs.astro";
+
+import InputForm from "../components/Input/InputForm.astro";
+import InputFormIcon from "../components/Input/InputFormIcon.astro";
+import InputFormSearch from "../components/Input/InputFormSearch.astro";
+import TextArea from "../components/TextArea/TextArea.astro";
+import Checkbox from "../components/Checkbox/Checkbox.astro";
+import CheckboxGroup from "../components/Checkbox/CheckboxGroup.astro";
+import Select from "../components/Forms/Select.astro";
+import RadioGroup from "../components/Forms/RadioGroup.astro";
+
+import Table from "../components/Table/Table.astro";
+import Progress from "../components/Progress/Progress.astro";
+import ProgressStatus from "../components/Progress/ProgressStatus.astro";
+import Alert from "../components/Alerts/Alert.astro";
+
+import Modal from "../components/Modal/Modal.astro";
+import Drawer from "../components/Drawer/Drawer.astro";
+import SpeedDial from "../components/SpeedDial/SpeedDial.astro";
+
+import Carousel from "../components/Carousel/Carousel.astro";
+import CarouselSlide from "../components/Carousel/CarouselSlide.astro";
+import Gallery from "../components/Gallery/Gallery.astro";
+
+import Terminal from "../components/Terminal/Terminal.astro";
+import buttonSource from "../components/Button/Button.astro?raw";
+
+const accentHex: Record<string, string> = {
+  yellow: "#FFD23F",
+  pink: "#FF6B6B",
+  blue: "#74B9FF",
+  green: "#88D498",
+  orange: "#FFA552",
+  lavender: "#BBA9FA",
+};
+
+function placeholderImage(label: string, hex: string) {
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='400' height='400' fill='${hex}'/><text x='50%' y='53%' font-family='monospace' font-size='120' font-weight='700' fill='black' text-anchor='middle' dominant-baseline='middle'>${label}</text></svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
+const galleryImages = [
+  { src: placeholderImage("01", accentHex.yellow), alt: "Yellow poster tile 01" },
+  { src: placeholderImage("02", accentHex.pink), alt: "Pink poster tile 02" },
+  { src: placeholderImage("03", accentHex.blue), alt: "Blue poster tile 03" },
+  { src: placeholderImage("04", accentHex.green), alt: "Green poster tile 04" },
+  { src: placeholderImage("05", accentHex.orange), alt: "Orange poster tile 05" },
+  { src: placeholderImage("06", accentHex.lavender), alt: "Lavender poster tile 06" },
+];
+
+const featureItems = [
+  { title: "Zero-JS by default", description: "Every component ships as static HTML — interactivity is opt-in and minimal." },
+  { title: "Tokenized aesthetic", description: "Borders, shadows, and accents are Tailwind v4 theme tokens — change the vibe without rebuilding components." },
+  { title: "Full component set", description: "Buttons to drawers, tables to toasts — everything a real product needs is here." },
+  { title: "Composable blocks", description: "Hero, navbar, CTA, and feature grid blocks are built from the same primitives you get." },
+  { title: "Accessible by construction", description: "Focus rings, contrast, and semantics are part of the design system, not an afterthought." },
+  { title: "Astro-native", description: "Typed props, slots, and scoped styles — no framework runtime required." },
+];
+
+const tableColumns = [
+  { key: "name", label: "Name" },
+  { key: "role", label: "Role" },
+  { key: "status", label: "Status" },
+];
+
+const tableRows = [
+  { name: "Ava Stone", role: "Design Lead", status: { text: "Active", tone: "green" as const } },
+  { name: "Marcus Lin", role: "Engineer", status: { text: "Active", tone: "green" as const } },
+  { name: "Priya Anand", role: "Product", status: { text: "Invited", tone: "blue" as const } },
+  { name: "Theo Brandt", role: "Engineer", status: { text: "Suspended", tone: "pink" as const } },
+];
+
+const navLinks = [
+  { label: "Components", href: "#buttons" },
+  { label: "Forms", href: "#forms" },
+  { label: "Overlays", href: "#overlays" },
+  { label: "Docs", href: "/docs" },
+  { label: "Get it", href: "#cta-block" },
+];
+
+const footerGroups = [
+  {
+    heading: "Components",
+    links: [
+      { label: "Buttons", href: "#buttons" },
+      { label: "Forms", href: "#forms" },
+      { label: "Overlays", href: "#overlays" },
+    ],
+  },
+  {
+    heading: "Blocks",
+    links: [
+      { label: "Hero", href: "#top" },
+      { label: "Feature grid", href: "#features" },
+      { label: "CTA", href: "#cta-block" },
+    ],
+  },
+  {
+    heading: "Project",
+    links: [
+      { label: "Documentation", href: "/docs" },
+      { label: "Astro docs", href: "https://docs.astro.build" },
+      { label: "Tailwind CSS", href: "https://tailwindcss.com" },
+    ],
+  },
+];
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<LandingLayout
+  title="Neubrutal — Astro Neubrutalist Theme"
+  description="A complete neubrutalist design system for Astro: components, blocks, and layouts built with Tailwind CSS v4."
+  navLinks={navLinks}
+  navCtaLabel="Get the theme"
+  navCtaHref="#cta-block"
+  footerBrand="Neubrutal"
+  footerTagline="An Astro + Tailwind theme, built loud on purpose."
+  footerGroups={footerGroups}
+>
+  <Hero
+    id="top"
+    eyebrow="Astro + Tailwind CSS v4"
+    title="Neubrutalism, fully assembled. Fully Astro."
+    subtitle="Thick borders, hard shadows, and flat color — a complete component library, block set, and layout, ready to build on."
+    primaryCta={{ label: "Browse components", href: "#buttons" }}
+    secondaryCta={{ label: "Read the docs", href: "https://docs.astro.build" }}
+  />
+
+  <FeatureGrid
+    id="features"
+    eyebrow="Why this theme"
+    title="Everything a real product needs"
+    description="Every piece below is a typed Astro component — copy it, compose it, or use it as-is."
+    features={featureItems}
+  />
+
+  <ShowcaseSection id="gallery" eyebrow="Components" title="Gallery">
+    <Gallery images={galleryImages} columns={3} />
+  </ShowcaseSection>
+
+  <ShowcaseSection
+    id="buttons"
+    eyebrow="Components"
+    title="Buttons"
+    description="One reusable Button with eight variants and three sizes — grouped here by how you'd actually reach for them."
+  >
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <Card interactive={false} class="p-0!">
+        <div class="flex flex-col gap-4 p-6">
+          <div>
+            <h4 class="font-heading text-lg font-bold">Primary &amp; Secondary</h4>
+            <p class="mt-1 text-sm text-ink/70">The default action, and its secondary counterpart.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-3">
+            <Button variant="primary">Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+          </div>
+        </div>
+      </Card>
+
+      <Card interactive={false} class="p-0!">
+        <div class="flex flex-col gap-4 p-6">
+          <div>
+            <h4 class="font-heading text-lg bg- font-bold">Outline &amp; Borderless</h4>
+            <p class="mt-1 text-sm text-ink/70">Lower-emphasis actions for dense layouts.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-3">
+            <Button variant="outline">Outline</Button>
+            <Button variant="borderless">Borderless</Button>
+          </div>
+        </div>
+      </Card>
+
+      <Card interactive={false} class="p-0!">
+        <div class="flex flex-col gap-4 p-6">
+          <div>
+            <h4 class="font-heading text-lg font-bold">Ghost</h4>
+            <p class="mt-1 text-sm text-ink/70">Invisible until it's hovered — no border, no shadow.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-3">
+            <Button variant="ghost">Ghost</Button>
+          </div>
+        </div>
+      </Card>
+
+      <Card interactive={false} class="p-0!">
+        <div class="flex flex-col gap-4 p-6">
+          <div>
+            <h4 class="font-heading text-lg font-bold">Sizes</h4>
+            <p class="mt-1 text-sm text-ink/70">Small, medium, and large — same variant, different scale.</p>
+          </div>
+          <div class="flex flex-wrap items-end gap-3">
+            <Button size="sm">Small</Button>
+            <Button size="md">Medium</Button>
+            <Button size="lg">Large</Button>
+          </div>
+        </div>
+      </Card>
+
+      <Card interactive={false} class="p-0!">
+        <div class="flex flex-col gap-4 p-6">
+          <div>
+            <h4 class="font-heading text-lg font-bold">Danger</h4>
+            <p class="mt-1 text-sm text-ink/70">Reserved for destructive, hard-to-undo actions.</p>
+          </div>
+          <Alert variant="error" message="This will permanently delete your account." />
+          <Button variant="danger" class="w-full justify-center">
+            Delete account
+          </Button>
+        </div>
+      </Card>
+
+      <Card interactive={false} class="p-0!">
+        <div class="flex flex-col gap-4 p-6">
+          <div>
+            <h4 class="font-heading text-lg font-bold">Success</h4>
+            <p class="mt-1 text-sm text-ink/70">Confirms a completed, positive outcome.</p>
+          </div>
+          <Alert variant="success" message="Your changes have been saved." />
+          <Button variant="success" class="w-full justify-center">
+            Continue
+          </Button>
+        </div>
+      </Card>
+
+      <Card interactive={false} class="p-0!">
+        <div class="flex flex-col gap-4 p-6">
+          <div>
+            <h4 class="font-heading text-lg font-bold">Warning</h4>
+            <p class="mt-1 text-sm text-ink/70">Flags a risky action before it's taken.</p>
+          </div>
+          <Alert variant="warning" message="You're about to leave without saving." />
+          <Button variant="warning" class="w-full justify-center">
+            Leave anyway
+          </Button>
+        </div>
+      </Card>
+    </div>
+  </ShowcaseSection>
+
+  <ShowcaseSection id="badges" eyebrow="Components" title="Badges" description="Three ways to attach a small, flat-color label to real content.">
+    <div class="grid gap-6 sm:grid-cols-3">
+      <Card interactive={false} class="p-0!">
+        <div class="flex flex-col gap-3 p-6">
+          <h4 class="font-heading text-lg font-bold">Tags</h4>
+          <div class="flex items-center gap-2">
+            <Badge label="New" accent="yellow" />
+            <span class="font-heading font-bold">Astro 5.0 is here</span>
+          </div>
+          <p class="text-sm text-ink/70">A quick look at what shipped in the latest major release.</p>
+        </div>
+      </Card>
+
+      <Card interactive={false} class="p-0!">
+        <div class="flex flex-col gap-3 p-6">
+          <h4 class="font-heading text-lg font-bold">Dismissible filters</h4>
+          <p class="text-sm text-ink/70">Active filters, removable inline.</p>
+          <div class="flex flex-wrap gap-2">
+            <BadgeDismiss label="React" />
+            <BadgeDismiss label="Under $50" />
+          </div>
+        </div>
+      </Card>
+
+      <Card interactive={false} class="p-0!">
+        <div class="flex flex-col gap-3 p-6">
+          <h4 class="font-heading text-lg font-bold">Status indicators</h4>
+          <p class="text-sm text-ink/70">Live system state, at a glance.</p>
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-medium">API</span>
+              <BadgeStatus label="Operational" status="online" />
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-medium">Build queue</span>
+              <BadgeStatus label="Degraded" status="busy" />
+            </div>
+          </div>
+        </div>
+      </Card>
+    </div>
+  </ShowcaseSection>
+
+  <ShowcaseSection id="cards" eyebrow="Components" title="Cards" description="One base Card, a couple of content-specific variants, and a few things you can build from just the base.">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <Card
+        eyebrow="Design"
+        title="Composable by default"
+        description="Pass a title, description, and accent — or drop in your own markup via slots."
+        accent="yellow"
+      />
+
+      <CardMessage title="Deploy succeeded" message="neubrutal-theme was built and deployed in 42 seconds. No warnings, no errors." />
+
+      <CardStacked
+        date="2026-08-16"
+        dateLabel="Aug 16, 2026"
+        title="Shipping a full component library in a weekend"
+        description="Notes on building buttons, cards, and forms fast without reaching for a UI kit."
+      />
+
+      <Card interactive={false} class="p-0!">
+        <div class="p-6">
+          <span class="inline-block border-2 border-ink bg-lavender px-3 py-1 font-mono text-xs font-bold tracking-wide uppercase shadow-brutal-sm">
+            Pro
+          </span>
+          <p class="mt-4 font-display text-4xl font-extrabold">
+            $29<span class="font-heading text-base font-semibold text-ink/60">/mo</span>
+          </p>
+          <p class="mt-2 text-sm text-ink/70">Everything in Free, plus unlimited projects and priority support.</p>
+          <Button variant="primary" class="mt-4 w-full justify-center">
+            Choose Pro
+          </Button>
+        </div>
+      </Card>
+
+      <Card interactive={false} accent="green" class="flex flex-col items-center justify-center text-center">
+        <p class="font-display text-5xl font-extrabold">42+</p>
+        <p class="mt-2 font-mono text-xs font-bold tracking-wide uppercase">Components shipped</p>
+      </Card>
+
+      <Card interactive={false} accent="blue" title="Lightning setup" description="Install once, theme everything from a single CSS file.">
+        <svg slot="icon" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" class="mb-3 size-8">
+          <path
+            fill-rule="evenodd"
+            d="M9.5 1.5a.5.5 0 0 0-.947-.226l-6 12a.5.5 0 0 0 .447.726H6.5v4.5a.5.5 0 0 0 .947.226l6-12a.5.5 0 0 0-.447-.726H9.5v-4.5Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </Card>
+    </div>
+  </ShowcaseSection>
+
+  <ShowcaseSection id="avatars-lists" eyebrow="Components" title="Avatars & Lists">
+    <div>
+      <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide opacity-60">Sizes & shapes</p>
+      <div class="grid gap-4 sm:grid-cols-3">
+        <Card interactive={false} class="flex flex-col items-center gap-2 text-center">
+          <Avatar name="Ava Stone" size="sm" accent="yellow" />
+          <p class="font-heading text-sm font-bold">Ava Stone</p>
+          <p class="text-xs text-ink/60">Design Lead</p>
+        </Card>
+        <Card interactive={false} class="flex flex-col items-center gap-2 text-center">
+          <Avatar name="Marcus Lin" size="md" accent="blue" />
+          <p class="font-heading text-sm font-bold">Marcus Lin</p>
+          <p class="text-xs text-ink/60">Engineer</p>
+        </Card>
+        <Card interactive={false} class="flex flex-col items-center gap-2 text-center">
+          <Avatar name="Priya Anand" size="lg" accent="pink" shape="circle" />
+          <p class="font-heading text-sm font-bold">Priya Anand</p>
+          <p class="text-xs text-ink/60">Product</p>
+        </Card>
+      </div>
+    </div>
+
+    <div class="mt-10 grid gap-10 lg:grid-cols-2">
+      <div>
+        <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide opacity-60">Group — mock chat room</p>
+        <div class="border-[3px] border-ink bg-paper shadow-brutal">
+          <div class="flex items-center gap-3 border-b-[3px] border-ink px-4 py-3">
+            <AvatarGroup>
+              <Avatar name="Ava Stone" accent="yellow" size="sm" />
+              <Avatar name="Marcus Lin" accent="blue" size="sm" />
+              <Avatar name="Priya Anand" accent="pink" size="sm" />
+            </AvatarGroup>
+            <p class="text-sm font-semibold"># general <span class="font-normal text-ink/50">3 members</span></p>
+          </div>
+
+          <div class="flex flex-col gap-4 p-4">
+            <div class="flex items-start gap-3">
+              <Avatar name="Ava Stone" accent="yellow" size="sm" />
+              <div>
+                <p class="text-xs text-ink/50">Ava <span class="ml-1">9:41 AM</span></p>
+                <p class="mt-0.5 inline-block border-2 border-ink bg-yellow/25 px-3 py-2 text-sm">
+                  Just shipped the new Table component 🎉
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <Avatar name="Marcus Lin" accent="blue" size="sm" />
+              <div>
+                <p class="text-xs text-ink/50">Marcus <span class="ml-1">9:42 AM</span></p>
+                <p class="mt-0.5 inline-block border-2 border-ink bg-blue/25 px-3 py-2 text-sm">
+                  The status pills look great
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide opacity-60">Lists</p>
+        <Card interactive={false} class="p-0!">
+          <div class="p-6">
+            <h4 class="font-heading text-lg font-bold">What's included</h4>
+            <p class="mt-1 text-sm text-ink/70">Everything ships in the box.</p>
+            <List
+              variant="check"
+              class="mt-4"
+              items={[
+                { text: "Typed props on every component" },
+                { text: "Zero client JS unless you opt in" },
+                { text: "Composable blocks and layouts" },
+              ]}
+            />
+          </div>
+        </Card>
+      </div>
+    </div>
+  </ShowcaseSection>
+
+  <ShowcaseSection id="tabs-accordion" eyebrow="Components" title="Tabs & Accordion" tone="ink">
+    <div class="grid gap-10 lg:grid-cols-2">
+      <div class="border-[3px] border-paper bg-paper p-6 text-ink shadow-brutal-lg">
+        <Tabs
+          tabs={[
+            {
+              label: "Profile",
+              content: "Every component accepts typed props — this panel is just one of them, swapped in on click.",
+            },
+            {
+              label: "Account",
+              content: "No client framework required: a few lines of vanilla JS handle the switching and ARIA state.",
+            },
+            {
+              label: "Notifications",
+              content: "Panels are hidden with the native hidden attribute, so there's nothing to hydrate and nothing to flash.",
+            },
+          ]}
+        />
+      </div>
+      <div class="flex flex-col gap-4">
+        <Accordion />
+        <AccordionContained />
+      </div>
+    </div>
+  </ShowcaseSection>
+
+  <ShowcaseSection
+    id="forms"
+    eyebrow="Components"
+    title="Forms"
+    description="Every input, select, and control shares the same border, shadow, and focus language — composed here into a real registration flow."
+  >
+    <Card interactive={false} class="mx-auto max-w-md p-0!">
+      <form id="signup-form" class="flex flex-col gap-5 p-8">
+        <div>
+          <span class="inline-block border-2 border-ink bg-yellow px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide shadow-brutal-sm">
+            Sign up
+          </span>
+          <h3 class="mt-3 font-heading text-2xl font-bold">Create your account</h3>
+          <p class="mt-1 text-sm text-ink/70">Join the waitlist — no spam, just launch updates.</p>
+        </div>
+
+        <InputForm label="Full name" id="signup-name" name="name" autocomplete="name" placeholder="Ada Lovelace" required />
+
+        <InputForm label="Email" id="signup-email" name="email" type="email" autocomplete="email" placeholder="ada@example.com" required />
+
+        <InputForm
+          label="Password"
+          id="signup-password"
+          name="password"
+          type="password"
+          autocomplete="new-password"
+          placeholder="••••••••"
+          helpText="At least 8 characters."
+          required
+        />
+
+        <Select
+          label="Role"
+          id="signup-role"
+          name="role"
+          placeholder="What best describes you?"
+          options={[
+            { label: "Designer", value: "designer" },
+            { label: "Engineer", value: "engineer" },
+            { label: "Founder", value: "founder" },
+            { label: "Other", value: "other" },
+          ]}
+        />
+
+        <RadioGroup
+          legend="Account type"
+          name="account-type"
+          value="personal"
+          options={[
+            { label: "Personal", value: "personal" },
+            { label: "Team", value: "team" },
+          ]}
+        />
+
+        <Checkbox
+          id="signup-terms"
+          name="terms"
+          label="I agree to the Terms of Service"
+          description="You can unsubscribe from updates at any time."
+          required
+        />
+
+        <Button type="submit" class="mt-2 w-full justify-center">
+          Create account
+        </Button>
+
+        <p class="text-center text-sm text-ink/70">
+          Already have an account? <a href="#" class="font-semibold text-ink underline decoration-2 underline-offset-4">Log in</a>
+        </p>
+      </form>
+    </Card>
+
+    <p class="mt-16 mb-6 text-center font-mono text-xs font-bold uppercase tracking-wide opacity-60">More field styles</p>
+    <div class="grid gap-6 sm:grid-cols-2">
+      <Card interactive={false} class="p-0!">
+        <form class="flex flex-col gap-4 p-6">
+          <div>
+            <h4 class="font-heading text-lg font-bold">Find anything</h4>
+            <p class="mt-1 text-sm text-ink/70">A search field paired with an inline submit button.</p>
+          </div>
+          <InputFormSearch label="Search the docs" id="search-docs" placeholder="Search components, blocks…" buttonLabel="Search" />
+        </form>
+      </Card>
+
+      <Card interactive={false} class="p-0!">
+        <form class="flex flex-col gap-4 p-6">
+          <div>
+            <h4 class="font-heading text-lg font-bold">Get product updates</h4>
+            <p class="mt-1 text-sm text-ink/70">A single icon-input field, ready for a newsletter signup.</p>
+          </div>
+          <InputFormIcon label="Email address" id="newsletter-email" name="email" placeholder="you@example.com" required />
+          <Button type="submit" variant="secondary" class="w-full justify-center">
+            Subscribe
+          </Button>
+        </form>
+      </Card>
+
+      <Card interactive={false} class="p-0!">
+        <form class="flex flex-col gap-4 p-6">
+          <div>
+            <h4 class="font-heading text-lg font-bold">Send feedback</h4>
+            <p class="mt-1 text-sm text-ink/70">A textarea for longer, free-form input.</p>
+          </div>
+          <TextArea
+            label="What's on your mind?"
+            id="feedback-notes"
+            name="notes"
+            placeholder="Tell us what's working, what's not…"
+            helpText="We read every message."
+          />
+          <Button type="submit" variant="outline" class="w-full justify-center">
+            Send feedback
+          </Button>
+        </form>
+      </Card>
+
+      <Card interactive={false} class="p-0!">
+        <form class="flex flex-col gap-4 p-6">
+          <div>
+            <h4 class="font-heading text-lg font-bold">Notification preferences</h4>
+            <p class="mt-1 text-sm text-ink/70">A grouped set of checkboxes for multi-select settings.</p>
+          </div>
+          <CheckboxGroup
+            legend="Notification preferences"
+            name="notifications"
+            options={[
+              { value: "product", label: "Product updates", description: "New components, blocks, and releases." },
+              { value: "security", label: "Security alerts", description: "Account and billing-related notices." },
+              { value: "digest", label: "Weekly digest", description: "A short recap every Monday." },
+            ]}
+          />
+          <Button type="submit" variant="outline" class="w-full justify-center">
+            Save preferences
+          </Button>
+        </form>
+      </Card>
+    </div>
+  </ShowcaseSection>
+
+  <script>
+    // Demo-only: the registration form has nowhere real to submit, so show
+    // a success toast instead — a small proof that Forms and Toast compose.
+    document.getElementById("signup-form")?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      window.showToast?.({
+        title: "Account created",
+        description: "Check your inbox to confirm your email.",
+        variant: "success",
+      });
+    });
+  </script>
+
+  <ShowcaseSection id="data" eyebrow="Components" title="Table, Progress & Alerts">
+    <Table caption="Team members" columns={tableColumns} rows={tableRows} />
+
+    <div class="mt-10 flex justify-center">
+      <Card interactive={false} class="w-full max-w-lg p-0!">
+        <div class="flex flex-col gap-5 p-8">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <h4 class="font-heading text-lg font-bold">Installing Neubrutal CLI</h4>
+              <p class="mt-1 font-mono text-sm text-ink/70">npm install -g neubrutal</p>
+            </div>
+            <span class="border-2 border-ink bg-blue px-2 py-1 font-mono text-xs font-bold uppercase shadow-brutal-sm">v1.0.0</span>
+          </div>
+
+          <Progress value={45} label="Downloading packages" />
+          <ProgressStatus value={80} label="Building theme" />
+
+          <Alert variant="success" message="Install complete — run npm run dev to preview the theme." />
+        </div>
+      </Card>
+    </div>
+  </ShowcaseSection>
+
+  <ShowcaseSection
+    id="anatomy"
+    eyebrow="Under the hood"
+    title="Anatomy of a component"
+    description="Every component in this theme is a plain, typed Astro file — here's the Button you've been clicking this whole page."
+  >
+    <div class="grid gap-8 lg:grid-cols-[3fr_2fr] lg:items-center">
+      <Terminal filename="Button.astro" code={buttonSource.trim()} />
+
+      <div>
+        <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide opacity-60">Component features</p>
+        <List
+          variant="check"
+          items={[
+            { text: "Eight typed variants", description: "primary, secondary, outline, borderless, ghost, danger, success, warning." },
+            { text: "Renders as <a> or <button>", description: "Picks the right tag automatically from whether href is set." },
+            { text: "Three sizes", description: "sm, md, and lg, applied as a single class-list swap." },
+            { text: "Full native attribute passthrough", description: "Extends HTMLAttributes<'a'> — type, disabled, aria-*, all just work." },
+            { text: "Zero client JS", description: "Pure server-rendered HTML — nothing to hydrate." },
+          ]}
+        />
+      </div>
+    </div>
+  </ShowcaseSection>
+
+  <ShowcaseSection
+    id="overlays"
+    eyebrow="Components"
+    title="Modal, Drawer & Toast"
+    tone="ink"
+    description="Overlay components are dialog-based and controlled with plain data attributes — no JS to wire up yourself."
+  >
+    <div class="flex flex-wrap gap-4">
+      <Button data-dialog-open="demo-modal" variant="secondary">Open modal</Button>
+      <Button data-dialog-open="cart-drawer" variant="secondary">Open drawer</Button>
+      <Button data-toast-trigger data-toast-title="Saved" data-toast-description="Your changes were saved." data-toast-variant="success" variant="success">
+        Success toast
+      </Button>
+      <Button data-toast-trigger data-toast-title="Something broke" data-toast-description="Try that again." data-toast-variant="error" variant="danger">
+        Error toast
+      </Button>
+      <Button data-toast-trigger data-toast-title="Heads up" data-toast-description="This action can't be undone." data-toast-variant="warning" variant="warning">
+        Warning toast
+      </Button>
+    </div>
+  </ShowcaseSection>
+
+  <ShowcaseSection id="carousel" eyebrow="Components" title="Carousel">
+    <Carousel label="Testimonials">
+      <CarouselSlide class="max-w-sm">
+        <div class="h-full border-[3px] border-ink bg-yellow p-6 shadow-brutal">
+          <p class="font-heading text-lg font-bold">"Finally, a theme with an opinion."</p>
+          <p class="mt-3 text-sm text-ink/70">— Design lead, seed-stage startup</p>
+        </div>
+      </CarouselSlide>
+      <CarouselSlide class="max-w-sm">
+        <div class="h-full border-[3px] border-ink bg-blue p-6 shadow-brutal">
+          <p class="font-heading text-lg font-bold">"Shipped our landing page in an afternoon."</p>
+          <p class="mt-3 text-sm text-ink/70">— Solo founder</p>
+        </div>
+      </CarouselSlide>
+      <CarouselSlide class="max-w-sm">
+        <div class="h-full border-[3px] border-ink bg-pink p-6 shadow-brutal">
+          <p class="font-heading text-lg font-bold">"Every component just... matches."</p>
+          <p class="mt-3 text-sm text-ink/70">— Freelance developer</p>
+        </div>
+      </CarouselSlide>
+      <CarouselSlide class="max-w-sm">
+        <div class="h-full border-[3px] border-ink bg-green p-6 shadow-brutal">
+          <p class="font-heading text-lg font-bold">"The Table component alone saved us a day of CSS."</p>
+          <p class="mt-3 text-sm text-ink/70">— Backend engineer, internal tools</p>
+        </div>
+      </CarouselSlide>
+      <CarouselSlide class="max-w-sm">
+        <div class="h-full border-[3px] border-ink bg-orange p-6 shadow-brutal">
+          <p class="font-heading text-lg font-bold">"Our client actually asked for MORE shadow."</p>
+          <p class="mt-3 text-sm text-ink/70">— Agency creative director</p>
+        </div>
+      </CarouselSlide>
+      <CarouselSlide class="max-w-sm">
+        <div class="h-full border-[3px] border-ink bg-lavender p-6 shadow-brutal">
+          <p class="font-heading text-lg font-bold">"Zero JS until I actually needed it. Rare these days."</p>
+          <p class="mt-3 text-sm text-ink/70">— Staff engineer, e-commerce</p>
+        </div>
+      </CarouselSlide>
+      <CarouselSlide class="max-w-sm">
+        <div class="h-full border-[3px] border-ink bg-paper p-6 shadow-brutal">
+          <p class="font-heading text-lg font-bold">"Square corners, sharp opinions. Exactly what we wanted."</p>
+          <p class="mt-3 text-sm text-ink/70">— Indie hacker</p>
+        </div>
+      </CarouselSlide>
+    </Carousel>
+  </ShowcaseSection>
+
+  <CTA
+    id="cta-block"
+    title="Build your next project loud."
+    description="Every component, block, and layout on this page is yours to copy."
+    primaryCta={{ label: "Read the docs", href: "https://docs.astro.build" }}
+    secondaryCta={{ label: "Star on GitHub", href: "https://github.com" }}
+    accent="lavender"
+  />
+
+  <Fragment slot="overlays">
+    <Modal id="demo-modal" title="Confirm action">
+      <p class="text-ink/80">
+        This is a modal dialog. It traps focus, closes on backdrop click or Escape, and needs zero JS to wire up
+        beyond a <code class="font-mono text-sm">data-dialog-open</code> attribute.
+      </p>
+      <div class="mt-6 flex justify-end gap-3">
+        <Button data-dialog-close variant="ghost">Cancel</Button>
+        <Button data-dialog-close variant="primary">Confirm</Button>
+      </div>
+    </Modal>
+
+    <Drawer id="cart-drawer" title="Your cart" side="right">
+      <p class="text-ink/80">Drawers slide in from either edge and share the same open/close wiring as modals.</p>
+    </Drawer>
+
+    <SpeedDial label="Quick actions">
+      <a
+        href="#top"
+        aria-label="Back to top"
+        class="flex size-11 items-center justify-center border-2 border-ink bg-blue shadow-brutal-sm hover:-translate-x-0.5 hover:-translate-y-0.5"
+      >
+        <svg viewBox="0 0 16 16" fill="none" class="size-4" stroke="currentColor" stroke-width="2.5">
+          <path d="M8 13V3M3 8l5-5 5 5" stroke-linecap="square" stroke-linejoin="miter" />
+        </svg>
+      </a>
+      <button
+        type="button"
+        data-dialog-open="cart-drawer"
+        aria-label="Open cart"
+        class="flex size-11 items-center justify-center border-2 border-ink bg-green shadow-brutal-sm hover:-translate-x-0.5 hover:-translate-y-0.5"
+      >
+        <svg viewBox="0 0 16 16" fill="none" class="size-4" stroke="currentColor" stroke-width="2.5">
+          <path d="M2 2h1.5l1.4 8.4a1 1 0 001 .8h6.2a1 1 0 001-.8L14 5H4" stroke-linecap="square" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </SpeedDial>
+  </Fragment>
+</LandingLayout>

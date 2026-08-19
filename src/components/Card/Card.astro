@@ -1,0 +1,59 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Accent = "yellow" | "pink" | "blue" | "green" | "orange" | "lavender" | "none";
+
+interface Props extends Omit<HTMLAttributes<"div">, "class"> {
+  /** Wraps the card in an <a> when set, making the whole card clickable. */
+  href?: string;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  /** Flat accent fill for the card background. */
+  accent?: Accent;
+  /** Set false for static content containers (e.g. a form) that shouldn't hint at being clickable. */
+  interactive?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  eyebrow,
+  title,
+  description,
+  accent = "none",
+  interactive = true,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const accents: Record<Accent, string> = {
+  yellow: "bg-yellow",
+  pink: "bg-pink",
+  blue: "bg-blue",
+  green: "bg-green",
+  orange: "bg-orange",
+  lavender: "bg-lavender",
+  none: "bg-paper",
+};
+
+const Tag = href ? "a" : "div";
+
+const base = "block border-[3px] border-ink p-6 shadow-brutal";
+const interactivity =
+  "transition-all duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg";
+---
+
+<Tag class:list={[base, interactive && interactivity, accents[accent], className]} href={href} {...rest}>
+  {
+    eyebrow && (
+      <span class="mb-2 inline-block border-2 border-ink bg-paper px-2 py-0.5 font-mono text-xs font-bold uppercase">
+        {eyebrow}
+      </span>
+    )
+  }
+  <slot name="icon" />
+  {title && <h3 class="font-heading text-xl font-bold">{title}</h3>}
+  {description && <p class="mt-2 text-pretty text-ink/80">{description}</p>}
+  <slot />
+</Tag>

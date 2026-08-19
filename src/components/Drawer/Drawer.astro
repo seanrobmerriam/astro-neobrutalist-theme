@@ -1,0 +1,45 @@
+---
+type Side = "left" | "right";
+
+interface Props {
+  /** Matches the `data-drawer-open="id"` attribute on whatever trigger opens this drawer. */
+  id: string;
+  title?: string;
+  side?: Side;
+  class?: string;
+}
+
+const { id, title, side = "right", class: className } = Astro.props;
+---
+
+<dialog
+  id={id}
+  data-side={side}
+  class:list={[
+    "m-0 h-dvh max-h-dvh w-full max-w-sm border-ink bg-paper p-0 shadow-brutal-invert-xl backdrop:bg-ink/70",
+    side === "right" ? "inset-y-0 right-0 left-auto border-l-[3px]" : "inset-y-0 left-0 right-auto border-r-[3px]",
+    className,
+  ]}
+>
+  <div class="flex items-center justify-between border-b-[3px] border-ink p-4">
+    <h2 class="font-heading text-lg font-bold">{title}</h2>
+    <button
+      type="button"
+      data-dialog-close
+      aria-label="Close drawer"
+      class="flex size-8 shrink-0 items-center justify-center border-2 border-ink bg-paper font-bold shadow-brutal-sm hover:bg-pink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+    >
+      <svg viewBox="0 0 16 16" fill="none" class="size-3.5" stroke="currentColor" stroke-width="2.5">
+        <path d="M3 3l10 10M13 3L3 13" stroke-linecap="square" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="overflow-y-auto p-6">
+    <slot />
+  </div>
+</dialog>
+
+<script>
+  import "../../scripts/dialog";
+</script>

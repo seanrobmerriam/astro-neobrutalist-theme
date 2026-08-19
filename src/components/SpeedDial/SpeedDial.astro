@@ -1,0 +1,53 @@
+---
+interface Props {
+  /** Accessible label for the main toggle button. */
+  label?: string;
+  class?: string;
+}
+
+const { label = "Open actions", class: className } = Astro.props;
+---
+
+<div class:list={["fixed bottom-20 right-20 z-40 flex flex-col items-end gap-3", className]} data-speed-dial>
+  <div
+    data-speed-dial-actions
+    data-state="closed"
+    class="flex flex-col items-end gap-3 transition-all duration-150 data-[state=closed]:pointer-events-none data-[state=closed]:translate-y-2 data-[state=closed]:opacity-0"
+  >
+    <slot />
+  </div>
+
+  <button
+    type="button"
+    aria-label={label}
+    aria-expanded="false"
+    data-speed-dial-toggle
+    class="flex size-14 items-center justify-center border-[3px] border-ink bg-yellow shadow-brutal-lg transition-transform duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+  >
+    <svg
+      data-speed-dial-icon
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      class="size-6 transition-transform duration-150"
+    >
+      <path d="M8 3v10M3 8h10" stroke-linecap="square" />
+    </svg>
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-speed-dial]").forEach((root) => {
+    const toggle = root.querySelector<HTMLButtonElement>("[data-speed-dial-toggle]");
+    const actions = root.querySelector<HTMLElement>("[data-speed-dial-actions]");
+    const icon = root.querySelector<SVGElement>("[data-speed-dial-icon]");
+
+    toggle?.addEventListener("click", () => {
+      const willOpen = actions?.dataset.state !== "open";
+      if (actions) actions.dataset.state = willOpen ? "open" : "closed";
+      toggle.setAttribute("aria-expanded", String(willOpen));
+      icon?.classList.toggle("rotate-45", willOpen);
+    });
+  });
+</script>

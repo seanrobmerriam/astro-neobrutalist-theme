@@ -1,0 +1,25 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends Omit<HTMLAttributes<"input">, "class" | "type"> {
+  id: string;
+  label: string;
+  description?: string;
+  class?: string;
+}
+
+const { id, label, description, class: className, ...rest } = Astro.props;
+---
+
+<label for={id} class:list={["inline-flex items-start gap-3 text-ink", className]}>
+  <input
+    type="checkbox"
+    id={id}
+    class="mt-0.5 size-5 shrink-0 border-2 border-ink bg-paper shadow-brutal-sm checked:bg-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+    {...rest}
+  />
+  <span>
+    <span class="font-medium">{label}</span>
+    {description && <span class="block text-sm text-ink/70">{description}</span>}
+  </span>
+</label>

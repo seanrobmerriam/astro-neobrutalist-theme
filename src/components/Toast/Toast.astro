@@ -1,0 +1,42 @@
+---
+type Variant = "default" | "success" | "error" | "warning";
+
+interface Props {
+  variant?: Variant;
+  title: string;
+  description?: string;
+  class?: string;
+}
+
+const { variant = "default", title, description, class: className } = Astro.props;
+
+const accents: Record<Variant, string> = {
+  default: "bg-paper",
+  success: "bg-green",
+  error: "bg-pink",
+  warning: "bg-orange",
+};
+---
+
+<div
+  role="status"
+  class:list={[
+    "flex w-full max-w-sm items-start gap-3 border-[3px] border-ink p-4 shadow-brutal-invert-lg",
+    accents[variant],
+    className,
+  ]}
+>
+  <div class="min-w-0 flex-1">
+    <p class="font-heading font-bold">{title}</p>
+    {description && <p class="mt-1 text-sm text-ink/80">{description}</p>}
+  </div>
+  <button
+    type="button"
+    aria-label="Dismiss notification"
+    class="flex size-6 shrink-0 items-center justify-center border-2 border-ink bg-paper font-bold hover:bg-pink"
+  >
+    <svg viewBox="0 0 16 16" fill="none" class="size-3" stroke="currentColor" stroke-width="2.5">
+      <path d="M3 3l10 10M13 3L3 13" stroke-linecap="square" />
+    </svg>
+  </button>
+</div>

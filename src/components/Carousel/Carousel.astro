@@ -1,0 +1,63 @@
+---
+interface Props {
+  label?: string;
+  class?: string;
+}
+
+const { label = "Carousel", class: className } = Astro.props;
+---
+
+<div class:list={["relative", className]} data-carousel aria-roledescription="carousel" aria-label={label}>
+  <div
+    data-carousel-track
+    class="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden"
+  >
+    <slot />
+  </div>
+
+  <div class="mt-4 flex justify-end gap-2">
+    <button
+      type="button"
+      data-carousel-prev
+      aria-label="Previous slide"
+      class="flex size-10 items-center justify-center border-2 border-ink bg-paper shadow-brutal-sm hover:bg-yellow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+    >
+      <svg viewBox="0 0 16 16" fill="none" class="size-4" stroke="currentColor" stroke-width="2.5">
+        <path d="M10 3L5 8l5 5" stroke-linecap="square" stroke-linejoin="miter" />
+      </svg>
+    </button>
+    <button
+      type="button"
+      data-carousel-next
+      aria-label="Next slide"
+      class="flex size-10 items-center justify-center border-2 border-ink bg-paper shadow-brutal-sm hover:bg-yellow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+    >
+      <svg viewBox="0 0 16 16" fill="none" class="size-4" stroke="currentColor" stroke-width="2.5">
+        <path d="M6 3l5 5-5 5" stroke-linecap="square" stroke-linejoin="miter" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((root) => {
+    const track = root.querySelector<HTMLElement>("[data-carousel-track]");
+    const prev = root.querySelector<HTMLButtonElement>("[data-carousel-prev]");
+    const next = root.querySelector<HTMLButtonElement>("[data-carousel-next]");
+    if (!track) return;
+
+    const slides = Array.from(track.children) as HTMLElement[];
+    let index = 0;
+
+    // Target each slide directly instead of scrolling by a guessed pixel
+    // amount — robust against flex-basis rounding and fights scroll-snap
+    // far less than a raw scrollBy() does. Wraps around in both directions.
+    const goTo = (target: number) => {
+      index = (target + slides.length) % slides.length;
+      slides[index]?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+    };
+
+    prev?.addEventListener("click", () => goTo(index - 1));
+    next?.addEventListener("click", () => goTo(index + 1));
+  });
+</script>

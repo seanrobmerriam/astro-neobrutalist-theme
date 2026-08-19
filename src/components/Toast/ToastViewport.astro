@@ -1,0 +1,94 @@
+---
+// Renders the fixed viewport that `window.showToast()` and any
+// `[data-toast-trigger]` button push toasts into. Include once per page.
+---
+
+<div
+  id="toast-viewport"
+  class="pointer-events-none fixed inset-x-4 top-20 z-50 flex flex-col items-end gap-3 sm:inset-x-auto sm:right-4"
+  aria-live="polite"
+  aria-atomic="true"
+>
+</div>
+
+<script>
+  type ToastVariant = "default" | "success" | "error" | "warning";
+
+  interface ToastOptions {
+    title: string;
+    description?: string;
+    variant?: ToastVariant;
+    duration?: number;
+  }
+
+  const accents: Record<ToastVariant, string> = {
+    default: "bg-paper",
+    success: "bg-green",
+    error: "bg-pink",
+    warning: "bg-orange",
+  };
+
+  function showToast({ title, description, variant = "default", duration = 4000 }: ToastOptions) {
+    const viewport = document.getElementById("toast-viewport");
+    if (!viewport) return;
+
+    const toast = document.createElement("div");
+    toast.setAttribute("role", "status");
+    // Reuse the theme's real utility classes (not hardcoded hex) so this
+    // stays in sync with Toast.astro and the palette tokens automatically.
+    toast.className = `pointer-events-auto flex w-full max-w-sm items-start gap-3 border-[3px] border-ink p-4 shadow-brutal-invert-lg ${accents[variant]} animate-[toast-in_0.15s_ease-out]`;
+
+    toast.innerHTML = `
+      <div class="min-w-0 flex-1">
+        <p class="font-heading font-bold">${title}</p>
+        ${description ? `<p class="mt-1 text-sm text-ink/80">${description}</p>` : ""}
+      </div>
+      <button type="button" aria-label="Dismiss notification" class="flex size-6 shrink-0 items-center justify-center border-2 border-ink bg-paper font-bold hover:bg-pink">
+        <svg viewBox="0 0 16 16" fill="none" class="size-3" stroke="currentColor" stroke-width="2.5"><path d="M3 3l10 10M13 3L3 13" stroke-linecap="square" /></svg>
+      </button>
+    `;
+
+    const remove = () => {
+      toast.style.opacity = "0";
+      toast.style.transform = "translateX(8px)";
+      setTimeout(() => toast.remove(), 150);
+    };
+
+    toast.querySelector("button")?.addEventListener("click", remove);
+    const timer = setTimeout(remove, duration);
+    toast.addEventListener("mouseenter", () => clearTimeout(timer));
+
+    viewport.appendChild(toast);
+  }
+
+  declare global {
+    interface Window {
+      showToast: typeof showToast;
+    }
+  }
+  window.showToast = showToast;
+
+  document.addEventListener("click", (event) => {
+    const trigger = (event.target as HTMLElement).closest<HTMLElement>("[data-toast-trigger]");
+    if (!trigger) return;
+
+    showToast({
+      title: trigger.dataset.toastTitle ?? "Notification",
+      description: trigger.dataset.toastDescription,
+      variant: (trigger.dataset.toastVariant as ToastVariant) ?? "default",
+    });
+  });
+</script>
+
+<style is:global>
+  @keyframes toast-in {
+    from {
+      opacity: 0;
+      transform: translateX(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+</style>

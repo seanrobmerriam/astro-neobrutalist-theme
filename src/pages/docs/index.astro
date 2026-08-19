@@ -1,0 +1,23 @@
+---
+import { getCollection } from "astro:content";
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import Card from "../../components/Card/Card.astro";
+
+const entries = (await getCollection("docs")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<DocsLayout title="Documentation" description="Documentation for the Neubrutal Astro theme — every component, block, and layout.">
+  <h1>Documentation</h1>
+  <p>
+    Everything you need to build with Neubrutal: the token system it's built on, and every component, block, and
+    layout it ships with.
+  </p>
+
+  <div class="mt-8 grid gap-4 sm:grid-cols-2">
+    {
+      entries.map((entry) => (
+        <Card href={`/docs/${entry.id}`} title={entry.data.title} description={entry.data.description} class="p-4!" />
+      ))
+    }
+  </div>
+</DocsLayout>

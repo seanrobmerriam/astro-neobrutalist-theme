@@ -1,0 +1,17 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={["flex -space-x-3", className]}>
+  <slot />
+</div>
+
+<style>
+  div :global(> *) {
+    box-shadow: 3px 3px 0 0 #000;
+  }
+</style>

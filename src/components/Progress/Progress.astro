@@ -1,0 +1,15 @@
+---
+interface Props {
+  value: number;
+  label?: string;
+  class?: string;
+}
+
+const { value, label = "Progress", class: className } = Astro.props;
+---
+
+<div role="progressbar" aria-valuenow={value} aria-valuemin="0" aria-valuemax="100" aria-label={label} class={className}>
+  <div class="w-full border-2 border-ink bg-paper p-1 shadow-brutal-sm">
+    <div class="h-3 bg-blue" style={`width: ${value}%`} />
+  </div>
+</div>

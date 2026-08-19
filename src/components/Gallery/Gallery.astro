@@ -1,0 +1,72 @@
+---
+interface GalleryImage {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  images: GalleryImage[];
+  columns?: 2 | 3 | 4;
+  class?: string;
+}
+
+const { images, columns = 3, class: className } = Astro.props;
+
+const columnClasses: Record<2 | 3 | 4, string> = {
+  2: "sm:grid-cols-2",
+  3: "sm:grid-cols-3",
+  4: "sm:grid-cols-4",
+};
+
+const dialogId = `gallery-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class:list={["grid grid-cols-2 gap-4", columnClasses[columns], className]}>
+  {
+    images.map((image) => (
+      <button
+        type="button"
+        data-gallery-open={dialogId}
+        class="block overflow-hidden border-[3px] border-ink shadow-brutal-sm transition-all duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+      >
+        <img src={image.src} alt={image.alt} class="aspect-square w-full object-cover" loading="lazy" decoding="async" />
+      </button>
+    ))
+  }
+</div>
+
+<dialog
+  id={dialogId}
+  class="m-auto w-full max-w-3xl border-[3px] border-ink bg-paper p-0 shadow-brutal-xl backdrop:bg-ink/80"
+>
+  <div class="relative">
+    <img data-gallery-image class="max-h-[80vh] w-full object-contain" src={images[0]?.src} alt={images[0]?.alt ?? ""} />
+    <button
+      type="button"
+      data-dialog-close
+      aria-label="Close preview"
+      class="absolute right-3 top-3 flex size-9 items-center justify-center border-2 border-ink bg-paper shadow-brutal-sm hover:bg-pink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+    >
+      <svg viewBox="0 0 16 16" fill="none" class="size-4" stroke="currentColor" stroke-width="2.5">
+        <path d="M3 3l10 10M13 3L3 13" stroke-linecap="square" />
+      </svg>
+    </button>
+  </div>
+</dialog>
+
+<script>
+  import "../../scripts/dialog";
+
+  document.querySelectorAll<HTMLButtonElement>("[data-gallery-open]").forEach((thumb) => {
+    thumb.addEventListener("click", () => {
+      const dialog = document.getElementById(thumb.dataset.galleryOpen ?? "");
+      const preview = dialog?.querySelector<HTMLImageElement>("[data-gallery-image]");
+      const thumbImage = thumb.querySelector("img");
+      if (preview && thumbImage) {
+        preview.src = thumbImage.src;
+        preview.alt = thumbImage.alt;
+      }
+      if (dialog instanceof HTMLDialogElement) dialog.showModal();
+    });
+  });
+</script>

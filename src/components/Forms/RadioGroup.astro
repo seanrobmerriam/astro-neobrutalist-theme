@@ -1,0 +1,37 @@
+---
+interface Option {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  legend: string;
+  name: string;
+  options: Option[];
+  value?: string;
+}
+
+const { legend, name, options, value } = Astro.props;
+---
+
+<fieldset>
+  <legend class="mb-3 text-sm font-semibold text-ink">{legend}</legend>
+
+  <div class="flex flex-col items-start gap-3">
+    {
+      options.map((option) => (
+        <label for={`${name}-${option.value}`} class="inline-flex items-center gap-3 text-ink">
+          <input
+            type="radio"
+            name={name}
+            id={`${name}-${option.value}`}
+            value={option.value}
+            checked={value === option.value}
+            class="size-5 appearance-none rounded-full border-2 border-ink bg-paper shadow-brutal-sm checked:bg-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+          />
+          <span class="font-medium">{option.label}</span>
+        </label>
+      ))
+    }
+  </div>
+</fieldset>

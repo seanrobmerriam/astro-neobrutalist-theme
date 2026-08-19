@@ -1,0 +1,27 @@
+---
+type Status = "online" | "offline" | "busy";
+
+interface Props {
+  label: string;
+  status?: Status;
+  class?: string;
+}
+
+const { label, status = "online", class: className } = Astro.props;
+
+const dots: Record<Status, string> = {
+  online: "bg-green",
+  offline: "bg-ink/25",
+  busy: "bg-orange",
+};
+---
+
+<span
+  class:list={[
+    "inline-flex items-center gap-2 border-2 border-ink bg-paper px-3 py-1.5 text-sm/none font-semibold text-ink shadow-brutal-sm",
+    className,
+  ]}
+>
+  <span class:list={["size-2 shrink-0", dots[status]]} aria-hidden="true" />
+  {label}
+</span>

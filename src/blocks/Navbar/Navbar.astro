@@ -1,0 +1,72 @@
+---
+import Button from "../../components/Button/Button.astro";
+import Drawer from "../../components/Drawer/Drawer.astro";
+
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  brand?: string;
+  links?: NavLink[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  class?: string;
+}
+
+const { brand = "Neubrutal", links = [], ctaLabel, ctaHref, class: className } = Astro.props;
+
+const drawerId = "mobile-nav";
+---
+
+<header class:list={["sticky top-0 z-30 border-b-[3px] border-ink bg-paper", className]}>
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <a href="/" class="font-display text-xl font-extrabold uppercase tracking-tight">{brand}</a>
+
+    <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
+      {
+        links.map((link) => (
+          <a href={link.href} class="font-heading font-semibold text-ink hover:underline hover:decoration-2 hover:underline-offset-4">
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="hidden md:block">{ctaLabel && ctaHref && <Button href={ctaHref} size="sm">{ctaLabel}</Button>}</div>
+
+    <button
+      type="button"
+      data-dialog-open={drawerId}
+      aria-label="Open menu"
+      class="flex size-10 items-center justify-center border-2 border-ink bg-paper shadow-brutal-sm hover:bg-yellow md:hidden"
+    >
+      <svg viewBox="0 0 16 16" fill="none" class="size-4" stroke="currentColor" stroke-width="2">
+        <path d="M2 4h12M2 8h12M2 12h12" stroke-linecap="square" />
+      </svg>
+    </button>
+  </div>
+</header>
+
+<Drawer id={drawerId} title="Menu" side="right">
+  <nav class="flex flex-col gap-5" aria-label="Mobile">
+    {
+      links.map((link) => (
+        <a href={link.href} class="font-heading text-lg font-semibold text-ink">
+          {link.label}
+        </a>
+      ))
+    }
+  </nav>
+
+  {
+    ctaLabel && ctaHref && (
+      <div class="mt-8">
+        <Button href={ctaHref} class="w-full justify-center">
+          {ctaLabel}
+        </Button>
+      </div>
+    )
+  }
+</Drawer>

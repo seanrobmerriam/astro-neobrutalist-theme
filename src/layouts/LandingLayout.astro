@@ -1,0 +1,55 @@
+---
+import BaseLayout from "./Layout.astro";
+import Navbar from "../blocks/Navbar/Navbar.astro";
+import Footer from "../components/Footer/Footer.astro";
+import ToastViewport from "../components/Toast/ToastViewport.astro";
+
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+interface FooterGroup {
+  heading: string;
+  links: { label: string; href: string }[];
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  navLinks?: NavLink[];
+  navCtaLabel?: string;
+  navCtaHref?: string;
+  footerBrand?: string;
+  footerTagline?: string;
+  footerGroups?: FooterGroup[];
+}
+
+const {
+  title,
+  description,
+  navLinks = [],
+  navCtaLabel,
+  navCtaHref,
+  footerBrand,
+  footerTagline,
+  footerGroups = [],
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <Navbar links={navLinks} ctaLabel={navCtaLabel} ctaHref={navCtaHref} />
+
+  <main>
+    <slot />
+  </main>
+
+  <Footer brand={footerBrand} tagline={footerTagline} groups={footerGroups}>
+    <slot name="footer-extra" />
+  </Footer>
+
+  <ToastViewport />
+
+  <!-- Modals, drawers, and other overlay-only components live here so they render once, outside <main>. -->
+  <slot name="overlays" />
+</BaseLayout>

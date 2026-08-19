@@ -1,0 +1,26 @@
+---
+interface Props {
+  label?: string;
+  title: string;
+  message: string;
+  class?: string;
+}
+
+const { label = "System Message", title, message, class: className } = Astro.props;
+---
+
+<article class:list={["border-[3px] border-ink bg-paper text-ink shadow-brutal-lg", className]}>
+  <div class="flex items-center justify-between border-b-[3px] border-ink bg-yellow px-4 py-2">
+    <strong class="font-mono text-xs font-bold tracking-wide uppercase">{label}</strong>
+
+    <div class="flex gap-1" aria-hidden="true">
+      <span class="size-3 border-2 border-ink bg-paper"></span>
+      <span class="size-3 border-2 border-ink bg-paper"></span>
+    </div>
+  </div>
+
+  <div class="p-4 sm:p-6">
+    <h3 class="font-heading text-lg font-bold">{title}</h3>
+    <p class="mt-2 text-sm text-pretty text-ink/80">{message}</p>
+  </div>
+</article>

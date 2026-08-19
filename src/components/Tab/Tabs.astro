@@ -1,0 +1,82 @@
+---
+interface Tab {
+  label: string;
+  content: string;
+}
+
+interface Props {
+  tabs: Tab[];
+  label?: string;
+  class?: string;
+}
+
+const { tabs, label = "Tabs", class: className } = Astro.props;
+const groupId = `tabs-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class:list={className} data-tabs>
+  <div class="border-b-[3px] border-ink px-2" role="tablist" aria-label={label}>
+    <div class="-mb-0.5 flex flex-wrap">
+      {
+        tabs.map((tab, i) => (
+          <button
+            type="button"
+            role="tab"
+            id={`${groupId}-tab-${i}`}
+            aria-selected={i === 0 ? "true" : "false"}
+            aria-controls={`${groupId}-panel-${i}`}
+            data-tab-trigger
+            data-index={i}
+            class:list={[
+              "border-2 px-6 py-2 font-heading font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue",
+              i === 0 ? "border-ink bg-yellow text-ink" : "border-transparent text-ink hover:bg-ink hover:text-paper",
+            ]}
+          >
+            {tab.label}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  {
+    tabs.map((tab, i) => (
+      <div
+        role="tabpanel"
+        id={`${groupId}-panel-${i}`}
+        aria-labelledby={`${groupId}-tab-${i}`}
+        data-tab-panel
+        data-index={i}
+        class="mt-4"
+        hidden={i !== 0}
+      >
+        <p class="text-ink">{tab.content}</p>
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-tabs]").forEach((root) => {
+    const triggers = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-tab-trigger]"));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-tab-panel]"));
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", () => {
+        const index = trigger.dataset.index;
+
+        triggers.forEach((t) => {
+          const active = t === trigger;
+          t.setAttribute("aria-selected", String(active));
+          t.classList.toggle("border-ink", active);
+          t.classList.toggle("bg-yellow", active);
+          t.classList.toggle("border-transparent", !active);
+        });
+
+        panels.forEach((panel) => {
+          panel.hidden = panel.dataset.index !== index;
+        });
+      });
+    });
+  });
+</script>

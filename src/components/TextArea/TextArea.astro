@@ -1,0 +1,27 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends Omit<HTMLAttributes<"textarea">, "class"> {
+  label: string;
+  id: string;
+  helpText?: string;
+  class?: string;
+}
+
+const { label, id, helpText, rows = 4, class: className, ...rest } = Astro.props;
+---
+
+<label for={id} class="block text-ink">
+  <span class="text-sm font-semibold">{label}</span>
+
+  <textarea
+    id={id}
+    rows={rows}
+    class:list={[
+      "mt-1 w-full resize-none border-2 border-ink bg-paper px-3 py-2.5 shadow-brutal-sm focus:outline-none focus-visible:shadow-brutal focus-visible:-translate-x-0.5 focus-visible:-translate-y-0.5",
+      className,
+    ]}
+    {...rest}></textarea>
+
+  {helpText && <span class="mt-1 block text-xs text-ink/60">{helpText}</span>}
+</label>

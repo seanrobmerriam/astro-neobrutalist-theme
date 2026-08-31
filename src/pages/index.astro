@@ -198,18 +198,6 @@ const footerGroups = [
       <Card interactive={false} class="p-0!">
         <div class="flex flex-col gap-4 p-6">
           <div>
-            <h4 class="font-heading text-lg font-bold">Ghost</h4>
-            <p class="mt-1 text-sm text-ink/70">Invisible until it's hovered — no border, no shadow.</p>
-          </div>
-          <div class="flex flex-wrap items-center gap-3">
-            <Button variant="ghost">Ghost</Button>
-          </div>
-        </div>
-      </Card>
-
-      <Card interactive={false} class="p-0!">
-        <div class="flex flex-col gap-4 p-6">
-          <div>
             <h4 class="font-heading text-lg font-bold">Sizes</h4>
             <p class="mt-1 text-sm text-ink/70">Small, medium, and large — same variant, different scale.</p>
           </div>
@@ -434,9 +422,9 @@ const footerGroups = [
     </div>
   </ShowcaseSection>
 
-  <ShowcaseSection id="tabs-accordion" eyebrow="Components" title="Tabs & Accordion" tone="ink">
+  <ShowcaseSection id="tabs-accordion" eyebrow="Components" title="Tabs & Accordion">
     <div class="grid gap-10 lg:grid-cols-2">
-      <div class="border-[3px] border-paper bg-paper p-6 text-ink shadow-brutal-lg">
+      <div class="border-[3px] border-ink bg-paper p-6 text-ink shadow-brutal-lg">
         <Tabs
           tabs={[
             {

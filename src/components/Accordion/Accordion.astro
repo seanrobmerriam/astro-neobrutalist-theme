@@ -1,58 +1,52 @@
-<div class="flex flex-col gap-3">
-  <details class="group [&_summary::-webkit-details-marker]:hidden">
-    <summary
-      class="flex cursor-pointer items-center justify-between gap-4 border-2 border-ink bg-paper px-4 py-3 font-heading font-semibold text-ink shadow-brutal-sm hover:bg-yellow focus:bg-yellow focus:outline-none"
-    >
-      <span>What are the basic features?</span>
+---
+interface FaqItem {
+  question: string;
+  answer: string;
+}
 
-      <svg aria-hidden="true" class="size-5 shrink-0 group-open:-rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </summary>
+interface Props {
+  items?: FaqItem[];
+  class?: string;
+}
 
-    <div class="p-4">
-      <p class="text-ink/80">
-        A full component library — buttons, cards, forms, tables, modals, and more — plus blocks and layouts, all
-        built with Tailwind CSS v4 and typed Astro props.
-      </p>
-    </div>
-  </details>
+const {
+  items = [
+    {
+      question: "What are the basic features?",
+      answer:
+        "A full component library — buttons, cards, forms, tables, modals, and more — plus blocks and layouts, all built with Tailwind CSS v4 and typed Astro props.",
+    },
+    {
+      question: "How do I get started?",
+      answer:
+        "Copy any component into your project, or clone the whole theme and start editing the page in src/pages/index.astro.",
+    },
+    {
+      question: "What support options are available?",
+      answer:
+        'The theme ships as plain, readable Astro files — check the "Anatomy of a component" section further down this page to see exactly how one is built.',
+    },
+  ],
+  class: className,
+} = Astro.props;
+---
 
-  <details class="group [&_summary::-webkit-details-marker]:hidden">
-    <summary
-      class="flex cursor-pointer items-center justify-between gap-4 border-2 border-ink bg-paper px-4 py-3 font-heading font-semibold text-ink shadow-brutal-sm hover:bg-yellow focus:bg-yellow focus:outline-none"
-    >
-      <span>How do I get started?</span>
+<div class:list={["flex flex-col gap-3", className]}>
+  {
+    items.map((item) => (
+      <details class="group [&_summary::-webkit-details-marker]:hidden">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 border-2 border-ink bg-paper px-4 py-3 font-heading font-semibold text-ink shadow-brutal-sm hover:bg-yellow focus:bg-yellow focus:outline-none">
+          <span>{item.question}</span>
 
-      <svg aria-hidden="true" class="size-5 shrink-0 group-open:-rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </summary>
+          <svg aria-hidden="true" class="size-5 shrink-0 group-open:-rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
 
-    <div class="p-4">
-      <p class="text-ink/80">
-        Copy any component into your project, or clone the whole theme and start editing the page in
-        <code class="font-mono text-sm">src/pages/index.astro</code>.
-      </p>
-    </div>
-  </details>
-
-  <details class="group [&_summary::-webkit-details-marker]:hidden">
-    <summary
-      class="flex cursor-pointer items-center justify-between gap-4 border-2 border-ink bg-paper px-4 py-3 font-heading font-semibold text-ink shadow-brutal-sm hover:bg-yellow focus:bg-yellow focus:outline-none"
-    >
-      <span>What support options are available?</span>
-
-      <svg aria-hidden="true" class="size-5 shrink-0 group-open:-rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </summary>
-
-    <div class="p-4">
-      <p class="text-ink/80">
-        The theme ships as plain, readable Astro files — check the "Anatomy of a component" section further down
-        this page to see exactly how one is built.
-      </p>
-    </div>
-  </details>
+        <div class="p-4">
+          <p class="text-ink/80">{item.answer}</p>
+        </div>
+      </details>
+    ))
+  }
 </div>

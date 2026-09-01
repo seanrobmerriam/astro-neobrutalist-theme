@@ -1,0 +1,178 @@
+---
+import LandingLayout from "../layouts/LandingLayout.astro";
+
+import Hero from "../blocks/Hero/Hero.astro";
+import FeatureGrid from "../blocks/FeatureGrid/FeatureGrid.astro";
+import Pricing from "../blocks/Pricing/Pricing.astro";
+import Testimonials from "../blocks/Testimonials/Testimonials.astro";
+import FAQ from "../blocks/FAQ/FAQ.astro";
+import CTA from "../blocks/CTA/CTA.astro";
+
+const navLinks = [
+  { label: "Features", href: "#features" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "Testimonials", href: "#testimonials" },
+  { label: "FAQ", href: "#faq" },
+  { label: "Docs", href: "/docs" },
+];
+
+const footerGroups = [
+  {
+    heading: "Product",
+    links: [
+      { label: "Features", href: "#features" },
+      { label: "Pricing", href: "#pricing" },
+      { label: "FAQ", href: "#faq" },
+    ],
+  },
+  {
+    heading: "Resources",
+    links: [
+      { label: "Documentation", href: "/docs" },
+      { label: "Astro docs", href: "https://docs.astro.build" },
+      { label: "Tailwind CSS", href: "https://tailwindcss.com" },
+    ],
+  },
+];
+
+const featureItems = [
+  { title: "Zero-JS by default", description: "Every component ships as static HTML — interactivity is opt-in and minimal." },
+  { title: "Tokenized aesthetic", description: "Borders, shadows, and accents are Tailwind v4 theme tokens — change the vibe without rebuilding components." },
+  { title: "Full component set", description: "Buttons to drawers, tables to toasts — everything a real product needs is here." },
+  { title: "Composable blocks", description: "Hero, navbar, CTA, and feature grid blocks are built from the same primitives you get." },
+  { title: "Accessible by construction", description: "Focus rings, contrast, and semantics are part of the design system, not an afterthought." },
+  { title: "Astro-native", description: "Typed props, slots, and scoped styles — no framework runtime required." },
+];
+
+const pageItems = [
+  {
+    title: "Blog",
+    description: "Long-form posts, tags, and a clean reading layout — built from the same components as everything else.",
+    href: "/blog",
+  },
+  {
+    title: "Landing",
+    description: "The page you're on. Hero, pricing, testimonials, FAQ — swap the copy and ship.",
+  },
+  {
+    title: "Portfolio",
+    description: "A project grid for case studies and client work, styled with the same bold, flat-color system.",
+    href: "/portfolio",
+  },
+];
+
+const plans = [
+  {
+    name: "Free",
+    price: "$0",
+    description: "Personal projects",
+    features: ["Components, blocks, and layouts", "MIT license", "Community support"],
+    ctaLabel: "Get started",
+    ctaHref: "#",
+  },
+  {
+    name: "Pro",
+    price: "$49",
+    period: "one-time",
+    description: "Solo developers & freelancers",
+    features: ["Everything in Free", "Figma source files", "Priority email support", "Lifetime updates"],
+    ctaLabel: "Get Pro",
+    ctaHref: "#",
+    featured: true,
+  },
+  {
+    name: "Team",
+    price: "$149",
+    period: "one-time",
+    description: "Agencies & product teams",
+    features: ["Everything in Pro", "Up to 10 team seats", "Private Discord channel"],
+    ctaLabel: "Get Team",
+    ctaHref: "#",
+  },
+];
+
+const testimonials = [
+  { quote: "Finally, a theme with an opinion.", name: "Design lead", role: "seed-stage startup" },
+  { quote: "Shipped our landing page in an afternoon.", name: "Solo founder" },
+  { quote: "Every component just... matches.", name: "Freelance developer" },
+];
+
+const faqItems = [
+  {
+    question: "What's included?",
+    answer:
+      "A full component library — buttons, cards, forms, tables, modals, and more — plus blocks and layouts, all built with Tailwind CSS v4 and typed Astro props.",
+  },
+  {
+    question: "How do I get started?",
+    answer: "Copy any component into your project, or clone the whole theme and start editing the page in src/pages/index.astro.",
+  },
+  {
+    question: "Can I change the color palette?",
+    answer: "Every color is a single OKLCH token in global.css — swap the values there and the whole theme follows.",
+  },
+  {
+    question: "Do I need to know Tailwind?",
+    answer:
+      "Not deeply — every component ships with its styling already written. You'll want basic Tailwind familiarity to customize layouts, but nothing more.",
+  },
+];
+---
+
+<LandingLayout
+  title="Neubrutal — Build loud. Ship fast."
+  description="A complete neubrutalist component library for Astro: components, blocks, and layouts built with Tailwind CSS v4."
+  navLinks={navLinks}
+  navCtaLabel="Get Theme"
+  navCtaHref="#pricing"
+  footerBrand="Neubrutal"
+  footerTagline="An Astro + Tailwind theme, built loud on purpose."
+  footerGroups={footerGroups}
+>
+  <Hero
+    layout="split"
+    eyebrow="Astro + Tailwind CSS v4"
+    title="Build loud. Ship fast."
+    subtitle="A complete neubrutalist component library for Astro — thick borders, hard shadows, and flat color, ready to assemble into any page you need."
+    primaryCta={{ label: "Get Theme", href: "#pricing" }}
+    secondaryCta={{ label: "Read Docs", href: "/docs" }}
+  >
+    <div slot="graphic" class="relative aspect-square w-full border-[3px] border-ink bg-blue shadow-brutal-xl">
+      <div class="absolute inset-6 border-2 border-dashed border-ink/40" />
+      <span class="absolute right-4 bottom-4 border-2 border-ink bg-paper px-2 py-1 font-mono text-xs font-bold uppercase tracking-wide">
+        Image placeholder
+      </span>
+    </div>
+  </Hero>
+
+  <FeatureGrid
+    id="features"
+    eyebrow="Why Neubrutal"
+    title="Everything a real product needs"
+    description="Every piece below is a typed Astro component — copy it, compose it, or use it as-is."
+    features={featureItems}
+  />
+
+  <FeatureGrid id="pages" eyebrow="Start here" title="Pages to build on" features={pageItems} />
+
+  <Pricing
+    id="pricing"
+    eyebrow="Pricing"
+    title="Get the whole theme"
+    description="One-time purchase. No subscriptions, no seat-locked license servers."
+    plans={plans}
+  />
+
+  <Testimonials id="testimonials" eyebrow="Testimonials" title="Don't take our word for it" testimonials={testimonials} />
+
+  <FAQ id="faq" eyebrow="FAQ" title="Questions, answered" items={faqItems} />
+
+  <CTA
+    id="cta"
+    title="Build your next project loud."
+    description="Every component, block, and layout on this page is yours to copy."
+    primaryCta={{ label: "Get Theme", href: "#pricing" }}
+    secondaryCta={{ label: "Star on GitHub", href: "https://github.com" }}
+    accent="lavender"
+  />
+</LandingLayout>

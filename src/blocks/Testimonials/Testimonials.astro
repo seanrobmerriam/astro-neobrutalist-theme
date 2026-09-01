@@ -1,0 +1,49 @@
+---
+import TestimonialCard from "../../components/Testimonial/TestimonialCard.astro";
+
+type Accent = "yellow" | "pink" | "blue" | "green" | "orange" | "lavender";
+
+interface Testimonial {
+  quote: string;
+  name: string;
+  role?: string;
+  accent?: Accent;
+}
+
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  testimonials: Testimonial[];
+  class?: string;
+}
+
+const { id, eyebrow, title, description, testimonials, class: className } = Astro.props;
+
+const accentCycle: Accent[] = ["yellow", "blue", "pink", "green", "orange", "lavender"];
+---
+
+<section id={id} class:list={["mx-auto max-w-6xl px-6 py-20", className]}>
+  {
+    (eyebrow || title || description) && (
+      <div class="mx-auto mb-14 max-w-2xl text-center">
+        {eyebrow && (
+          <span class="inline-block border-2 border-ink bg-pink px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide shadow-brutal-sm">
+            {eyebrow}
+          </span>
+        )}
+        {title && <h2 class="mt-4 text-balance font-display text-4xl font-extrabold uppercase sm:text-5xl">{title}</h2>}
+        {description && <p class="mt-4 text-pretty text-ink/70">{description}</p>}
+      </div>
+    )
+  }
+
+  <div class="grid gap-6 sm:grid-cols-3">
+    {
+      testimonials.map((t, i) => (
+        <TestimonialCard quote={t.quote} name={t.name} role={t.role} accent={t.accent ?? accentCycle[i % accentCycle.length]} />
+      ))
+    }
+  </div>
+</section>

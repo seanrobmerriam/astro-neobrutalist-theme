@@ -1,0 +1,32 @@
+---
+type Accent = "yellow" | "pink" | "blue" | "green" | "orange" | "lavender";
+
+interface Props {
+  quote: string;
+  name: string;
+  role?: string;
+  accent?: Accent;
+  class?: string;
+}
+
+const { quote, name, role, accent = "yellow", class: className } = Astro.props;
+
+const accents: Record<Accent, string> = {
+  yellow: "bg-yellow",
+  pink: "bg-pink",
+  blue: "bg-blue",
+  green: "bg-green",
+  orange: "bg-orange",
+  lavender: "bg-lavender",
+};
+---
+
+<figure
+  class:list={["flex h-full flex-col justify-between gap-6 border-[3px] border-ink p-6 shadow-brutal", accents[accent], className]}
+>
+  <blockquote class="font-heading text-lg font-bold">"{quote}"</blockquote>
+  <figcaption class="text-sm text-ink/70">
+    — {name}
+    {role ? `, ${role}` : ""}
+  </figcaption>
+</figure>

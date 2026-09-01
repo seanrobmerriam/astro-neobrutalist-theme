@@ -13,54 +13,95 @@ interface Props {
   subtitle?: string;
   primaryCta?: Cta;
   secondaryCta?: Cta;
+  layout?: "centered" | "split";
   class?: string;
 }
 
-const { id, eyebrow, title, subtitle, primaryCta, secondaryCta, class: className } = Astro.props;
+const {
+  id,
+  eyebrow,
+  title,
+  subtitle,
+  primaryCta,
+  secondaryCta,
+  layout = "centered",
+  class: className,
+} = Astro.props;
 ---
 
-<section id={id} class:list={["relative overflow-hidden border-b-[3px] border-ink bg-paper", className]}>
-  <div
-    class="pointer-events-none absolute -top-12 -right-16 size-64 border-[3px] border-ink bg-lavender sm:size-80"
-    aria-hidden="true"
-  >
-  </div>
-  <div
-    class="pointer-events-none absolute -bottom-16 -left-12 size-48 rotate-12 border-[3px] border-ink bg-orange sm:size-56"
-    aria-hidden="true"
-  >
-  </div>
-
-  <div class="relative mx-auto max-w-4xl px-6 py-24 text-center sm:py-32">
-    {
-      eyebrow && (
-        <span class="inline-block border-2 border-ink bg-yellow px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide shadow-brutal-sm">
-          {eyebrow}
-        </span>
-      )
-    }
-
-    <h1 class="mt-6 text-balance font-display text-5xl font-extrabold uppercase leading-[0.95] sm:text-7xl">
-      {title}
-    </h1>
-
-    {subtitle && <p class="mx-auto mt-6 max-w-xl text-pretty text-lg text-ink/75">{subtitle}</p>}
-
-    {
-      (primaryCta || secondaryCta) && (
-        <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-          {primaryCta && (
-            <Button href={primaryCta.href} size="lg">
-              {primaryCta.label}
-            </Button>
+{
+  layout === "split" ? (
+    <section id={id} class:list={["border-b-[3px] border-ink bg-paper", className]}>
+      <div class="mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:py-32 lg:grid-cols-2 lg:items-center">
+        <div>
+          {eyebrow && (
+            <span class="inline-block border-2 border-ink bg-yellow px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide shadow-brutal-sm">
+              {eyebrow}
+            </span>
           )}
-          {secondaryCta && (
-            <Button href={secondaryCta.href} size="lg" variant="outline">
-              {secondaryCta.label}
-            </Button>
+
+          <h1 class="mt-6 text-balance font-display text-5xl font-extrabold uppercase leading-[0.95] sm:text-6xl">{title}</h1>
+
+          {subtitle && <p class="mt-6 max-w-xl text-pretty text-lg text-ink/75">{subtitle}</p>}
+
+          {(primaryCta || secondaryCta) && (
+            <div class="mt-10 flex flex-wrap items-center gap-4">
+              {primaryCta && (
+                <Button href={primaryCta.href} size="lg">
+                  {primaryCta.label}
+                </Button>
+              )}
+              {secondaryCta && (
+                <Button href={secondaryCta.href} size="lg" variant="outline">
+                  {secondaryCta.label}
+                </Button>
+              )}
+            </div>
           )}
         </div>
-      )
-    }
-  </div>
-</section>
+
+        <div>
+          <slot name="graphic" />
+        </div>
+      </div>
+    </section>
+  ) : (
+    <section id={id} class:list={["relative overflow-hidden border-b-[3px] border-ink bg-paper", className]}>
+      <div
+        class="pointer-events-none absolute -top-12 -right-16 size-64 border-[3px] border-ink bg-lavender sm:size-80"
+        aria-hidden="true"
+      />
+      <div
+        class="pointer-events-none absolute -bottom-16 -left-12 size-48 rotate-12 border-[3px] border-ink bg-orange sm:size-56"
+        aria-hidden="true"
+      />
+
+      <div class="relative mx-auto max-w-4xl px-6 py-24 text-center sm:py-32">
+        {eyebrow && (
+          <span class="inline-block border-2 border-ink bg-yellow px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide shadow-brutal-sm">
+            {eyebrow}
+          </span>
+        )}
+
+        <h1 class="mt-6 text-balance font-display text-5xl font-extrabold uppercase leading-[0.95] sm:text-7xl">{title}</h1>
+
+        {subtitle && <p class="mx-auto mt-6 max-w-xl text-pretty text-lg text-ink/75">{subtitle}</p>}
+
+        {(primaryCta || secondaryCta) && (
+          <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+            {primaryCta && (
+              <Button href={primaryCta.href} size="lg">
+                {primaryCta.label}
+              </Button>
+            )}
+            {secondaryCta && (
+              <Button href={secondaryCta.href} size="lg" variant="outline">
+                {secondaryCta.label}
+              </Button>
+            )}
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}

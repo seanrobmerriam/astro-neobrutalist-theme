@@ -1,0 +1,57 @@
+---
+import LandingLayout from "../layouts/LandingLayout.astro";
+import Card from "../components/Card/Card.astro";
+
+type Accent = "yellow" | "pink" | "blue" | "green";
+
+const navLinks = [
+  { label: "Home", href: "/landing" },
+  { label: "Docs", href: "/docs" },
+];
+
+const projects: { eyebrow: string; title: string; description: string; accent: Accent }[] = [
+  {
+    eyebrow: "Web App",
+    title: "Ledger — expense tracking",
+    description: "A dashboard for freelancers to track invoices and expenses.",
+    accent: "yellow",
+  },
+  {
+    eyebrow: "Branding",
+    title: "Voltage Coffee",
+    description: "Packaging and web identity for a specialty coffee roaster.",
+    accent: "pink",
+  },
+  {
+    eyebrow: "Mobile",
+    title: "Trailhead — hiking companion",
+    description: "Offline trail maps and route tracking for weekend hikers.",
+    accent: "blue",
+  },
+  {
+    eyebrow: "E-commerce",
+    title: "Kiln Studio",
+    description: "A storefront for handmade ceramics, built for slow, deliberate browsing.",
+    accent: "green",
+  },
+];
+---
+
+<LandingLayout
+  title="Portfolio — Neubrutal"
+  description="Selected work built with the Neubrutal theme."
+  navLinks={navLinks}
+>
+  <div class="mx-auto max-w-5xl px-6 py-20">
+    <div class="mb-14 text-center">
+      <span class="inline-block border-2 border-ink bg-blue px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide shadow-brutal-sm">
+        Portfolio
+      </span>
+      <h1 class="mt-4 text-balance font-display text-4xl font-extrabold uppercase sm:text-5xl">Selected work</h1>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2">
+      {projects.map((project) => <Card interactive={false} {...project} />)}
+    </div>
+  </div>
+</LandingLayout>

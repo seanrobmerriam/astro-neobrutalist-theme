@@ -1,0 +1,62 @@
+---
+import Button from "../Button/Button.astro";
+import List from "../List/List.astro";
+
+interface Props {
+  name: string;
+  price: string;
+  period?: string;
+  description?: string;
+  features: string[];
+  ctaLabel: string;
+  ctaHref: string;
+  featured?: boolean;
+  class?: string;
+}
+
+const {
+  name,
+  price,
+  period,
+  description,
+  features,
+  ctaLabel,
+  ctaHref,
+  featured = false,
+  class: className,
+} = Astro.props;
+
+const listItems = features.map((text) => ({ text }));
+---
+
+<div
+  class:list={[
+    "relative flex flex-col gap-6 border-[3px] border-ink p-8",
+    featured ? "bg-yellow shadow-brutal-lg" : "bg-paper shadow-brutal",
+    className,
+  ]}
+>
+  {
+    featured && (
+      <span class="absolute -top-3 right-6 border-2 border-ink bg-ink px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide text-paper">
+        Most popular
+      </span>
+    )
+  }
+
+  <div>
+    <h3 class="font-heading text-lg font-bold uppercase tracking-wide">{name}</h3>
+    {description && <p class="mt-1 text-sm text-ink/70">{description}</p>}
+  </div>
+
+  <p class="font-display text-5xl font-extrabold">
+    {price}
+    {period && <span class="font-heading text-base font-semibold text-ink/60"> {period}</span>}
+  </p>
+
+  <List variant="check" items={listItems} class="flex-1" />
+
+  <Button href={ctaHref} variant={featured ? "primary" : "outline"} class="w-full justify-center">
+    {ctaLabel}
+  </Button>
+</div>

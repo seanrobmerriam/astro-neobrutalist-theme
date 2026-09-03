@@ -1,10 +1,32 @@
 ---
 import LandingLayout from "../layouts/LandingLayout.astro";
 import CardStacked from "../components/Card/CardStacked.astro";
+import CTA from "../blocks/CTA/CTA.astro";
 
 const navLinks = [
   { label: "Home", href: "/landing" },
+  { label: "Blog", href: "/blog" },
+  { label: "Portfolio", href: "/portfolio" },
   { label: "Docs", href: "/docs" },
+];
+
+const footerGroups = [
+  {
+    heading: "Product",
+    links: [
+      { label: "Landing", href: "/landing" },
+      { label: "Pricing", href: "/landing#pricing" },
+      { label: "Portfolio", href: "/portfolio" },
+    ],
+  },
+  {
+    heading: "Resources",
+    links: [
+      { label: "Documentation", href: "/docs" },
+      { label: "Astro docs", href: "https://docs.astro.build" },
+      { label: "Tailwind CSS", href: "https://tailwindcss.com" },
+    ],
+  },
 ];
 
 const posts = [
@@ -39,6 +61,11 @@ const posts = [
   title="Blog — Neubrutal"
   description="Notes on building and shipping the Neubrutal theme."
   navLinks={navLinks}
+  navCtaLabel="Get Theme"
+  navCtaHref="/landing#pricing"
+  footerBrand="Neubrutal"
+  footerTagline="An Astro + Tailwind theme, built loud on purpose."
+  footerGroups={footerGroups}
 >
   <div class="mx-auto max-w-4xl px-6 py-20">
     <div class="mb-14 text-center">
@@ -46,10 +73,22 @@ const posts = [
         Blog
       </span>
       <h1 class="mt-4 text-balance font-display text-4xl font-extrabold uppercase sm:text-5xl">Notes & updates</h1>
+      <p class="mx-auto mt-4 max-w-xl text-pretty text-ink/70">
+        Build logs, design decisions, and the occasional rant about border-radius.
+      </p>
     </div>
 
     <div class="grid gap-6 sm:grid-cols-2">
       {posts.map((post) => <CardStacked {...post} />)}
     </div>
   </div>
+
+  <CTA
+    id="cta"
+    title="Want the theme these posts are about?"
+    description="Every component, block, and layout used on this site is yours to copy."
+    primaryCta={{ label: "Get Theme", href: "/landing#pricing" }}
+    secondaryCta={{ label: "Read Docs", href: "/docs" }}
+    accent="pink"
+  />
 </LandingLayout>

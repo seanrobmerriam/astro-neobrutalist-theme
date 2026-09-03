@@ -1,6 +1,6 @@
 ---
 title: Blocks & Layouts
-description: Hero, Navbar, FeatureGrid, CTA, Footer, and the page layouts.
+description: Hero, Navbar, FeatureGrid, Pricing, Testimonials, FAQ, CTA, Footer, and the page layouts.
 order: 10
 ---
 
@@ -68,6 +68,50 @@ Blocks are larger, pre-composed sections built entirely from the components docu
 | `accent` | `yellow \| pink \| blue \| green \| orange \| lavender` | `yellow` |
 | `class` | `string` | — |
 
+## Pricing
+
+`src/blocks/Pricing/Pricing.astro` — a grid of `PricingCard`s, one section head shared across all plans.
+
+| Prop | Type | Default |
+|---|---|---|
+| `id` | `string` | — |
+| `eyebrow` / `title` / `description` | `string` | — |
+| `plans` | `{ name, price, period?, description?, features: string[], ctaLabel, ctaHref, featured? }[]` | — (required) |
+| `class` | `string` | — |
+
+```astro
+<Pricing
+  eyebrow="Pricing"
+  title="Get the whole theme"
+  plans={[
+    { name: "Free", price: "$0", features: ["Components", "MIT license"], ctaLabel: "Get started", ctaHref: "#" },
+    { name: "Pro", price: "$49", period: "one-time", features: ["Everything in Free", "Figma files"], ctaLabel: "Get Pro", ctaHref: "#", featured: true },
+  ]}
+/>
+```
+
+## Testimonials
+
+`src/blocks/Testimonials/Testimonials.astro` — a grid of `TestimonialCard`s, cycling through the six accent colors automatically unless a testimonial specifies its own.
+
+| Prop | Type | Default |
+|---|---|---|
+| `id` | `string` | — |
+| `eyebrow` / `title` / `description` | `string` | — |
+| `testimonials` | `{ quote, name, role?, accent? }[]` | — (required) |
+| `class` | `string` | — |
+
+## FAQ
+
+`src/blocks/FAQ/FAQ.astro` — a section head above an `Accordion`.
+
+| Prop | Type | Default |
+|---|---|---|
+| `id` | `string` | — |
+| `eyebrow` / `title` / `description` | `string` | — |
+| `items` | `{ question, answer }[]` | — (required) |
+| `class` | `string` | — |
+
 ## Footer
 
 `src/components/Footer/Footer.astro`
@@ -86,6 +130,15 @@ Two slots: a default slot (rendered on the bottom-right, next to the copyright l
 **`src/layouts/Layout.astro`** — the base HTML shell: `<html>`/`<head>`/`<body>`, fonts, meta tags. Props: `title`, `description`.
 
 **`src/layouts/LandingLayout.astro`** — wraps `Layout` and adds the `Navbar`, `Footer`, and a `ToastViewport`, plus a named `overlays` slot for page-level `Modal`/`Drawer`/`SpeedDial` instances that should render once, outside the main content flow.
+
+| Prop | Type | Default |
+|---|---|---|
+| `title` / `description` | `string` | — |
+| `navLinks` | `{ label, href }[]` | `[]` |
+| `navCtaLabel` / `navCtaHref` | `string` | — |
+| `footerBrand` | `string` | — |
+| `footerTagline` | `string` | — |
+| `footerGroups` | `{ heading, links: { label, href }[] }[]` | `[]` |
 
 ```astro
 ---

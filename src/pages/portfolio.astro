@@ -1,12 +1,34 @@
 ---
 import LandingLayout from "../layouts/LandingLayout.astro";
 import Card from "../components/Card/Card.astro";
+import CTA from "../blocks/CTA/CTA.astro";
 
 type Accent = "yellow" | "pink" | "blue" | "green";
 
 const navLinks = [
   { label: "Home", href: "/landing" },
+  { label: "Blog", href: "/blog" },
+  { label: "Portfolio", href: "/portfolio" },
   { label: "Docs", href: "/docs" },
+];
+
+const footerGroups = [
+  {
+    heading: "Product",
+    links: [
+      { label: "Landing", href: "/landing" },
+      { label: "Pricing", href: "/landing#pricing" },
+      { label: "Blog", href: "/blog" },
+    ],
+  },
+  {
+    heading: "Resources",
+    links: [
+      { label: "Documentation", href: "/docs" },
+      { label: "Astro docs", href: "https://docs.astro.build" },
+      { label: "Tailwind CSS", href: "https://tailwindcss.com" },
+    ],
+  },
 ];
 
 const projects: { eyebrow: string; title: string; description: string; accent: Accent }[] = [
@@ -41,6 +63,11 @@ const projects: { eyebrow: string; title: string; description: string; accent: A
   title="Portfolio — Neubrutal"
   description="Selected work built with the Neubrutal theme."
   navLinks={navLinks}
+  navCtaLabel="Get Theme"
+  navCtaHref="/landing#pricing"
+  footerBrand="Neubrutal"
+  footerTagline="An Astro + Tailwind theme, built loud on purpose."
+  footerGroups={footerGroups}
 >
   <div class="mx-auto max-w-5xl px-6 py-20">
     <div class="mb-14 text-center">
@@ -48,10 +75,22 @@ const projects: { eyebrow: string; title: string; description: string; accent: A
         Portfolio
       </span>
       <h1 class="mt-4 text-balance font-display text-4xl font-extrabold uppercase sm:text-5xl">Selected work</h1>
+      <p class="mx-auto mt-4 max-w-xl text-pretty text-ink/70">
+        A handful of projects, all built on the same bold, flat-color system.
+      </p>
     </div>
 
     <div class="grid gap-6 sm:grid-cols-2">
       {projects.map((project) => <Card interactive={false} {...project} />)}
     </div>
   </div>
+
+  <CTA
+    id="cta"
+    title="Like what you see?"
+    description="This whole site — landing page included — is built from the same theme."
+    primaryCta={{ label: "Get Theme", href: "/landing#pricing" }}
+    secondaryCta={{ label: "Read Docs", href: "/docs" }}
+    accent="green"
+  />
 </LandingLayout>

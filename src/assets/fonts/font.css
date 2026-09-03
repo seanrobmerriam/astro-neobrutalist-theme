@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'Proximity-Light';
+  src: url('Proximity-Light.eot');
+  src: url('Proximity-Light.eot?#iefix') format('embedded-opentype'),
+       url('Proximity-Light.ttf') format('truetype'),
+       url('Proximity-Light.woff') format('woff'),
+       url('Proximity-Light.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+

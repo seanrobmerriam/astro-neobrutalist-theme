@@ -11,9 +11,9 @@ Neubrutal is a neubrutalist design system for Astro, built with Tailwind CSS v4:
 ```bash
 src/
 ├── components/   # The base building blocks — Button, Card, Modal, Table, etc.
-├── blocks/       # Larger sections composed from components — Hero, Navbar, CTA, FeatureGrid
+├── blocks/       # Larger sections composed from components — Hero, Navbar, FeatureGrid, Pricing, Testimonials, FAQ, CTA
 ├── layouts/      # Page shells — Layout (base HTML), LandingLayout, DocsLayout
-├── pages/        # Routes — index.astro is the full component showcase
+├── pages/        # Routes — index.astro is the full component showcase; landing, blog, and portfolio are example pages built from blocks
 ├── docs/         # This documentation, as Markdown content collection entries
 └── styles/
     └── global.css  # Every design token lives here — colors, fonts, shadows

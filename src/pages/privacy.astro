@@ -1,0 +1,85 @@
+---
+import LandingLayout from "../layouts/LandingLayout.astro";
+import Container from "../components/Container/Container.astro";
+import { site } from "../config/site";
+
+const footerGroups = [
+  {
+    heading: "Legal",
+    links: [
+      { label: "Privacy policy", href: "/privacy" },
+      { label: "Terms of service", href: "/terms" },
+    ],
+  },
+  site.footerResources,
+];
+
+const lastUpdated = "September 5, 2026";
+---
+
+<LandingLayout
+  title={`Privacy Policy — ${site.name}`}
+  description={`How ${site.name} collects, uses, and protects your data.`}
+  navLinks={site.nav}
+  navCtaLabel="Get Theme"
+  navCtaHref="/pricing"
+  footerGroups={footerGroups}
+>
+  <Container size="md" class="py-20">
+    <article class="prose">
+      <p class="font-mono text-xs font-bold uppercase tracking-wide text-ink/60">Last updated: {lastUpdated}</p>
+      <h1>Privacy Policy</h1>
+      <p class="lead">
+        This is a starting template, not legal advice — replace the specifics below (what you actually collect, which
+        processors you use, your real contact address) before publishing it for a live product.
+      </p>
+
+      <h2>What we collect</h2>
+      <p>
+        When you visit this site, our hosting provider and analytics tooling may automatically log standard technical
+        information: IP address, browser type, device type, pages visited, and referring URLs. If you submit a form (for
+        example, the contact form), we collect whatever you type into it — typically your name, email address, and
+        message.
+      </p>
+
+      <h2>How we use it</h2>
+      <ul>
+        <li>To respond to messages you send us.</li>
+        <li>To understand aggregate traffic and improve the site.</li>
+        <li>To detect and prevent abuse of our forms and infrastructure.</li>
+      </ul>
+      <p>We do not sell personal data to third parties.</p>
+
+      <h2>Cookies and local storage</h2>
+      <p>
+        This site may use <code>localStorage</code> to remember your color-theme preference. This stays in your browser and
+        is never transmitted to us. If analytics are added, they may set cookies — update this section to reflect whichever
+        tool you choose.
+      </p>
+
+      <h2>Third-party services</h2>
+      <p>
+        Fonts are self-hosted at build time, so no request is made to a third-party font provider at runtime. If you add
+        a form backend, payment processor, or analytics service, list each one here along with a link to its own privacy
+        policy.
+      </p>
+
+      <h2>Data retention</h2>
+      <p>
+        We retain contact-form submissions only as long as needed to respond to your inquiry, and delete them on
+        request.
+      </p>
+
+      <h2>Your rights</h2>
+      <p>
+        You can request a copy of the data we hold about you, ask us to correct it, or ask us to delete it, by
+        contacting us at the address below.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about this policy can be sent through the <a href="/contact">contact page</a>.
+      </p>
+    </article>
+  </Container>
+</LandingLayout>

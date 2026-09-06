@@ -10,15 +10,15 @@ Blocks are larger, pre-composed sections built entirely from the components docu
 
 `src/blocks/Hero/Hero.astro`
 
-| Prop | Type | Default |
-|---|---|---|
-| `id` | `string` | — |
-| `eyebrow` | `string` | — |
-| `title` | `string` | — (required) |
-| `subtitle` | `string` | — |
-| `primaryCta` | `{ label, href }` | — |
-| `secondaryCta` | `{ label, href }` | — |
-| `class` | `string` | — |
+| Prop           | Type              | Default      |
+| -------------- | ----------------- | ------------ |
+| `id`           | `string`          | —            |
+| `eyebrow`      | `string`          | —            |
+| `title`        | `string`          | — (required) |
+| `subtitle`     | `string`          | —            |
+| `primaryCta`   | `{ label, href }` | —            |
+| `secondaryCta` | `{ label, href }` | —            |
+| `class`        | `string`          | —            |
 
 ```astro
 <Hero
@@ -32,12 +32,12 @@ Blocks are larger, pre-composed sections built entirely from the components docu
 
 `src/blocks/Navbar/Navbar.astro` — a sticky header with a `Drawer`-based mobile menu built in.
 
-| Prop | Type | Default |
-|---|---|---|
-| `brand` | `string` | `"Neubrutal"` |
-| `links` | `{ label, href }[]` | `[]` |
-| `ctaLabel` / `ctaHref` | `string` | — |
-| `class` | `string` | — |
+| Prop                   | Type                | Default       |
+| ---------------------- | ------------------- | ------------- |
+| `brand`                | `string`            | `"Neubrutal"` |
+| `links`                | `{ label, href }[]` | `[]`          |
+| `ctaLabel` / `ctaHref` | `string`            | —             |
+| `class`                | `string`            | —             |
 
 ```astro
 <Navbar brand="Neubrutal" links={[{ label: "Docs", href: "/docs" }]} ctaLabel="Get the theme" ctaHref="/#cta-block" />
@@ -47,37 +47,37 @@ Blocks are larger, pre-composed sections built entirely from the components docu
 
 `src/blocks/FeatureGrid/FeatureGrid.astro` — a grid of `Card`s, cycling through the six accent colors automatically unless a feature specifies its own.
 
-| Prop | Type | Default |
-|---|---|---|
-| `id` | `string` | — |
-| `eyebrow` / `title` / `description` | `string` | — |
-| `features` | `{ title, description, accent? }[]` | — (required) |
-| `class` | `string` | — |
+| Prop                                | Type                                | Default      |
+| ----------------------------------- | ----------------------------------- | ------------ |
+| `id`                                | `string`                            | —            |
+| `eyebrow` / `title` / `description` | `string`                            | —            |
+| `features`                          | `{ title, description, accent? }[]` | — (required) |
+| `class`                             | `string`                            | —            |
 
 ## CTA
 
 `src/blocks/CTA/CTA.astro` — a full-bleed banner with one or two buttons.
 
-| Prop | Type | Default |
-|---|---|---|
-| `id` | `string` | — |
-| `title` | `string` | — (required) |
-| `description` | `string` | — |
-| `primaryCta` | `{ label, href }` | — (required) |
-| `secondaryCta` | `{ label, href }` | — |
-| `accent` | `yellow \| pink \| blue \| green \| orange \| lavender` | `yellow` |
-| `class` | `string` | — |
+| Prop           | Type                                                    | Default      |
+| -------------- | ------------------------------------------------------- | ------------ |
+| `id`           | `string`                                                | —            |
+| `title`        | `string`                                                | — (required) |
+| `description`  | `string`                                                | —            |
+| `primaryCta`   | `{ label, href }`                                       | — (required) |
+| `secondaryCta` | `{ label, href }`                                       | —            |
+| `accent`       | `yellow \| pink \| blue \| green \| orange \| lavender` | `yellow`     |
+| `class`        | `string`                                                | —            |
 
 ## Pricing
 
 `src/blocks/Pricing/Pricing.astro` — a grid of `PricingCard`s, one section head shared across all plans.
 
-| Prop | Type | Default |
-|---|---|---|
-| `id` | `string` | — |
-| `eyebrow` / `title` / `description` | `string` | — |
-| `plans` | `{ name, price, period?, description?, features: string[], ctaLabel, ctaHref, featured? }[]` | — (required) |
-| `class` | `string` | — |
+| Prop                                | Type                                                                                         | Default      |
+| ----------------------------------- | -------------------------------------------------------------------------------------------- | ------------ |
+| `id`                                | `string`                                                                                     | —            |
+| `eyebrow` / `title` / `description` | `string`                                                                                     | —            |
+| `plans`                             | `{ name, price, period?, description?, features: string[], ctaLabel, ctaHref, featured? }[]` | — (required) |
+| `class`                             | `string`                                                                                     | —            |
 
 ```astro
 <Pricing
@@ -85,7 +85,15 @@ Blocks are larger, pre-composed sections built entirely from the components docu
   title="Get the whole theme"
   plans={[
     { name: "Free", price: "$0", features: ["Components", "MIT license"], ctaLabel: "Get started", ctaHref: "#" },
-    { name: "Pro", price: "$49", period: "one-time", features: ["Everything in Free", "Figma files"], ctaLabel: "Get Pro", ctaHref: "#", featured: true },
+    {
+      name: "Pro",
+      price: "$49",
+      period: "one-time",
+      features: ["Everything in Free", "Figma files"],
+      ctaLabel: "Get Pro",
+      ctaHref: "#",
+      featured: true,
+    },
   ]}
 />
 ```
@@ -94,34 +102,34 @@ Blocks are larger, pre-composed sections built entirely from the components docu
 
 `src/blocks/Testimonials/Testimonials.astro` — a grid of `TestimonialCard`s, cycling through the six accent colors automatically unless a testimonial specifies its own.
 
-| Prop | Type | Default |
-|---|---|---|
-| `id` | `string` | — |
-| `eyebrow` / `title` / `description` | `string` | — |
-| `testimonials` | `{ quote, name, role?, accent? }[]` | — (required) |
-| `class` | `string` | — |
+| Prop                                | Type                                | Default      |
+| ----------------------------------- | ----------------------------------- | ------------ |
+| `id`                                | `string`                            | —            |
+| `eyebrow` / `title` / `description` | `string`                            | —            |
+| `testimonials`                      | `{ quote, name, role?, accent? }[]` | — (required) |
+| `class`                             | `string`                            | —            |
 
 ## FAQ
 
 `src/blocks/FAQ/FAQ.astro` — a section head above an `Accordion`.
 
-| Prop | Type | Default |
-|---|---|---|
-| `id` | `string` | — |
-| `eyebrow` / `title` / `description` | `string` | — |
-| `items` | `{ question, answer }[]` | — (required) |
-| `class` | `string` | — |
+| Prop                                | Type                     | Default      |
+| ----------------------------------- | ------------------------ | ------------ |
+| `id`                                | `string`                 | —            |
+| `eyebrow` / `title` / `description` | `string`                 | —            |
+| `items`                             | `{ question, answer }[]` | — (required) |
+| `class`                             | `string`                 | —            |
 
 ## Footer
 
 `src/components/Footer/Footer.astro`
 
-| Prop | Type | Default |
-|---|---|---|
-| `brand` | `string` | `"Neubrutal"` |
-| `tagline` | `string` | — |
-| `groups` | `{ heading, links: { label, href }[] }[]` | `[]` |
-| `class` | `string` | — |
+| Prop      | Type                                      | Default       |
+| --------- | ----------------------------------------- | ------------- |
+| `brand`   | `string`                                  | `"Neubrutal"` |
+| `tagline` | `string`                                  | —             |
+| `groups`  | `{ heading, links: { label, href }[] }[]` | `[]`          |
+| `class`   | `string`                                  | —             |
 
 Two slots: a default slot (rendered on the bottom-right, next to the copyright line) and a named `social` slot (rendered under the brand/tagline).
 
@@ -131,19 +139,20 @@ Two slots: a default slot (rendered on the bottom-right, next to the copyright l
 
 **`src/layouts/LandingLayout.astro`** — wraps `Layout` and adds the `Navbar`, `Footer`, and a `ToastViewport`, plus a named `overlays` slot for page-level `Modal`/`Drawer`/`SpeedDial` instances that should render once, outside the main content flow.
 
-| Prop | Type | Default |
-|---|---|---|
-| `title` / `description` | `string` | — |
-| `navLinks` | `{ label, href }[]` | `[]` |
-| `navCtaLabel` / `navCtaHref` | `string` | — |
-| `footerBrand` | `string` | — |
-| `footerTagline` | `string` | — |
-| `footerGroups` | `{ heading, links: { label, href }[] }[]` | `[]` |
+| Prop                         | Type                                      | Default |
+| ---------------------------- | ----------------------------------------- | ------- |
+| `title` / `description`      | `string`                                  | —       |
+| `navLinks`                   | `{ label, href }[]`                       | `[]`    |
+| `navCtaLabel` / `navCtaHref` | `string`                                  | —       |
+| `footerBrand`                | `string`                                  | —       |
+| `footerTagline`              | `string`                                  | —       |
+| `footerGroups`               | `{ heading, links: { label, href }[] }[]` | `[]`    |
 
 ```astro
 ---
 import LandingLayout from "../layouts/LandingLayout.astro";
 ---
+
 <LandingLayout title="My Page" navLinks={[{ label: "Docs", href: "/docs" }]}>
   <p>Page content</p>
 

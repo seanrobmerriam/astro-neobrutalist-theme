@@ -7,10 +7,17 @@ interface Props {
 const { label = "Carousel", class: className } = Astro.props;
 ---
 
-<div class:list={["relative", className]} data-carousel aria-roledescription="carousel" aria-label={label}>
+<div
+  class:list={["relative", className]}
+  data-carousel
+  role="region"
+  aria-roledescription="carousel"
+  aria-label={label}
+>
   <div
     data-carousel-track
-    class="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden"
+    tabindex="0"
+    class="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden"
   >
     <slot />
   </div>
@@ -20,20 +27,20 @@ const { label = "Carousel", class: className } = Astro.props;
       type="button"
       data-carousel-prev
       aria-label="Previous slide"
-      class="flex size-10 items-center justify-center border-2 border-ink bg-paper shadow-brutal-sm hover:bg-yellow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+      class="flex size-10 items-center justify-center border-2 border-ink bg-paper shadow-brutal-sm hover:bg-yellow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
     >
       <svg viewBox="0 0 16 16" fill="none" class="size-4" stroke="currentColor" stroke-width="2.5">
-        <path d="M10 3L5 8l5 5" stroke-linecap="square" stroke-linejoin="miter" />
+        <path d="M10 3L5 8l5 5" stroke-linecap="square" stroke-linejoin="miter"></path>
       </svg>
     </button>
     <button
       type="button"
       data-carousel-next
       aria-label="Next slide"
-      class="flex size-10 items-center justify-center border-2 border-ink bg-paper shadow-brutal-sm hover:bg-yellow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+      class="flex size-10 items-center justify-center border-2 border-ink bg-paper shadow-brutal-sm hover:bg-yellow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
     >
       <svg viewBox="0 0 16 16" fill="none" class="size-4" stroke="currentColor" stroke-width="2.5">
-        <path d="M6 3l5 5-5 5" stroke-linecap="square" stroke-linejoin="miter" />
+        <path d="M6 3l5 5-5 5" stroke-linecap="square" stroke-linejoin="miter"></path>
       </svg>
     </button>
   </div>

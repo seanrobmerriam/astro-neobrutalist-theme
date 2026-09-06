@@ -1,0 +1,30 @@
+---
+// Centralizes the mx-auto + max-w-* + px-6 pattern that was previously
+// hand-copied across 15 files with four slightly different max-widths
+// (6xl/5xl/4xl/3xl) — some of that variation was a deliberate narrower
+// reading column (a blog post, the FAQ block), some was just drift. The
+// three sizes below keep the deliberate variation and remove the drift.
+type Size = "sm" | "md" | "lg";
+
+interface Props {
+  /** "sm" (max-w-3xl) for narrow reading content — an article body, FAQ.
+   * "md" (max-w-4xl) for listings — blog index, author/tag pages.
+   * "lg" (max-w-6xl, default) for full-width sections and the nav. */
+  size?: Size;
+  as?: "div" | "section" | "article" | "header" | "footer";
+  id?: string;
+  class?: string;
+}
+
+const sizes: Record<Size, string> = {
+  sm: "max-w-3xl",
+  md: "max-w-4xl",
+  lg: "max-w-6xl",
+};
+
+const { size = "lg", as: Tag = "div", id, class: className }: Props = Astro.props;
+---
+
+<Tag id={id} class:list={["mx-auto px-6", sizes[size], className]}>
+  <slot />
+</Tag>

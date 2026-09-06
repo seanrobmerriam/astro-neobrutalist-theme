@@ -22,10 +22,14 @@ const accents: Record<Accent, string> = {
 ---
 
 <figure
-  class:list={["flex h-full flex-col justify-between gap-6 border-[3px] border-ink p-6 shadow-brutal", accents[accent], className]}
+  class:list={[
+    "flex h-full flex-col justify-between gap-6 border-[3px] border-ink-on-accent p-6 text-ink-on-accent shadow-brutal",
+    accents[accent],
+    className,
+  ]}
 >
   <blockquote class="font-heading text-lg font-bold">"{quote}"</blockquote>
-  <figcaption class="text-sm text-ink/70">
+  <figcaption class="text-sm text-ink-on-accent/70">
     — {name}
     {role ? `, ${role}` : ""}
   </figcaption>

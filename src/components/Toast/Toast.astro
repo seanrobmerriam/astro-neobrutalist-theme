@@ -1,4 +1,6 @@
 ---
+import Icon from "../Icon/Icon.astro";
+
 type Variant = "default" | "success" | "error" | "warning";
 
 interface Props {
@@ -10,33 +12,40 @@ interface Props {
 
 const { variant = "default", title, description, class: className } = Astro.props;
 
-const accents: Record<Variant, string> = {
-  default: "bg-paper",
-  success: "bg-green",
-  error: "bg-pink",
-  warning: "bg-orange",
+// "default" (bg-paper) inverts correctly with the theme; the three real
+// accent fills don't, so they need the fixed border-ink-on-accent/
+// text-ink-on-accent (see global.css / Button.astro for the full reasoning).
+const surface: Record<Variant, string> = {
+  default: "border-ink bg-paper text-ink",
+  success: "border-ink-on-accent bg-green text-ink-on-accent",
+  error: "border-ink-on-accent bg-pink text-ink-on-accent",
+  warning: "border-ink-on-accent bg-orange text-ink-on-accent",
+};
+const mutedText: Record<Variant, string> = {
+  default: "text-ink/80",
+  success: "text-ink-on-accent/80",
+  error: "text-ink-on-accent/80",
+  warning: "text-ink-on-accent/80",
 };
 ---
 
 <div
   role="status"
   class:list={[
-    "flex w-full max-w-sm items-start gap-3 border-[3px] border-ink p-4 shadow-brutal-invert-lg",
-    accents[variant],
+    "flex w-full max-w-sm items-start gap-3 border-[3px] p-4 shadow-brutal-invert-lg",
+    surface[variant],
     className,
   ]}
 >
   <div class="min-w-0 flex-1">
     <p class="font-heading font-bold">{title}</p>
-    {description && <p class="mt-1 text-sm text-ink/80">{description}</p>}
+    {description && <p class:list={["mt-1 text-sm", mutedText[variant]]}>{description}</p>}
   </div>
   <button
     type="button"
     aria-label="Dismiss notification"
     class="flex size-6 shrink-0 items-center justify-center border-2 border-ink bg-paper font-bold hover:bg-pink"
   >
-    <svg viewBox="0 0 16 16" fill="none" class="size-3" stroke="currentColor" stroke-width="2.5">
-      <path d="M3 3l10 10M13 3L3 13" stroke-linecap="square" />
-    </svg>
+    <Icon name="close" class="size-3" />
   </button>
 </div>

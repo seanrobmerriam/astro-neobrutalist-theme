@@ -34,6 +34,7 @@ src/
 ## Component conventions
 
 Follow the pattern in `Button.astro`:
+
 - Typed `Props extends Omit<HTMLAttributes<"tag">, "class">`, with a `class?: string` field merged via `class:list`
 - `variant`/`size` as string union types, mapped through `Record<Variant, string>` objects of Tailwind classes — not conditional chains
 - Polymorphic tag rendering where relevant (`as?: "a" | "button"`, defaulting off whether `href` is set)
@@ -52,6 +53,7 @@ Modal, Drawer, Gallery, and similar overlay components share one global click li
 ## Project skills
 
 This repo has scoped skills in `.claude/skills/` — use them, don't rely on general knowledge:
+
 - **astro-components** — building/reviewing `.astro` component files
 - **astro-layouts** — layout structure, slots, nested layouts
 - **neubrutalism-design-system** — palette, shadows, typography, component CSS

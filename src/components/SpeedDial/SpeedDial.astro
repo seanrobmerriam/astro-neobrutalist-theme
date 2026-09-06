@@ -22,7 +22,7 @@ const { label = "Open actions", class: className } = Astro.props;
     aria-label={label}
     aria-expanded="false"
     data-speed-dial-toggle
-    class="flex size-14 items-center justify-center border-[3px] border-ink bg-yellow shadow-brutal-lg transition-transform duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+    class="flex size-14 items-center justify-center border-[3px] border-ink-on-accent bg-yellow text-ink-on-accent shadow-brutal-lg transition-transform duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
   >
     <svg
       data-speed-dial-icon
@@ -32,7 +32,7 @@ const { label = "Open actions", class: className } = Astro.props;
       stroke-width="2.5"
       class="size-6 transition-transform duration-150"
     >
-      <path d="M8 3v10M3 8h10" stroke-linecap="square" />
+      <path d="M8 3v10M3 8h10" stroke-linecap="square"></path>
     </svg>
   </button>
 </div>

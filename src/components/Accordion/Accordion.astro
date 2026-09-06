@@ -1,4 +1,6 @@
 ---
+type Variant = "default" | "grouped";
+
 interface FaqItem {
   question: string;
   answer: string;
@@ -6,6 +8,9 @@ interface FaqItem {
 
 interface Props {
   items?: FaqItem[];
+  /** "default" is separate bordered cards with a gap between them.
+   * "grouped" is one connected, divided list sharing a single border. */
+  variant?: Variant;
   class?: string;
 }
 
@@ -27,23 +32,50 @@ const {
         'The theme ships as plain, readable Astro files — check the "Anatomy of a component" section further down this page to see exactly how one is built.',
     },
   ],
+  variant = "default",
   class: className,
 } = Astro.props;
+
+const root: Record<Variant, string> = {
+  default: "flex flex-col gap-3",
+  grouped: "divide-y-2 divide-ink border-2 border-ink shadow-brutal-sm",
+};
+
+const details: Record<Variant, string> = {
+  default: "group border-2 border-ink shadow-brutal-sm [&_summary::-webkit-details-marker]:hidden",
+  grouped: "group [&_summary::-webkit-details-marker]:hidden",
+};
+
+const summaryVariant: Record<Variant, string> = {
+  default: "border-2 border-ink shadow-brutal-sm",
+  grouped: "border-0 shadow-none",
+};
 ---
 
-<div class:list={["flex flex-col gap-3", className]}>
+<div class:list={[root[variant], className]}>
   {
     items.map((item) => (
-      <details class="group [&_summary::-webkit-details-marker]:hidden">
-        <summary class="flex cursor-pointer items-center justify-between gap-4 border-2 border-ink bg-paper px-4 py-3 font-heading font-semibold text-ink shadow-brutal-sm hover:bg-yellow focus:bg-yellow focus:outline-none">
+      <details class={details[variant]}>
+        <summary
+          class:list={[
+            "flex cursor-pointer items-center justify-between gap-4 bg-paper px-4 py-3 font-heading font-semibold text-ink hover:bg-yellow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring",
+            summaryVariant[variant],
+          ]}
+        >
           <span>{item.question}</span>
 
-          <svg aria-hidden="true" class="size-5 shrink-0 group-open:-rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <svg
+            aria-hidden="true"
+            class="size-5 shrink-0 group-open:-rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+          >
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
         </summary>
 
-        <div class="p-4">
+        <div class="border-t-2 border-ink p-4">
           <p class="text-ink/80">{item.answer}</p>
         </div>
       </details>

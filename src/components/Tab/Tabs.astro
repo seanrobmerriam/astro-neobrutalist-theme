@@ -1,4 +1,6 @@
 ---
+type Variant = "underline" | "contained" | "pill" | "vertical";
+
 interface Tab {
   label: string;
   content: string;
@@ -7,16 +9,82 @@ interface Tab {
 interface Props {
   tabs: Tab[];
   label?: string;
+  variant?: Variant;
   class?: string;
 }
 
-const { tabs, label = "Tabs", class: className } = Astro.props;
+const { tabs, label = "Tabs", variant = "underline", class: className } = Astro.props;
 const groupId = `tabs-${Math.random().toString(36).slice(2, 8)}`;
+
+const root: Record<Variant, string> = {
+  underline: "",
+  contained: "",
+  pill: "",
+  vertical: "flex gap-8",
+};
+
+const tablistWrapper: Record<Variant, string> = {
+  underline: "border-b-[3px] border-ink px-2",
+  contained: "border-b-2 border-ink",
+  pill: "",
+  vertical: "shrink-0 border-r-[3px] border-ink py-2",
+};
+
+const tablistInner: Record<Variant, string> = {
+  underline: "-mb-0.5 flex flex-wrap",
+  contained: "-mb-0.5 flex",
+  pill: "flex flex-wrap gap-3",
+  vertical: "-mr-0.5 flex flex-col",
+};
+
+// Border width lives here for every variant; border *color* moves into
+// triggerActive/triggerInactive below, since it depends on whether the
+// active fill is the fixed-contrast bg-yellow accent or the inverting
+// bg-paper — pill needed its border split out the same way the other three
+// variants already had it.
+const triggerBase: Record<Variant, string> = {
+  underline:
+    "border-2 px-6 py-2 font-heading font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring",
+  contained:
+    "border-2 px-6 py-2 font-heading font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring",
+  pill: "border-2 px-6 py-2 font-heading font-semibold shadow-brutal-sm transition-all duration-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring",
+  vertical:
+    "border-2 px-6 py-2 font-heading font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring",
+};
+
+// The active fill (bg-yellow) doesn't invert in dark mode, so its border
+// and text use the fixed border-ink-on-accent/text-ink-on-accent — same
+// reasoning as Button's filled variants (see Button.astro).
+const triggerActive: Record<Variant, string> = {
+  underline: "border-ink-on-accent bg-yellow text-ink-on-accent",
+  contained: "border-ink-on-accent bg-yellow text-ink-on-accent",
+  pill: "border-ink-on-accent bg-yellow text-ink-on-accent",
+  vertical: "border-ink-on-accent bg-yellow text-ink-on-accent",
+};
+
+const triggerInactive: Record<Variant, string> = {
+  underline: "border-transparent text-ink hover:bg-ink hover:text-paper",
+  contained: "border-transparent text-ink hover:bg-ink hover:text-paper",
+  pill: "border-ink bg-paper text-ink hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
+  vertical: "border-transparent text-ink hover:bg-ink hover:text-paper",
+};
+
+const panelWrapper: Record<Variant, string> = {
+  underline: "mt-4",
+  contained: "-mt-0.5 border-2 border-ink p-4 shadow-brutal",
+  pill: "mt-4",
+  vertical: "flex-1 py-2",
+};
 ---
 
-<div class:list={className} data-tabs>
-  <div class="border-b-[3px] border-ink px-2" role="tablist" aria-label={label}>
-    <div class="-mb-0.5 flex flex-wrap">
+<div class:list={[root[variant], className]} data-tabs data-variant={variant}>
+  <div class={tablistWrapper[variant]}>
+    <div
+      class={tablistInner[variant]}
+      role="tablist"
+      aria-label={label}
+      aria-orientation={variant === "vertical" ? "vertical" : "horizontal"}
+    >
       {
         tabs.map((tab, i) => (
           <button
@@ -25,12 +93,10 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 8)}`;
             id={`${groupId}-tab-${i}`}
             aria-selected={i === 0 ? "true" : "false"}
             aria-controls={`${groupId}-panel-${i}`}
+            tabindex={i === 0 ? 0 : -1}
             data-tab-trigger
             data-index={i}
-            class:list={[
-              "border-2 px-6 py-2 font-heading font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue",
-              i === 0 ? "border-ink bg-yellow text-ink" : "border-transparent text-ink hover:bg-ink hover:text-paper",
-            ]}
+            class:list={[triggerBase[variant], i === 0 ? triggerActive[variant] : triggerInactive[variant]]}
           >
             {tab.label}
           </button>
@@ -47,7 +113,7 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 8)}`;
         aria-labelledby={`${groupId}-tab-${i}`}
         data-tab-panel
         data-index={i}
-        class="mt-4"
+        class={panelWrapper[variant]}
         hidden={i !== 0}
       >
         <p class="text-ink">{tab.content}</p>
@@ -60,22 +126,47 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 8)}`;
   document.querySelectorAll<HTMLElement>("[data-tabs]").forEach((root) => {
     const triggers = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-tab-trigger]"));
     const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-tab-panel]"));
+    const variant = root.dataset.variant ?? "underline";
+    const vertical = variant === "vertical";
 
-    triggers.forEach((trigger) => {
-      trigger.addEventListener("click", () => {
-        const index = trigger.dataset.index;
+    const activeClasses = ["border-ink-on-accent", "bg-yellow", "text-ink-on-accent"];
+    const inactiveClasses =
+      variant === "pill" ? ["border-ink", "bg-paper", "text-ink"] : ["border-transparent", "text-ink"];
 
-        triggers.forEach((t) => {
-          const active = t === trigger;
-          t.setAttribute("aria-selected", String(active));
-          t.classList.toggle("border-ink", active);
-          t.classList.toggle("bg-yellow", active);
-          t.classList.toggle("border-transparent", !active);
-        });
+    const activate = (trigger: HTMLButtonElement) => {
+      const index = trigger.dataset.index;
 
-        panels.forEach((panel) => {
-          panel.hidden = panel.dataset.index !== index;
-        });
+      triggers.forEach((t) => {
+        const active = t === trigger;
+        t.setAttribute("aria-selected", String(active));
+        t.tabIndex = active ? 0 : -1;
+        activeClasses.forEach((c) => t.classList.toggle(c, active));
+        inactiveClasses.forEach((c) => t.classList.toggle(c, !active));
+        if (active) t.focus();
+      });
+
+      panels.forEach((panel) => {
+        panel.hidden = panel.dataset.index !== index;
+      });
+    };
+
+    triggers.forEach((trigger, i) => {
+      trigger.addEventListener("click", () => activate(trigger));
+
+      trigger.addEventListener("keydown", (event) => {
+        const forward = vertical ? "ArrowDown" : "ArrowRight";
+        const backward = vertical ? "ArrowUp" : "ArrowLeft";
+        let nextIndex: number | null = null;
+
+        if (event.key === forward) nextIndex = (i + 1) % triggers.length;
+        else if (event.key === backward) nextIndex = (i - 1 + triggers.length) % triggers.length;
+        else if (event.key === "Home") nextIndex = 0;
+        else if (event.key === "End") nextIndex = triggers.length - 1;
+
+        if (nextIndex !== null) {
+          event.preventDefault();
+          activate(triggers[nextIndex]);
+        }
       });
     });
   });

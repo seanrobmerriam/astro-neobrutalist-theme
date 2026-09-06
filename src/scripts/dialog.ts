@@ -22,3 +22,33 @@ document.addEventListener("click", (event) => {
     target.close();
   }
 });
+
+// Native <dialog> focus-trapping has a gap in some browsers: tabbing past the
+// last focusable element inside an open modal briefly lands focus on <body>
+// (nothing visibly focused) before the *next* Tab correctly wraps back to the
+// first element. Intercept Tab at the two boundaries so the wrap happens on
+// the same keystroke instead, with no dead stop in between.
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Tab") return;
+
+  const dialog = document.querySelector<HTMLDialogElement>("dialog[open]");
+  if (!dialog) return;
+
+  const focusable = Array.from(
+    dialog.querySelectorAll<HTMLElement>('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])'),
+  ).filter((el) => !el.hasAttribute("disabled") && el.offsetParent !== null);
+
+  if (focusable.length === 0) return;
+
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  const active = document.activeElement;
+
+  if (event.shiftKey && active === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && active === last) {
+    event.preventDefault();
+    first.focus();
+  }
+});

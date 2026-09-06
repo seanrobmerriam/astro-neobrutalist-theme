@@ -1,0 +1,98 @@
+---
+import { getEntry, render } from "astro:content";
+import { Image } from "astro:assets";
+import LandingLayout from "../../layouts/LandingLayout.astro";
+import Badge from "../../components/Badge/Badge.astro";
+import Avatar from "../../components/Avatar/Avatar.astro";
+import CTA from "../../blocks/CTA/CTA.astro";
+import { site } from "../../config/site";
+import { getPublishedPosts } from "../../lib/blog";
+import { formatDate } from "../../lib/format-date";
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const author = await getEntry(post.data.author);
+
+const footerGroups = [
+  {
+    heading: "Product",
+    links: [
+      { label: "Landing", href: "/landing" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Portfolio", href: "/portfolio" },
+    ],
+  },
+  site.footerResources,
+];
+---
+
+<LandingLayout
+  title={`${post.data.title} — ${site.name}`}
+  description={post.data.description}
+  navLinks={site.nav}
+  navCtaLabel="Get Theme"
+  navCtaHref="/pricing"
+  footerGroups={footerGroups}
+>
+  <article class="mx-auto max-w-3xl px-6 py-16">
+    <div class="mb-8">
+      <a href="/blog" class="font-mono text-xs font-bold tracking-wide text-ink/60 uppercase hover:text-ink">
+        ← Back to blog
+      </a>
+    </div>
+
+    <div class="mb-8 overflow-hidden border-[3px] border-ink shadow-brutal-lg">
+      <Image src={post.data.heroImage} alt="" width={1200} height={630} class="w-full object-cover" />
+    </div>
+
+    <h1 class="text-balance font-display text-4xl font-extrabold uppercase sm:text-5xl">{post.data.title}</h1>
+    <p class="mt-4 text-pretty text-lg text-ink/70">{post.data.description}</p>
+
+    <div class="mt-6 flex flex-wrap items-center gap-4 border-y-2 border-ink py-4">
+      {
+        author && (
+          <a href={`/authors/${author.id}`} class="flex items-center gap-3 hover:opacity-80">
+            <Avatar name={author.data.name} size="sm" accent="blue" />
+            <div>
+              <p class="font-heading text-sm font-bold">{author.data.name}</p>
+              <p class="text-xs text-ink/60">{author.data.role}</p>
+            </div>
+          </a>
+        )
+      }
+      <span class="text-ink/40">•</span>
+      <time datetime={post.data.publishDate.toISOString()} class="text-sm text-ink/70">
+        {formatDate(post.data.publishDate)}
+      </time>
+      {
+        post.data.tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {post.data.tags.map((tag) => (
+              <a href={`/blog/tags/${tag}`}>
+                <Badge label={tag} accent="lavender" />
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+
+    <div class="prose mt-8">
+      <Content />
+    </div>
+  </article>
+
+  <CTA
+    id="cta"
+    title="Want the theme this post is about?"
+    description="Every component, block, and layout used on this site is yours to copy."
+    primaryCta={{ label: "Get Theme", href: "/pricing" }}
+    secondaryCta={{ label: "Read Docs", href: "/docs" }}
+    accent="pink"
+  />
+</LandingLayout>

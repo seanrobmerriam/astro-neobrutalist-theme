@@ -1,4 +1,6 @@
 ---
+import Icon from "../Icon/Icon.astro";
+
 type Side = "left" | "right";
 
 interface Props {
@@ -27,11 +29,9 @@ const { id, title, side = "right", class: className } = Astro.props;
       type="button"
       data-dialog-close
       aria-label="Close drawer"
-      class="flex size-8 shrink-0 items-center justify-center border-2 border-ink bg-paper font-bold shadow-brutal-sm hover:bg-pink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+      class="flex size-8 shrink-0 items-center justify-center border-2 border-ink bg-paper font-bold shadow-brutal-sm hover:bg-pink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
     >
-      <svg viewBox="0 0 16 16" fill="none" class="size-3.5" stroke="currentColor" stroke-width="2.5">
-        <path d="M3 3l10 10M13 3L3 13" stroke-linecap="square" />
-      </svg>
+      <Icon name="close" class="size-3.5" />
     </button>
   </div>
 

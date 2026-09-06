@@ -1,0 +1,80 @@
+---
+import LandingLayout from "../layouts/LandingLayout.astro";
+import Container from "../components/Container/Container.astro";
+import { site } from "../config/site";
+
+const footerGroups = [
+  {
+    heading: "Legal",
+    links: [
+      { label: "Privacy policy", href: "/privacy" },
+      { label: "Terms of service", href: "/terms" },
+    ],
+  },
+  site.footerResources,
+];
+
+const lastUpdated = "September 5, 2026";
+---
+
+<LandingLayout
+  title={`Terms of Service — ${site.name}`}
+  description={`The terms governing use of the ${site.name} website and theme license.`}
+  navLinks={site.nav}
+  navCtaLabel="Get Theme"
+  navCtaHref="/pricing"
+  footerGroups={footerGroups}
+>
+  <Container size="md" class="py-20">
+    <article class="prose">
+      <p class="font-mono text-xs font-bold uppercase tracking-wide text-ink/60">Last updated: {lastUpdated}</p>
+      <h1>Terms of Service</h1>
+      <p class="lead">
+        This is a starting template, not legal advice — have it reviewed before relying on it for a live product. For
+        the terms covering what you're allowed to do with the theme itself once purchased, see the
+        <code>LICENSE.md</code> file included with your download rather than this page.
+      </p>
+
+      <h2>Using this site</h2>
+      <p>
+        By browsing this site, you agree not to attempt to disrupt it, scrape it at a rate that degrades service for
+        other visitors, or use it to distribute malware or unlawful content.
+      </p>
+
+      <h2>Accounts and forms</h2>
+      <p>
+        Any information you submit through a form on this site (for example, the contact form) must be accurate and must
+        belong to you. Don't submit anyone else's personal information without their consent.
+      </p>
+
+      <h2>Intellectual property</h2>
+      <p>
+        The design, copy, and code of this website — separate from the theme product itself, which is governed by its
+        own license — belong to {site.name} and may not be reproduced without permission.
+      </p>
+
+      <h2>No warranty</h2>
+      <p>
+        This site and its content are provided "as is," without warranty of any kind, express or implied. We don't
+        guarantee the site will be error-free, secure, or continuously available.
+      </p>
+
+      <h2>Limitation of liability</h2>
+      <p>
+        To the fullest extent permitted by law, {site.name} is not liable for any indirect, incidental, or consequential damages
+        arising from your use of this site.
+      </p>
+
+      <h2>Changes to these terms</h2>
+      <p>
+        We may update these terms from time to time. Continued use of the site after a change constitutes acceptance of
+        the new terms.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about these terms can be sent through the <a href="/contact">contact page</a>.
+      </p>
+    </article>
+  </Container>
+</LandingLayout>

@@ -10,16 +10,16 @@ order: 9
 
 **Carousel props:**
 
-| Prop | Type | Default |
-|---|---|---|
+| Prop    | Type                                 | Default      |
+| ------- | ------------------------------------ | ------------ |
 | `label` | `string` (accessible carousel label) | `"Carousel"` |
-| `class` | `string` | — |
+| `class` | `string`                             | —            |
 
 **CarouselSlide props:**
 
-| Prop | Type | Default |
-|---|---|---|
-| `class` | `string` — set a `max-w-*` here to control slide width | — |
+| Prop    | Type                                                   | Default |
+| ------- | ------------------------------------------------------ | ------- |
+| `class` | `string` — set a `max-w-*` here to control slide width | —       |
 
 ```astro
 <Carousel label="Testimonials">
@@ -36,11 +36,11 @@ The prev/next buttons target each slide directly via `scrollIntoView()` rather t
 
 `src/components/Gallery/Gallery.astro` — a responsive image grid; clicking any thumbnail opens a lightbox `<dialog>` (using the same shared dialog controller described in [Overlays](/docs/overlays)).
 
-| Prop | Type | Default |
-|---|---|---|
-| `images` | `{ src, alt }[]` | — (required) |
-| `columns` | `2 \| 3 \| 4` | `3` |
-| `class` | `string` | — |
+| Prop      | Type             | Default      |
+| --------- | ---------------- | ------------ |
+| `images`  | `{ src, alt }[]` | — (required) |
+| `columns` | `2 \| 3 \| 4`    | `3`          |
+| `class`   | `string`         | —            |
 
 ```astro
 <Gallery
@@ -56,17 +56,18 @@ The prev/next buttons target each slide directly via `scrollIntoView()` rather t
 
 `src/components/Terminal/Terminal.astro` — a mock terminal/code window with real Shiki syntax highlighting, using a custom theme built entirely from this theme's own OKLCH palette (see `src/lib/shiki-theme.ts`) instead of a generic code-theme.
 
-| Prop | Type | Default |
-|---|---|---|
-| `code` | `string` | — (required) |
-| `filename` | `string` | — |
-| `lang` | `astro \| typescript \| javascript \| css \| bash` | `astro` |
-| `class` | `string` | — |
+| Prop       | Type                                               | Default      |
+| ---------- | -------------------------------------------------- | ------------ |
+| `code`     | `string`                                           | — (required) |
+| `filename` | `string`                                           | —            |
+| `lang`     | `astro \| typescript \| javascript \| css \| bash` | `astro`      |
+| `class`    | `string`                                           | —            |
 
 ```astro
 ---
 import source from "../components/Button/Button.astro?raw";
 ---
+
 <Terminal filename="Button.astro" code={source.trim()} />
 ```
 

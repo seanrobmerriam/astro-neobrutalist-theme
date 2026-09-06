@@ -22,31 +22,43 @@ const Tag = variant === "number" ? "ol" : "ul";
     items.map((item) => (
       <li class="flex items-start gap-3">
         {variant === "bullet" && (
-          <span class="mt-1.5 size-2.5 shrink-0 border-2 border-ink bg-yellow" aria-hidden="true" />
+          <span class="mt-1.5 size-2.5 shrink-0 border-2 border-ink-on-accent bg-yellow" aria-hidden="true" />
         )}
         {variant === "check" && (
-          <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center border-2 border-ink bg-green" aria-hidden="true">
+          <span
+            class="mt-0.5 flex size-5 shrink-0 items-center justify-center border-2 border-ink-on-accent bg-green text-ink-on-accent"
+            aria-hidden="true"
+          >
             <svg viewBox="0 0 16 16" fill="none" class="size-3" stroke="currentColor" stroke-width="2.5">
               <path d="M3 8.5l3 3 7-7" stroke-linecap="square" />
             </svg>
           </span>
         )}
         {variant === "cross" && (
-          <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center border-2 border-ink bg-pink" aria-hidden="true">
+          <span
+            class="mt-0.5 flex size-5 shrink-0 items-center justify-center border-2 border-ink-on-accent bg-pink text-ink-on-accent"
+            aria-hidden="true"
+          >
             <svg viewBox="0 0 16 16" fill="none" class="size-3" stroke="currentColor" stroke-width="2.5">
               <path d="M3 3l10 10M13 3L3 13" stroke-linecap="square" />
             </svg>
           </span>
         )}
         {variant === "number" && (
-          <span class="flex size-6 shrink-0 items-center justify-center border-2 border-ink bg-blue font-mono text-xs font-bold" aria-hidden="true">
+          <span
+            class="flex size-6 shrink-0 items-center justify-center border-2 border-ink-on-accent bg-blue font-mono text-xs font-bold text-ink-on-accent"
+            aria-hidden="true"
+          >
             {items.indexOf(item) + 1}
           </span>
         )}
 
         <span>
-          <span class="font-medium text-ink">{item.text}</span>
-          {item.description && <span class="block text-sm text-ink/70">{item.description}</span>}
+          {/* No hardcoded text color: inherits from the ambient text-ink /
+             text-ink-on-accent set by whatever container this list sits in
+             (e.g. PricingCard's featured accent fill). */}
+          <span class="font-medium">{item.text}</span>
+          {item.description && <span class="block text-sm opacity-70">{item.description}</span>}
         </span>
       </li>
     ))

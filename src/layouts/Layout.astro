@@ -1,43 +1,58 @@
 ---
 import "../styles/global.css";
-
+import { Font } from "astro:assets";
+import SEO from "../components/SEO/SEO.astro";
+import { site } from "../config/site";
 
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  noindex?: boolean;
 }
 
 const {
-  title = "Neubrutal — An Astro + Tailwind Theme",
-  description = "A loud, high-contrast Astro theme built with Tailwind CSS v4: thick borders, hard shadows, and a full component library.",
+  title = `${site.name} — An Astro + Tailwind Theme`,
+  description = site.description,
+  image,
+  noindex,
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={site.locale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      // Blocking and inline on purpose: applies a stored theme choice before
+      // first paint. Deferred or module scripts run too late here and cause
+      // a visible flash of the wrong theme. Errors are swallowed since a
+      // failure just means the page falls back to the prefers-color-scheme
+      // media query in global.css, which is a safe default either way.
+      try {
+        var theme = localStorage.getItem("theme");
+        if (theme === "light" || theme === "dark") {
+          document.documentElement.setAttribute("data-theme", theme);
+        }
+      } catch (e) {}
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
 
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <SEO title={title} description={description} image={image} noindex={noindex} />
 
-    <meta property="og:title" content={title} />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content={description} />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="node_modules/@glidejs/glide/dist/css/glide.core.min.css">
-
+    <Font cssVariable="--font-clariza-sparks" preload />
+    <Font cssVariable="--font-inter" preload />
+    <Font cssVariable="--font-space-mono" />
   </head>
   <body class="bg-paper font-sans text-ink antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:border-2 focus:border-ink focus:bg-yellow focus:px-4 focus:py-2 focus:font-heading focus:font-bold focus:shadow-brutal-sm"
+    >
+      Skip to main content
+    </a>
     <slot />
   </body>
 </html>

@@ -10,11 +10,11 @@ Modal, Drawer, and Gallery's lightbox all share one small controller script (`sr
 
 `src/components/Modal/Modal.astro`
 
-| Prop | Type | Default |
-|---|---|---|
-| `id` | `string` — matched by triggers | — (required) |
-| `title` | `string` | — |
-| `class` | `string` | — |
+| Prop    | Type                           | Default      |
+| ------- | ------------------------------ | ------------ |
+| `id`    | `string` — matched by triggers | — (required) |
+| `title` | `string`                       | —            |
+| `class` | `string`                       | —            |
 
 ```astro
 <Button data-dialog-open="confirm-modal">Delete account</Button>
@@ -29,12 +29,12 @@ Modal, Drawer, and Gallery's lightbox all share one small controller script (`sr
 
 `src/components/Drawer/Drawer.astro` — same trigger pattern as Modal, slides in from an edge instead of centering.
 
-| Prop | Type | Default |
-|---|---|---|
-| `id` | `string` | — (required) |
-| `title` | `string` | — |
-| `side` | `left \| right` | `right` |
-| `class` | `string` | — |
+| Prop    | Type            | Default      |
+| ------- | --------------- | ------------ |
+| `id`    | `string`        | — (required) |
+| `title` | `string`        | —            |
+| `side`  | `left \| right` | `right`      |
+| `class` | `string`        | —            |
 
 ```astro
 <Button data-dialog-open="cart-drawer">Open cart</Button>
@@ -53,7 +53,12 @@ Modal, Drawer, and Gallery's lightbox all share one small controller script (`sr
 <ToastViewport />
 
 <!-- anywhere on the page -->
-<Button data-toast-trigger data-toast-title="Saved" data-toast-description="Your changes were saved." data-toast-variant="success">
+<Button
+  data-toast-trigger
+  data-toast-title="Saved"
+  data-toast-description="Your changes were saved."
+  data-toast-variant="success"
+>
   Save
 </Button>
 ```
@@ -70,10 +75,10 @@ window.showToast({ title: "Saved", variant: "success", duration: 4000 });
 
 `src/components/SpeedDial/SpeedDial.astro` — a floating action button that fans out slotted actions on click.
 
-| Prop | Type | Default |
-|---|---|---|
+| Prop    | Type                                       | Default          |
+| ------- | ------------------------------------------ | ---------------- |
 | `label` | `string` (accessible label for the toggle) | `"Open actions"` |
-| `class` | `string` | — |
+| `class` | `string`                                   | —                |
 
 ```astro
 <SpeedDial label="Quick actions">

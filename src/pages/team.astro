@@ -1,0 +1,68 @@
+---
+import { getCollection } from "astro:content";
+import LandingLayout from "../layouts/LandingLayout.astro";
+import Container from "../components/Container/Container.astro";
+import Avatar from "../components/Avatar/Avatar.astro";
+import CTA from "../blocks/CTA/CTA.astro";
+import { site } from "../config/site";
+
+const footerGroups = [
+  {
+    heading: "Company",
+    links: [
+      { label: "About", href: "/about" },
+      { label: "Team", href: "/team" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
+  site.footerResources,
+];
+
+const accents = ["yellow", "blue", "pink", "green", "orange", "lavender"] as const;
+const authors = await getCollection("authors");
+---
+
+<LandingLayout
+  title={`Team — ${site.name}`}
+  description={`The people building ${site.name}.`}
+  navLinks={site.nav}
+  navCtaLabel="Get Theme"
+  navCtaHref="/pricing"
+  footerGroups={footerGroups}
+>
+  <Container size="md" class="py-20 text-center">
+    <span
+      class="inline-block border-2 border-ink-on-accent bg-pink px-3 py-1 font-mono text-xs font-bold text-ink-on-accent uppercase tracking-wide shadow-brutal-sm"
+    >
+      Team
+    </span>
+    <h1 class="mt-4 text-balance font-display text-section-lg font-extrabold uppercase">Two people, one theme</h1>
+    <p class="mx-auto mt-4 max-w-xl text-pretty text-ink/70">
+      No agency, no committee — every component, block, and post on this site passed through one of these two people.
+    </p>
+  </Container>
+
+  <Container size="md" class="grid gap-8 pb-20 sm:grid-cols-2">
+    {
+      authors.map((author, i) => (
+        <div class="flex flex-col items-center gap-4 border-[3px] border-ink bg-paper p-8 text-center shadow-brutal">
+          <Avatar name={author.data.name} size="xl" shape="circle" accent={accents[i % accents.length]} />
+          <div>
+            <p class="font-heading text-lg font-bold">{author.data.name}</p>
+            <p class="font-mono text-xs font-bold uppercase tracking-wide text-ink/60">{author.data.role}</p>
+          </div>
+          <p class="text-sm text-ink/70">{author.data.bio}</p>
+        </div>
+      ))
+    }
+  </Container>
+
+  <CTA
+    id="cta"
+    title="Have a question for us?"
+    description="We read every message that comes through the contact page."
+    primaryCta={{ label: "Contact us", href: "/contact" }}
+    secondaryCta={{ label: "Read the blog", href: "/blog" }}
+    accent="orange"
+  />
+</LandingLayout>

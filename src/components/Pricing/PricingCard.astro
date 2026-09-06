@@ -31,8 +31,13 @@ const listItems = features.map((text) => ({ text }));
 
 <div
   class:list={[
-    "relative flex flex-col gap-6 border-[3px] border-ink p-8",
-    featured ? "bg-yellow shadow-brutal-lg" : "bg-paper shadow-brutal",
+    "relative flex flex-col gap-6 border-[3px] p-8",
+    // bg-yellow doesn't invert in dark mode, so "featured" needs the fixed
+    // border-ink-on-accent/text-ink-on-accent; the plain bg-paper card
+    // inverts correctly with border-ink/text-ink.
+    featured
+      ? "border-ink-on-accent bg-yellow text-ink-on-accent shadow-brutal-lg"
+      : "border-ink bg-paper text-ink shadow-brutal",
     className,
   ]}
 >
@@ -46,12 +51,23 @@ const listItems = features.map((text) => ({ text }));
 
   <div>
     <h3 class="font-heading text-lg font-bold uppercase tracking-wide">{name}</h3>
-    {description && <p class="mt-1 text-sm text-ink/70">{description}</p>}
+    {
+      description && (
+        <p class:list={["mt-1 text-sm", featured ? "text-ink-on-accent/70" : "text-ink/70"]}>{description}</p>
+      )
+    }
   </div>
 
   <p class="font-display text-5xl font-extrabold">
     {price}
-    {period && <span class="font-heading text-base font-semibold text-ink/60"> {period}</span>}
+    {
+      period && (
+        <span class:list={["font-heading text-base font-semibold", featured ? "text-ink-on-accent/60" : "text-ink/60"]}>
+          {" "}
+          {period}
+        </span>
+      )
+    }
   </p>
 
   <List variant="check" items={listItems} class="flex-1" />

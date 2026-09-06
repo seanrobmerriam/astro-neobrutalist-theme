@@ -13,37 +13,36 @@ interface Props extends Omit<HTMLAttributes<"a">, "class"> {
   class?: string;
 }
 
-const {
-  as,
-  type = "button",
-  variant = "primary",
-  size = "md",
-  class: className,
-  href,
-  ...rest
-} = Astro.props;
+const { as, type = "button", variant = "primary", size = "md", class: className, href, ...rest } = Astro.props;
 
 const Tag = as ?? (href ? "a" : "button");
 
 const base =
-  "inline-flex items-center justify-center gap-2 border-2 border-ink font-heading font-bold uppercase tracking-wide transition-all duration-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 border-2 font-heading font-bold uppercase tracking-wide transition-all duration-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring disabled:pointer-events-none disabled:opacity-50";
 
+// Variants filled with a categorical accent use border-ink-on-accent and
+// text-ink-on-accent, not border-ink/text-ink: the accent fills stay the
+// same bright color in dark mode (see global.css), so a border or text
+// color that *inverts* would lose contrast against a fill that didn't — a
+// near-white border on bright yellow is barely visible (checked: ~1.4:1).
+// Variants filled with bg-paper (or transparent) use the inverting
+// border-ink/text-ink instead, since paper inverts right along with them.
 const variants: Record<Variant, string> = {
   primary:
-    "bg-yellow text-ink shadow-brutal hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
+    "border-ink-on-accent bg-yellow text-ink-on-accent shadow-brutal hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
   secondary:
-    "bg-blue text-ink shadow-brutal hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
+    "border-ink-on-accent bg-blue text-ink-on-accent shadow-brutal hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
   outline:
-    "bg-paper text-ink shadow-brutal hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
+    "border-ink bg-paper text-ink shadow-brutal hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
   ghost: "border-transparent bg-transparent text-ink hover:bg-ink hover:text-paper",
   borderless:
     "border-transparent bg-paper text-ink shadow-brutal hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
   danger:
-    "bg-pink text-ink shadow-brutal hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
+    "border-ink-on-accent bg-pink text-ink-on-accent shadow-brutal hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
   success:
-    "bg-green text-ink shadow-brutal hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
+    "border-ink-on-accent bg-green text-ink-on-accent shadow-brutal hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
   warning:
-    "bg-orange text-ink shadow-brutal hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
+    "border-ink-on-accent bg-orange text-ink-on-accent shadow-brutal hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
 };
 
 const sizes: Record<Size, string> = {

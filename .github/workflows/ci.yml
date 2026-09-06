@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check
+        run: pnpm check
+
+      # No ESLint is configured for this project (a disclosed, deliberate
+      # gap — see the rubric remediation plan's Phase 2 notes); this runs
+      # the Prettier formatting check as the closest equivalent "lint" gate.
+      - name: Format check
+        run: pnpm format:check
+
+      - name: Build (includes Pagefind postbuild indexing)
+        run: pnpm build
+
+      - name: Check for broken internal links
+        run: pnpm audit:links
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
+
+      - name: Run e2e tests (Chromium, Firefox, WebKit)
+        run: pnpm test:e2e
+        env:
+          CI: true
+
+      - name: Start preview server for audits
+        run: |
+          pnpm astro preview --port 4321 &
+          pnpm exec wait-on http://localhost:4321 --timeout 60000
+
+      - name: Accessibility audit (axe-core, keyboard, overflow)
+        run: pnpm audit:a11y http://localhost:4321
+
+      - name: Lighthouse audit (mobile, performance + a11y + best-practices + seo)
+        run: pnpm audit:lighthouse http://localhost:4321
+
+      - name: Upload Lighthouse/axe artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-results
+          path: docs/audits/
+          if-no-files-found: ignore

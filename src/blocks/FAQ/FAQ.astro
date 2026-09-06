@@ -1,5 +1,6 @@
 ---
 import Accordion from "../../components/Accordion/Accordion.astro";
+import Container from "../../components/Container/Container.astro";
 
 interface FaqItem {
   question: string;
@@ -18,20 +19,20 @@ interface Props {
 const { id, eyebrow, title, description, items, class: className } = Astro.props;
 ---
 
-<section id={id} class:list={["mx-auto max-w-3xl px-6 py-20", className]}>
+<Container as="section" size="sm" id={id} class:list={["py-20", className]}>
   {
     (eyebrow || title || description) && (
       <div class="mb-10 text-center">
         {eyebrow && (
-          <span class="inline-block border-2 border-ink bg-green px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide shadow-brutal-sm">
+          <span class="inline-block border-2 border-ink-on-accent bg-green px-3 py-1 font-mono text-xs font-bold text-ink-on-accent uppercase tracking-wide shadow-brutal-sm">
             {eyebrow}
           </span>
         )}
-        {title && <h2 class="mt-4 text-balance font-display text-4xl font-extrabold uppercase sm:text-5xl">{title}</h2>}
+        {title && <h2 class="mt-4 text-balance font-display text-section-lg font-extrabold uppercase">{title}</h2>}
         {description && <p class="mt-4 text-pretty text-ink/70">{description}</p>}
       </div>
     )
   }
 
   <Accordion items={items} />
-</section>
+</Container>

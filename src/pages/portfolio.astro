@@ -1,95 +1,71 @@
 ---
+import { getCollection } from "astro:content";
 import LandingLayout from "../layouts/LandingLayout.astro";
 import Card from "../components/Card/Card.astro";
 import CTA from "../blocks/CTA/CTA.astro";
-
-type Accent = "yellow" | "pink" | "blue" | "green";
-
-const navLinks = [
-  { label: "Home", href: "/landing" },
-  { label: "Blog", href: "/blog" },
-  { label: "Portfolio", href: "/portfolio" },
-  { label: "Docs", href: "/docs" },
-];
+import { site } from "../config/site";
 
 const footerGroups = [
   {
     heading: "Product",
     links: [
       { label: "Landing", href: "/landing" },
-      { label: "Pricing", href: "/landing#pricing" },
+      { label: "Pricing", href: "/pricing" },
       { label: "Blog", href: "/blog" },
     ],
   },
-  {
-    heading: "Resources",
-    links: [
-      { label: "Documentation", href: "/docs" },
-      { label: "Astro docs", href: "https://docs.astro.build" },
-      { label: "Tailwind CSS", href: "https://tailwindcss.com" },
-    ],
-  },
+  site.footerResources,
 ];
 
-const projects: { eyebrow: string; title: string; description: string; accent: Accent }[] = [
-  {
-    eyebrow: "Web App",
-    title: "Ledger — expense tracking",
-    description: "A dashboard for freelancers to track invoices and expenses.",
-    accent: "yellow",
-  },
-  {
-    eyebrow: "Branding",
-    title: "Voltage Coffee",
-    description: "Packaging and web identity for a specialty coffee roaster.",
-    accent: "pink",
-  },
-  {
-    eyebrow: "Mobile",
-    title: "Trailhead — hiking companion",
-    description: "Offline trail maps and route tracking for weekend hikers.",
-    accent: "blue",
-  },
-  {
-    eyebrow: "E-commerce",
-    title: "Kiln Studio",
-    description: "A storefront for handmade ceramics, built for slow, deliberate browsing.",
-    accent: "green",
-  },
-];
+const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
 ---
 
 <LandingLayout
-  title="Portfolio — Neubrutal"
-  description="Selected work built with the Neubrutal theme."
-  navLinks={navLinks}
+  title={`Portfolio — ${site.name}`}
+  description={`Selected work built with the ${site.name} theme.`}
+  navLinks={site.nav}
   navCtaLabel="Get Theme"
-  navCtaHref="/landing#pricing"
-  footerBrand="Neubrutal"
-  footerTagline="An Astro + Tailwind theme, built loud on purpose."
+  navCtaHref="/pricing"
   footerGroups={footerGroups}
 >
   <div class="mx-auto max-w-5xl px-6 py-20">
     <div class="mb-14 text-center">
-      <span class="inline-block border-2 border-ink bg-blue px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide shadow-brutal-sm">
+      <span
+        class="inline-block border-2 border-ink-on-accent bg-blue px-3 py-1 font-mono text-xs font-bold text-ink-on-accent uppercase tracking-wide shadow-brutal-sm"
+      >
         Portfolio
       </span>
-      <h1 class="mt-4 text-balance font-display text-4xl font-extrabold uppercase sm:text-5xl">Selected work</h1>
+      <h1 class="mt-4 text-balance font-display text-section-lg font-extrabold uppercase">Selected work</h1>
       <p class="mx-auto mt-4 max-w-xl text-pretty text-ink/70">
         A handful of projects, all built on the same bold, flat-color system.
       </p>
     </div>
 
-    <div class="grid gap-6 sm:grid-cols-2">
-      {projects.map((project) => <Card interactive={false} {...project} />)}
-    </div>
+    <h2 class="sr-only">Projects</h2>
+    {
+      projects.length > 0 ? (
+        <div class="grid gap-6 sm:grid-cols-2">
+          {projects.map((project) => (
+            <Card
+              interactive={false}
+              eyebrow={project.data.eyebrow}
+              title={project.data.title}
+              description={project.data.description}
+              accent={project.data.accent}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="text-center text-ink/60">No projects yet — check back soon.</p>
+      )
+    }
   </div>
 
   <CTA
     id="cta"
     title="Like what you see?"
     description="This whole site — landing page included — is built from the same theme."
-    primaryCta={{ label: "Get Theme", href: "/landing#pricing" }}
+    primaryCta={{ label: "Get Theme", href: "/pricing" }}
     secondaryCta={{ label: "Read Docs", href: "/docs" }}
     accent="green"
   />

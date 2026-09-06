@@ -1,5 +1,6 @@
 ---
 import Button from "../../components/Button/Button.astro";
+import Container from "../../components/Container/Container.astro";
 
 interface Cta {
   label: string;
@@ -17,30 +18,23 @@ interface Props {
   class?: string;
 }
 
-const {
-  id,
-  eyebrow,
-  title,
-  subtitle,
-  primaryCta,
-  secondaryCta,
-  layout = "centered",
-  class: className,
-} = Astro.props;
+const { id, eyebrow, title, subtitle, primaryCta, secondaryCta, layout = "centered", class: className } = Astro.props;
 ---
 
 {
   layout === "split" ? (
     <section id={id} class:list={["border-b-[3px] border-ink bg-paper", className]}>
-      <div class="mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:py-32 lg:grid-cols-2 lg:items-center">
+      <Container class="grid gap-12 py-24 sm:py-32 lg:grid-cols-2 lg:items-center">
         <div>
           {eyebrow && (
-            <span class="inline-block border-2 border-ink bg-yellow px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide shadow-brutal-sm">
+            <span class="inline-block border-2 border-ink-on-accent bg-yellow px-3 py-1 font-mono text-xs font-bold text-ink-on-accent uppercase tracking-wide shadow-brutal-sm">
               {eyebrow}
             </span>
           )}
 
-          <h1 class="mt-6 text-balance font-display text-5xl font-extrabold uppercase leading-[0.95] sm:text-6xl">{title}</h1>
+          <h1 class="mt-6 text-balance font-display text-hero-split font-extrabold uppercase leading-[0.95]">
+            {title}
+          </h1>
 
           {subtitle && <p class="mt-6 max-w-xl text-pretty text-lg text-ink/75">{subtitle}</p>}
 
@@ -63,7 +57,7 @@ const {
         <div>
           <slot name="graphic" />
         </div>
-      </div>
+      </Container>
     </section>
   ) : (
     <section id={id} class:list={["relative overflow-hidden border-b-[3px] border-ink bg-paper", className]}>
@@ -76,14 +70,16 @@ const {
         aria-hidden="true"
       />
 
-      <div class="relative mx-auto max-w-4xl px-6 py-24 text-center sm:py-32">
+      <Container size="md" class="relative py-24 text-center sm:py-32">
         {eyebrow && (
-          <span class="inline-block border-2 border-ink bg-yellow px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide shadow-brutal-sm">
+          <span class="inline-block border-2 border-ink-on-accent bg-yellow px-3 py-1 font-mono text-xs font-bold text-ink-on-accent uppercase tracking-wide shadow-brutal-sm">
             {eyebrow}
           </span>
         )}
 
-        <h1 class="mt-6 text-balance font-display text-5xl font-extrabold uppercase leading-[0.95] sm:text-7xl">{title}</h1>
+        <h1 class="mt-6 text-balance font-display text-hero-centered font-extrabold uppercase leading-[0.95]">
+          {title}
+        </h1>
 
         {subtitle && <p class="mx-auto mt-6 max-w-xl text-pretty text-lg text-ink/75">{subtitle}</p>}
 
@@ -101,7 +97,7 @@ const {
             )}
           </div>
         )}
-      </div>
+      </Container>
     </section>
   )
 }

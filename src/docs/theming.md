@@ -13,13 +13,13 @@ Seven flat colors, all defined in OKLCH for perceptually consistent lightness:
 ```css
 @theme {
   --color-ink: oklch(0 0 0);
-  --color-paper: oklch(0.9934 0.0107 95.16);    /* Off White */
-  --color-yellow: oklch(0.8789 0.1617 90.94);   /* Bold Yellow */
-  --color-pink: oklch(0.7116 0.1812 22.84);     /* Coral Pink */
-  --color-blue: oklch(0.7682 0.123 250.03);     /* Sky Blue */
-  --color-green: oklch(0.8046 0.1136 149.93);   /* Soft Green */
-  --color-orange: oklch(0.7969 0.1443 60.82);   /* Orange */
-  --color-lavender: oklch(0.7776 0.1147 292.01);/* Lavender */
+  --color-paper: oklch(0.9934 0.0107 95.16); /* Off White */
+  --color-yellow: oklch(0.8789 0.1617 90.94); /* Bold Yellow */
+  --color-pink: oklch(0.7116 0.1812 22.84); /* Coral Pink */
+  --color-blue: oklch(0.7682 0.123 250.03); /* Sky Blue */
+  --color-green: oklch(0.8046 0.1136 149.93); /* Soft Green */
+  --color-orange: oklch(0.7969 0.1443 60.82); /* Orange */
+  --color-lavender: oklch(0.7776 0.1147 292.01); /* Lavender */
 }
 ```
 
@@ -27,11 +27,11 @@ Each generates the full set of Tailwind utilities for free: `bg-yellow`, `text-p
 
 ## Typography
 
-| Role | Token | Face |
-|---|---|---|
+| Role              | Token                          | Face                                 |
+| ----------------- | ------------------------------ | ------------------------------------ |
 | Display / Heading | `font-display`, `font-heading` | Clariza Sparks (local, bundled font) |
-| Body | `font-sans` | Inter |
-| Mono / labels | `font-mono` | Space Mono |
+| Body              | `font-sans`                    | Inter                                |
+| Mono / labels     | `font-mono`                    | Space Mono                           |
 
 Clariza Sparks ships as a single weight, so it's reserved for the loudest roles — hero titles, section headings, the logo. Body copy stays on Inter for legibility at small sizes.
 
@@ -39,19 +39,19 @@ Clariza Sparks ships as a single weight, so it's reserved for the loudest roles 
 
 A three-tier hard-shadow system, zero blur, always offset down-right:
 
-| Token | Value | Use for |
-|---|---|---|
-| `shadow-brutal-sm` | `3px 3px 0 0` | Badges, chips, inline actions |
-| `shadow-brutal` | `5px 5px 0 0` | Cards, buttons, panels |
-| `shadow-brutal-lg` | `8px 8px 0 0` | Overlays, hero elements |
-| `shadow-brutal-xl` | `12px 12px 0 0` | Dialogs |
+| Token              | Value           | Use for                       |
+| ------------------ | --------------- | ----------------------------- |
+| `shadow-brutal-sm` | `3px 3px 0 0`   | Badges, chips, inline actions |
+| `shadow-brutal`    | `5px 5px 0 0`   | Cards, buttons, panels        |
+| `shadow-brutal-lg` | `8px 8px 0 0`   | Overlays, hero elements       |
+| `shadow-brutal-xl` | `12px 12px 0 0` | Dialogs                       |
 
 Two inverted variants exist for components that sit on a dark surface — a black shadow disappears against a dark dialog backdrop:
 
-| Token | Use for |
-|---|---|
+| Token                     | Use for                     |
+| ------------------------- | --------------------------- |
 | `shadow-brutal-invert-lg` | Toasts on a dark background |
-| `shadow-brutal-invert-xl` | — |
+| `shadow-brutal-invert-xl` | —                           |
 
 ## Square corners
 

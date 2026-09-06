@@ -1,0 +1,67 @@
+---
+import LandingLayout from "../layouts/LandingLayout.astro";
+import Pricing from "../blocks/Pricing/Pricing.astro";
+import FAQ from "../blocks/FAQ/FAQ.astro";
+import CTA from "../blocks/CTA/CTA.astro";
+import { site } from "../config/site";
+import { plans } from "../config/plans";
+
+const footerGroups = [
+  {
+    heading: "Product",
+    links: [
+      { label: "Landing", href: "/landing" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Docs", href: "/docs" },
+    ],
+  },
+  site.footerResources,
+];
+
+const faqItems = [
+  {
+    question: "Is this a subscription?",
+    answer: "No. Every tier is a one-time purchase — pay once, use forever, no recurring license server.",
+  },
+  {
+    question: "What's the difference between Pro and Team?",
+    answer: "Pro covers one commercial project. Team covers multiple client projects and up to 10 team seats.",
+  },
+  {
+    question: "Can I upgrade later?",
+    answer: "Yes — contact us with your original purchase and we'll credit the difference toward a higher tier.",
+  },
+  {
+    question: "Do you offer refunds?",
+    answer: "Within 14 days of purchase if the theme genuinely doesn't fit your project — just reach out.",
+  },
+];
+---
+
+<LandingLayout
+  title={`Pricing — ${site.name}`}
+  description={`${site.name} pricing: one-time purchase, three tiers, no subscriptions.`}
+  navLinks={site.nav}
+  navCtaLabel="Get Theme"
+  navCtaHref="/pricing"
+  footerGroups={footerGroups}
+>
+  <Pricing
+    id="pricing"
+    eyebrow="Pricing"
+    title="Get the whole theme"
+    description="One-time purchase. No subscriptions, no seat-locked license servers."
+    plans={plans}
+  />
+
+  <FAQ id="faq" eyebrow="FAQ" title="Pricing questions" items={faqItems} />
+
+  <CTA
+    id="cta"
+    title="Still deciding?"
+    description="Every component on this site is the real theme — browse the docs before you buy."
+    primaryCta={{ label: "Read docs", href: "/docs" }}
+    secondaryCta={{ label: "Contact us", href: "/contact" }}
+    accent="lavender"
+  />
+</LandingLayout>

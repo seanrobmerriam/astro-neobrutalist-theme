@@ -1,0 +1,99 @@
+---
+import type { GetStaticPaths } from "astro";
+import LandingLayout from "../../layouts/LandingLayout.astro";
+import CardStacked from "../../components/Card/CardStacked.astro";
+import Button from "../../components/Button/Button.astro";
+import CTA from "../../blocks/CTA/CTA.astro";
+import { site } from "../../config/site";
+import { getPublishedPosts } from "../../lib/blog";
+import { formatDate } from "../../lib/format-date";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getPublishedPosts();
+  return paginate(posts, { pageSize: 6 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+
+const footerGroups = [
+  {
+    heading: "Product",
+    links: [
+      { label: "Landing", href: "/landing" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Portfolio", href: "/portfolio" },
+    ],
+  },
+  site.footerResources,
+];
+---
+
+<LandingLayout
+  title={page.currentPage === 1 ? `Blog — ${site.name}` : `Blog — Page ${page.currentPage} — ${site.name}`}
+  description={`Notes on building and shipping the ${site.name} theme.`}
+  navLinks={site.nav}
+  navCtaLabel="Get Theme"
+  navCtaHref="/pricing"
+  footerGroups={footerGroups}
+>
+  <div class="mx-auto max-w-4xl px-6 py-20">
+    <div class="mb-14 text-center">
+      <span
+        class="inline-block border-2 border-ink-on-accent bg-yellow px-3 py-1 font-mono text-xs font-bold text-ink-on-accent uppercase tracking-wide shadow-brutal-sm"
+      >
+        Blog
+      </span>
+      <h1 class="mt-4 text-balance font-display text-section-lg font-extrabold uppercase">Notes &amp; updates</h1>
+      <p class="mx-auto mt-4 max-w-xl text-pretty text-ink/70">
+        Build logs, design decisions, and the occasional rant about border-radius.
+      </p>
+    </div>
+
+    <h2 class="sr-only">Recent posts</h2>
+    {
+      page.data.length > 0 ? (
+        <div class="grid gap-6 sm:grid-cols-2">
+          {page.data.map((post) => (
+            <CardStacked
+              href={`/blog/${post.id}`}
+              date={post.data.publishDate.toISOString()}
+              dateLabel={formatDate(post.data.publishDate)}
+              title={post.data.title}
+              description={post.data.description}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="text-center text-ink/60">No posts yet — check back soon.</p>
+      )
+    }
+
+    {
+      (page.url.prev || page.url.next) && (
+        <nav class="mt-12 flex items-center justify-between" aria-label="Blog pagination">
+          {page.url.prev ? (
+            <Button href={page.url.prev} variant="outline" size="sm">
+              ← Newer posts
+            </Button>
+          ) : (
+            <span />
+          )}
+          {page.url.next && (
+            <Button href={page.url.next} variant="outline" size="sm">
+              Older posts →
+            </Button>
+          )}
+        </nav>
+      )
+    }
+  </div>
+
+  <CTA
+    id="cta"
+    title="Want the theme these posts are about?"
+    description="Every component, block, and layout used on this site is yours to copy."
+    primaryCta={{ label: "Get Theme", href: "/pricing" }}
+    secondaryCta={{ label: "Read Docs", href: "/docs" }}
+    accent="pink"
+  />
+</LandingLayout>

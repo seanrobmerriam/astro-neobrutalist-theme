@@ -1,0 +1,62 @@
+{
+  "/": {
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "LCP": 2104.8815999999997,
+    "CLS": 0
+  },
+  "/landing": {
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "LCP": 1955.5053000000003,
+    "CLS": 0
+  },
+  "/blog": {
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "LCP": 1955.4582999999998,
+    "CLS": 0
+  },
+  "/portfolio": {
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "LCP": 1954.8791,
+    "CLS": 0
+  },
+  "/404": {
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "LCP": 1954.9334,
+    "CLS": 0
+  },
+  "/docs/getting-started": {
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "LCP": 1955.3088000000002,
+    "CLS": 0.0001479807322725444
+  }
+}

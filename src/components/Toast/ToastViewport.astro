@@ -21,11 +21,20 @@
     duration?: number;
   }
 
-  const accents: Record<ToastVariant, string> = {
-    default: "bg-paper",
-    success: "bg-green",
-    error: "bg-pink",
-    warning: "bg-orange",
+  // Mirrors Toast.astro's surface/mutedText maps — "default" (bg-paper)
+  // inverts with the theme, the three real accent fills need the fixed
+  // border-ink-on-accent/text-ink-on-accent instead.
+  const surface: Record<ToastVariant, string> = {
+    default: "border-ink bg-paper text-ink",
+    success: "border-ink-on-accent bg-green text-ink-on-accent",
+    error: "border-ink-on-accent bg-pink text-ink-on-accent",
+    warning: "border-ink-on-accent bg-orange text-ink-on-accent",
+  };
+  const mutedText: Record<ToastVariant, string> = {
+    default: "text-ink/80",
+    success: "text-ink-on-accent/80",
+    error: "text-ink-on-accent/80",
+    warning: "text-ink-on-accent/80",
   };
 
   function showToast({ title, description, variant = "default", duration = 4000 }: ToastOptions) {
@@ -36,12 +45,12 @@
     toast.setAttribute("role", "status");
     // Reuse the theme's real utility classes (not hardcoded hex) so this
     // stays in sync with Toast.astro and the palette tokens automatically.
-    toast.className = `pointer-events-auto flex w-full max-w-sm items-start gap-3 border-[3px] border-ink p-4 shadow-brutal-invert-lg ${accents[variant]} animate-[toast-in_0.15s_ease-out]`;
+    toast.className = `pointer-events-auto flex w-full max-w-sm items-start gap-3 border-[3px] p-4 shadow-brutal-invert-lg ${surface[variant]} animate-[toast-in_0.15s_ease-out]`;
 
     toast.innerHTML = `
       <div class="min-w-0 flex-1">
         <p class="font-heading font-bold">${title}</p>
-        ${description ? `<p class="mt-1 text-sm text-ink/80">${description}</p>` : ""}
+        ${description ? `<p class="mt-1 text-sm ${mutedText[variant]}">${description}</p>` : ""}
       </div>
       <button type="button" aria-label="Dismiss notification" class="flex size-6 shrink-0 items-center justify-center border-2 border-ink bg-paper font-bold hover:bg-pink">
         <svg viewBox="0 0 16 16" fill="none" class="size-3" stroke="currentColor" stroke-width="2.5"><path d="M3 3l10 10M13 3L3 13" stroke-linecap="square" /></svg>

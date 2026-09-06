@@ -3,6 +3,7 @@ import BaseLayout from "./Layout.astro";
 import Navbar from "../blocks/Navbar/Navbar.astro";
 import Footer from "../components/Footer/Footer.astro";
 import ToastViewport from "../components/Toast/ToastViewport.astro";
+import { site } from "../config/site";
 
 interface NavLink {
   label: string;
@@ -17,6 +18,7 @@ interface FooterGroup {
 interface Props {
   title?: string;
   description?: string;
+  navBrand?: string;
   navLinks?: NavLink[];
   navCtaLabel?: string;
   navCtaHref?: string;
@@ -28,24 +30,30 @@ interface Props {
 const {
   title,
   description,
+  navBrand = site.name,
   navLinks = [],
   navCtaLabel,
   navCtaHref,
-  footerBrand,
-  footerTagline,
+  footerBrand = site.name,
+  footerTagline = site.tagline,
   footerGroups = [],
 } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
-  <Navbar links={navLinks} ctaLabel={navCtaLabel} ctaHref={navCtaHref} />
+  <Navbar brand={navBrand} links={navLinks} ctaLabel={navCtaLabel} ctaHref={navCtaHref} />
 
-  <main>
+  <main id="main" data-pagefind-body>
     <slot />
   </main>
 
   <Footer brand={footerBrand} tagline={footerTagline} groups={footerGroups}>
-    <slot name="footer-extra" />
+    <slot name="footer-extra">
+      <div class="flex gap-4 font-mono text-xs text-ink/60">
+        <a href="/privacy" class="hover:underline hover:decoration-2 hover:underline-offset-4">Privacy</a>
+        <a href="/terms" class="hover:underline hover:decoration-2 hover:underline-offset-4">Terms</a>
+      </div>
+    </slot>
   </Footer>
 
   <ToastViewport />

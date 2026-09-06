@@ -1,0 +1,77 @@
+---
+import LandingLayout from "../layouts/LandingLayout.astro";
+import Container from "../components/Container/Container.astro";
+import FeatureGrid from "../blocks/FeatureGrid/FeatureGrid.astro";
+import CTA from "../blocks/CTA/CTA.astro";
+import { site } from "../config/site";
+
+const footerGroups = [
+  {
+    heading: "Company",
+    links: [
+      { label: "About", href: "/about" },
+      { label: "Team", href: "/team" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
+  site.footerResources,
+];
+
+const principles = [
+  {
+    title: "Flat, not gradiented",
+    description: "Six categorical accents, solid fills, hard edges. No blur, no drop shadows pretending to be light.",
+  },
+  {
+    title: "Tokens, not one-offs",
+    description: "Every color, shadow, and border width is a single named value — change the token, not 40 files.",
+  },
+  {
+    title: "Zero-JS by default",
+    description: "Interactivity is opt-in and vanilla. A component you don't click never ships a script.",
+  },
+];
+---
+
+<LandingLayout
+  title={`About — ${site.name}`}
+  description={`Why ${site.name} looks the way it does, and who builds it.`}
+  navLinks={site.nav}
+  navCtaLabel="Get Theme"
+  navCtaHref="/pricing"
+  footerGroups={footerGroups}
+>
+  <Container size="md" class="py-20 text-center">
+    <span
+      class="inline-block border-2 border-ink-on-accent bg-green px-3 py-1 font-mono text-xs font-bold text-ink-on-accent uppercase tracking-wide shadow-brutal-sm"
+    >
+      About
+    </span>
+    <h1 class="mt-4 text-balance font-display text-section-lg font-extrabold uppercase">Built loud, on purpose</h1>
+    <p class="mx-auto mt-4 max-w-2xl text-pretty text-ink/70">
+      Most component libraries hedge toward neutral — soft shadows, muted grays, corners rounded just enough not to
+      offend anyone. {site.name} doesn't. Thick borders, hard-offset shadows, and six unapologetic flat colors, applied consistently
+      across 40+ typed components so the loud parts and the quiet parts still feel like one system.
+    </p>
+  </Container>
+
+  <FeatureGrid eyebrow="Principles" title="What holds it together" features={principles} />
+
+  <Container size="md" class="pb-20 text-center">
+    <h2 class="font-heading text-lg font-bold uppercase tracking-wide">Want the people, not the philosophy?</h2>
+    <p class="mx-auto mt-2 max-w-xl text-ink/70">
+      Meet the two-person team building it on the <a href="/team" class="underline decoration-2 underline-offset-4"
+        >team page</a
+      >, or <a href="/contact" class="underline decoration-2 underline-offset-4">get in touch</a> directly.
+    </p>
+  </Container>
+
+  <CTA
+    id="cta"
+    title="See it before you buy it."
+    description="Every component on this site is the actual theme — nothing here is a mockup."
+    primaryCta={{ label: "View pricing", href: "/pricing" }}
+    secondaryCta={{ label: "Read docs", href: "/docs" }}
+    accent="blue"
+  />
+</LandingLayout>

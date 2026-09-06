@@ -1,0 +1,47 @@
+{
+  "/": {
+    "violations": [],
+    "passes": 35,
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "help": "Elements must meet minimum color contrast ratio thresholds"
+      }
+    ]
+  },
+  "/landing": {
+    "violations": [],
+    "passes": 18,
+    "incomplete": []
+  },
+  "/blog": {
+    "violations": [],
+    "passes": 16,
+    "incomplete": []
+  },
+  "/portfolio": {
+    "violations": [],
+    "passes": 15,
+    "incomplete": []
+  },
+  "/docs": {
+    "violations": [],
+    "passes": 13,
+    "incomplete": []
+  },
+  "/docs/getting-started": {
+    "violations": [],
+    "passes": 18,
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "help": "Elements must meet minimum color contrast ratio thresholds"
+      }
+    ]
+  },
+  "/404": {
+    "violations": [],
+    "passes": 13,
+    "incomplete": []
+  }
+}

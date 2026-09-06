@@ -1,6 +1,7 @@
 ---
 import LandingLayout from "../layouts/LandingLayout.astro";
 import ShowcaseSection from "./_partials/ShowcaseSection.astro";
+import { site } from "../config/site";
 
 import Hero from "../blocks/Hero/Hero.astro";
 import FeatureGrid from "../blocks/FeatureGrid/FeatureGrid.astro";
@@ -21,7 +22,6 @@ import AvatarGroup from "../components/Avatar/AvatarGroup.astro";
 import List from "../components/List/List.astro";
 
 import Accordion from "../components/Accordion/Accordion.astro";
-import AccordionContained from "../components/Accordion/AccordionContained.astro";
 
 import Tabs from "../components/Tab/Tabs.astro";
 
@@ -74,11 +74,27 @@ const galleryImages = [
 ];
 
 const featureItems = [
-  { title: "Zero-JS by default", description: "Every component ships as static HTML — interactivity is opt-in and minimal." },
-  { title: "Tokenized aesthetic", description: "Borders, shadows, and accents are Tailwind v4 theme tokens — change the vibe without rebuilding components." },
-  { title: "Full component set", description: "Buttons to drawers, tables to toasts — everything a real product needs is here." },
-  { title: "Composable blocks", description: "Hero, navbar, CTA, and feature grid blocks are built from the same primitives you get." },
-  { title: "Accessible by construction", description: "Focus rings, contrast, and semantics are part of the design system, not an afterthought." },
+  {
+    title: "Zero-JS by default",
+    description: "Every component ships as static HTML — interactivity is opt-in and minimal.",
+  },
+  {
+    title: "Tokenized aesthetic",
+    description:
+      "Borders, shadows, and accents are Tailwind v4 theme tokens — change the vibe without rebuilding components.",
+  },
+  {
+    title: "Full component set",
+    description: "Buttons to drawers, tables to toasts — everything a real product needs is here.",
+  },
+  {
+    title: "Composable blocks",
+    description: "Hero, navbar, CTA, and feature grid blocks are built from the same primitives you get.",
+  },
+  {
+    title: "Accessible by construction",
+    description: "Focus rings, contrast, and semantics are part of the design system, not an afterthought.",
+  },
   { title: "Astro-native", description: "Typed props, slots, and scoped styles — no framework runtime required." },
 ];
 
@@ -120,25 +136,16 @@ const footerGroups = [
       { label: "CTA", href: "#cta-block" },
     ],
   },
-  {
-    heading: "Project",
-    links: [
-      { label: "Documentation", href: "/docs" },
-      { label: "Astro docs", href: "https://docs.astro.build" },
-      { label: "Tailwind CSS", href: "https://tailwindcss.com" },
-    ],
-  },
+  site.footerResources,
 ];
 ---
 
 <LandingLayout
-  title="Neubrutal — Astro Neubrutalist Theme"
+  title={`${site.name} — Astro Neubrutalist Theme`}
   description="A complete neubrutalist design system for Astro: components, blocks, and layouts built with Tailwind CSS v4."
   navLinks={navLinks}
   navCtaLabel="Get the theme"
   navCtaHref="#cta-block"
-  footerBrand="Neubrutal"
-  footerTagline="An Astro + Tailwind theme, built loud on purpose."
   footerGroups={footerGroups}
 >
   <Hero
@@ -172,7 +179,7 @@ const footerGroups = [
       <Card interactive={false} class="p-0!">
         <div class="flex flex-col gap-4 p-6">
           <div>
-            <h4 class="font-heading text-lg font-bold">Primary &amp; Secondary</h4>
+            <h3 class="font-heading text-lg font-bold">Primary &amp; Secondary</h3>
             <p class="mt-1 text-sm text-ink/70">The default action, and its secondary counterpart.</p>
           </div>
           <div class="flex flex-wrap items-center gap-3">
@@ -185,7 +192,7 @@ const footerGroups = [
       <Card interactive={false} class="p-0!">
         <div class="flex flex-col gap-4 p-6">
           <div>
-            <h4 class="font-heading text-lg bg- font-bold">Outline &amp; Borderless</h4>
+            <h3 class="font-heading text-lg font-bold">Outline &amp; Borderless</h3>
             <p class="mt-1 text-sm text-ink/70">Lower-emphasis actions for dense layouts.</p>
           </div>
           <div class="flex flex-wrap items-center gap-3">
@@ -198,7 +205,7 @@ const footerGroups = [
       <Card interactive={false} class="p-0!">
         <div class="flex flex-col gap-4 p-6">
           <div>
-            <h4 class="font-heading text-lg font-bold">Sizes</h4>
+            <h3 class="font-heading text-lg font-bold">Sizes</h3>
             <p class="mt-1 text-sm text-ink/70">Small, medium, and large — same variant, different scale.</p>
           </div>
           <div class="flex flex-wrap items-end gap-3">
@@ -212,49 +219,48 @@ const footerGroups = [
       <Card interactive={false} class="p-0!">
         <div class="flex flex-col gap-4 p-6">
           <div>
-            <h4 class="font-heading text-lg font-bold">Danger</h4>
+            <h3 class="font-heading text-lg font-bold">Danger</h3>
             <p class="mt-1 text-sm text-ink/70">Reserved for destructive, hard-to-undo actions.</p>
           </div>
           <Alert variant="error" message="This will permanently delete your account." />
-          <Button variant="danger" class="w-full justify-center">
-            Delete account
-          </Button>
+          <Button variant="danger" class="w-full justify-center"> Delete account </Button>
         </div>
       </Card>
 
       <Card interactive={false} class="p-0!">
         <div class="flex flex-col gap-4 p-6">
           <div>
-            <h4 class="font-heading text-lg font-bold">Success</h4>
+            <h3 class="font-heading text-lg font-bold">Success</h3>
             <p class="mt-1 text-sm text-ink/70">Confirms a completed, positive outcome.</p>
           </div>
           <Alert variant="success" message="Your changes have been saved." />
-          <Button variant="success" class="w-full justify-center">
-            Continue
-          </Button>
+          <Button variant="success" class="w-full justify-center"> Continue </Button>
         </div>
       </Card>
 
       <Card interactive={false} class="p-0!">
         <div class="flex flex-col gap-4 p-6">
           <div>
-            <h4 class="font-heading text-lg font-bold">Warning</h4>
+            <h3 class="font-heading text-lg font-bold">Warning</h3>
             <p class="mt-1 text-sm text-ink/70">Flags a risky action before it's taken.</p>
           </div>
           <Alert variant="warning" message="You're about to leave without saving." />
-          <Button variant="warning" class="w-full justify-center">
-            Leave anyway
-          </Button>
+          <Button variant="warning" class="w-full justify-center"> Leave anyway </Button>
         </div>
       </Card>
     </div>
   </ShowcaseSection>
 
-  <ShowcaseSection id="badges" eyebrow="Components" title="Badges" description="Three ways to attach a small, flat-color label to real content.">
+  <ShowcaseSection
+    id="badges"
+    eyebrow="Components"
+    title="Badges"
+    description="Three ways to attach a small, flat-color label to real content."
+  >
     <div class="grid gap-6 sm:grid-cols-3">
       <Card interactive={false} class="p-0!">
         <div class="flex flex-col gap-3 p-6">
-          <h4 class="font-heading text-lg font-bold">Tags</h4>
+          <h3 class="font-heading text-lg font-bold">Tags</h3>
           <div class="flex items-center gap-2">
             <Badge label="New" accent="yellow" />
             <span class="font-heading font-bold">Astro 5.0 is here</span>
@@ -265,7 +271,7 @@ const footerGroups = [
 
       <Card interactive={false} class="p-0!">
         <div class="flex flex-col gap-3 p-6">
-          <h4 class="font-heading text-lg font-bold">Dismissible filters</h4>
+          <h3 class="font-heading text-lg font-bold">Dismissible filters</h3>
           <p class="text-sm text-ink/70">Active filters, removable inline.</p>
           <div class="flex flex-wrap gap-2">
             <BadgeDismiss label="React" />
@@ -276,7 +282,7 @@ const footerGroups = [
 
       <Card interactive={false} class="p-0!">
         <div class="flex flex-col gap-3 p-6">
-          <h4 class="font-heading text-lg font-bold">Status indicators</h4>
+          <h3 class="font-heading text-lg font-bold">Status indicators</h3>
           <p class="text-sm text-ink/70">Live system state, at a glance.</p>
           <div class="flex flex-col gap-2">
             <div class="flex items-center justify-between">
@@ -293,7 +299,12 @@ const footerGroups = [
     </div>
   </ShowcaseSection>
 
-  <ShowcaseSection id="cards" eyebrow="Components" title="Cards" description="One base Card, a couple of content-specific variants, and a few things you can build from just the base.">
+  <ShowcaseSection
+    id="cards"
+    eyebrow="Components"
+    title="Cards"
+    description="One base Card, a couple of content-specific variants, and a few things you can build from just the base."
+  >
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <Card
         eyebrow="Design"
@@ -302,7 +313,10 @@ const footerGroups = [
         accent="yellow"
       />
 
-      <CardMessage title="Deploy succeeded" message="neubrutal-theme was built and deployed in 42 seconds. No warnings, no errors." />
+      <CardMessage
+        title="Deploy succeeded"
+        message="neubrutal-theme was built and deployed in 42 seconds. No warnings, no errors."
+      />
 
       <CardStacked
         date="2026-08-16"
@@ -313,16 +327,16 @@ const footerGroups = [
 
       <Card interactive={false} class="p-0!">
         <div class="p-6">
-          <span class="inline-block border-2 border-ink bg-lavender px-3 py-1 font-mono text-xs font-bold tracking-wide uppercase shadow-brutal-sm">
+          <span
+            class="inline-block border-2 border-ink bg-lavender px-3 py-1 font-mono text-xs font-bold tracking-wide uppercase shadow-brutal-sm"
+          >
             Pro
           </span>
           <p class="mt-4 font-display text-4xl font-extrabold">
             $29<span class="font-heading text-base font-semibold text-ink/60">/mo</span>
           </p>
           <p class="mt-2 text-sm text-ink/70">Everything in Free, plus unlimited projects and priority support.</p>
-          <Button variant="primary" class="mt-4 w-full justify-center">
-            Choose Pro
-          </Button>
+          <Button variant="primary" class="mt-4 w-full justify-center"> Choose Pro </Button>
         </div>
       </Card>
 
@@ -331,13 +345,17 @@ const footerGroups = [
         <p class="mt-2 font-mono text-xs font-bold tracking-wide uppercase">Components shipped</p>
       </Card>
 
-      <Card interactive={false} accent="blue" title="Lightning setup" description="Install once, theme everything from a single CSS file.">
+      <Card
+        interactive={false}
+        accent="blue"
+        title="Lightning setup"
+        description="Install once, theme everything from a single CSS file."
+      >
         <svg slot="icon" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" class="mb-3 size-8">
           <path
             fill-rule="evenodd"
             d="M9.5 1.5a.5.5 0 0 0-.947-.226l-6 12a.5.5 0 0 0 .447.726H6.5v4.5a.5.5 0 0 0 .947.226l6-12a.5.5 0 0 0-.447-.726H9.5v-4.5Z"
-            clip-rule="evenodd"
-          />
+            clip-rule="evenodd"></path>
         </svg>
       </Card>
     </div>
@@ -405,7 +423,7 @@ const footerGroups = [
         <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide opacity-60">Lists</p>
         <Card interactive={false} class="p-0!">
           <div class="p-6">
-            <h4 class="font-heading text-lg font-bold">What's included</h4>
+            <h3 class="font-heading text-lg font-bold">What's included</h3>
             <p class="mt-1 text-sm text-ink/70">Everything ships in the box.</p>
             <List
               variant="check"
@@ -437,14 +455,62 @@ const footerGroups = [
             },
             {
               label: "Notifications",
-              content: "Panels are hidden with the native hidden attribute, so there's nothing to hydrate and nothing to flash.",
+              content:
+                "Panels are hidden with the native hidden attribute, so there's nothing to hydrate and nothing to flash.",
             },
           ]}
         />
       </div>
       <div class="flex flex-col gap-4">
         <Accordion />
-        <AccordionContained />
+        <Accordion
+          variant="grouped"
+          items={[
+            {
+              question: "Does it work with content collections?",
+              answer:
+                "Yes — components are plain Astro files with typed props, so they compose with content collections, server islands, or any framework component the same way any other Astro component would.",
+            },
+            {
+              question: "Can I change the color palette?",
+              answer:
+                "Every color is a single OKLCH token in global.css — swap the values there and the whole theme follows.",
+            },
+            {
+              question: "Is any of this locked behind JavaScript?",
+              answer:
+                "No — this accordion included. It's a native <details> element; the only components with a script tag are the ones that genuinely need one, like the Carousel or Modal.",
+            },
+          ]}
+        />
+      </div>
+    </div>
+
+    <div class="mt-10 grid gap-10 lg:grid-cols-2">
+      <div class="border-[3px] border-ink bg-paper p-6 text-ink shadow-brutal-lg">
+        <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide text-ink/60">variant="pill"</p>
+        <Tabs
+          variant="pill"
+          tabs={[
+            {
+              label: "Overview",
+              content: "Same controller, same keyboard support — just a different trigger and panel treatment.",
+            },
+            { label: "Pricing", content: "Pass a variant prop instead of copying the component." },
+            { label: "Changelog", content: "One Tabs.astro, four looks: underline, contained, pill, vertical." },
+          ]}
+        />
+      </div>
+      <div class="border-[3px] border-ink bg-paper p-6 text-ink shadow-brutal-lg">
+        <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide text-ink/60">variant="vertical"</p>
+        <Tabs
+          variant="vertical"
+          tabs={[
+            { label: "General", content: "Arrow Up/Down moves focus between triggers when the tablist is vertical." },
+            { label: "Privacy", content: "Home and End jump to the first and last tab." },
+            { label: "Security", content: "Panels swap with the native hidden attribute — no hydration involved." },
+          ]}
+        />
       </div>
     </div>
   </ShowcaseSection>
@@ -458,16 +524,33 @@ const footerGroups = [
     <Card interactive={false} class="mx-auto max-w-md p-0!">
       <form id="signup-form" class="flex flex-col gap-5 p-8">
         <div>
-          <span class="inline-block border-2 border-ink bg-yellow px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide shadow-brutal-sm">
+          <span
+            class="inline-block border-2 border-ink bg-yellow px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide shadow-brutal-sm"
+          >
             Sign up
           </span>
           <h3 class="mt-3 font-heading text-2xl font-bold">Create your account</h3>
           <p class="mt-1 text-sm text-ink/70">Join the waitlist — no spam, just launch updates.</p>
         </div>
 
-        <InputForm label="Full name" id="signup-name" name="name" autocomplete="name" placeholder="Ada Lovelace" required />
+        <InputForm
+          label="Full name"
+          id="signup-name"
+          name="name"
+          autocomplete="name"
+          placeholder="Ada Lovelace"
+          required
+        />
 
-        <InputForm label="Email" id="signup-email" name="email" type="email" autocomplete="email" placeholder="ada@example.com" required />
+        <InputForm
+          label="Email"
+          id="signup-email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          placeholder="ada@example.com"
+          required
+        />
 
         <InputForm
           label="Password"
@@ -511,64 +594,98 @@ const footerGroups = [
           required
         />
 
-        <Button type="submit" class="mt-2 w-full justify-center">
-          Create account
-        </Button>
+        <Button type="submit" class="mt-2 w-full justify-center"> Create account </Button>
 
         <p class="text-center text-sm text-ink/70">
-          Already have an account? <a href="#" class="font-semibold text-ink underline decoration-2 underline-offset-4">Log in</a>
+          Already have an account? <a href="#" class="font-semibold text-ink underline decoration-2 underline-offset-4"
+            >Log in</a
+          >
         </p>
       </form>
     </Card>
 
-    <p class="mt-16 mb-6 text-center font-mono text-xs font-bold uppercase tracking-wide opacity-60">More field styles</p>
+    <p class="mt-16 mb-6 text-center font-mono text-xs font-bold uppercase tracking-wide opacity-60">
+      More field styles
+    </p>
     <div class="grid gap-6 sm:grid-cols-2">
       <Card interactive={false} class="p-0!">
         <form class="flex flex-col gap-4 p-6">
           <div>
-            <h4 class="font-heading text-lg font-bold">Find anything</h4>
+            <h3 class="font-heading text-lg font-bold">Find anything</h3>
             <p class="mt-1 text-sm text-ink/70">A search field paired with an inline submit button.</p>
           </div>
-          <InputFormSearch label="Search the docs" id="search-docs" placeholder="Search components, blocks…" buttonLabel="Search" />
+          <InputFormSearch
+            label="Search the docs"
+            id="search-docs"
+            placeholder="Search components, blocks…"
+            buttonLabel="Search"
+          />
         </form>
       </Card>
 
       <Card interactive={false} class="p-0!">
         <form class="flex flex-col gap-4 p-6">
           <div>
-            <h4 class="font-heading text-lg font-bold">Get product updates</h4>
+            <h3 class="font-heading text-lg font-bold">Get product updates</h3>
             <p class="mt-1 text-sm text-ink/70">A single icon-input field, ready for a newsletter signup.</p>
           </div>
-          <InputFormIcon label="Email address" id="newsletter-email" name="email" placeholder="you@example.com" required />
-          <Button type="submit" variant="secondary" class="w-full justify-center">
-            Subscribe
-          </Button>
+          <InputFormIcon
+            label="Email address"
+            id="newsletter-email"
+            name="email"
+            placeholder="you@example.com"
+            required
+          />
+          <Button type="submit" variant="secondary" class="w-full justify-center"> Subscribe </Button>
         </form>
       </Card>
 
       <Card interactive={false} class="p-0!">
         <form class="flex flex-col gap-4 p-6">
           <div>
-            <h4 class="font-heading text-lg font-bold">Send feedback</h4>
-            <p class="mt-1 text-sm text-ink/70">A textarea for longer, free-form input.</p>
+            <h3 class="font-heading text-lg font-bold">Send feedback</h3>
+            <p class="mt-1 text-sm text-ink/70">A textarea with an `actions` slot, buttons sharing its border.</p>
           </div>
           <TextArea
             label="What's on your mind?"
             id="feedback-notes"
             name="notes"
             placeholder="Tell us what's working, what's not…"
-            helpText="We read every message."
-          />
-          <Button type="submit" variant="outline" class="w-full justify-center">
-            Send feedback
-          </Button>
+            actionsPosition="inside"
+          >
+            <Fragment slot="actions">
+              <Button type="reset" variant="ghost" size="sm">Clear</Button>
+              <Button type="submit" variant="primary" size="sm">Save</Button>
+            </Fragment>
+          </TextArea>
         </form>
       </Card>
 
       <Card interactive={false} class="p-0!">
         <form class="flex flex-col gap-4 p-6">
           <div>
-            <h4 class="font-heading text-lg font-bold">Notification preferences</h4>
+            <h3 class="font-heading text-lg font-bold">Draft a comment</h3>
+            <p class="mt-1 text-sm text-ink/70">The same `actions` slot, positioned below instead of inside.</p>
+          </div>
+          <TextArea
+            label="Comment"
+            id="draft-comment"
+            name="comment"
+            placeholder="Add a comment…"
+            helpText="Markdown is supported."
+          >
+            <Fragment slot="actions">
+              <Button type="reset" variant="ghost" size="sm">Discard</Button>
+              <Button type="submit" variant="secondary" size="sm">Post comment</Button>
+            </Fragment>
+          </TextArea>
+        </form>
+      </Card>
+
+      <Card interactive={false} class="p-0!">
+        <form class="flex flex-col gap-4 p-6">
+          <div>
+            <h3 class="font-heading text-lg font-bold">Notification preferences</h3>
             <p class="mt-1 text-sm text-ink/70">A grouped set of checkboxes for multi-select settings.</p>
           </div>
           <CheckboxGroup
@@ -580,9 +697,37 @@ const footerGroups = [
               { value: "digest", label: "Weekly digest", description: "A short recap every Monday." },
             ]}
           />
-          <Button type="submit" variant="outline" class="w-full justify-center">
-            Save preferences
-          </Button>
+          <Button type="submit" variant="outline" class="w-full justify-center"> Save preferences </Button>
+        </form>
+      </Card>
+
+      <Card interactive={false} class="p-0!">
+        <form class="flex flex-col gap-4 p-6">
+          <div>
+            <h3 class="font-heading text-lg font-bold">Validation states</h3>
+            <p class="mt-1 text-sm text-ink/70">
+              An `error` prop sets `aria-invalid` and renders an announced message.
+            </p>
+          </div>
+          <InputForm
+            label="Email"
+            id="validation-demo-email"
+            name="email"
+            type="email"
+            value="not-an-email"
+            error="Enter a valid email address."
+          />
+          <Select
+            label="Country"
+            id="validation-demo-country"
+            name="country"
+            placeholder="Select a country"
+            error="This field is required."
+            options={[
+              { label: "United States", value: "us" },
+              { label: "Canada", value: "ca" },
+            ]}
+          />
         </form>
       </Card>
     </div>
@@ -609,10 +754,12 @@ const footerGroups = [
         <div class="flex flex-col gap-5 p-8">
           <div class="flex items-start justify-between gap-4">
             <div>
-              <h4 class="font-heading text-lg font-bold">Installing Neubrutal CLI</h4>
+              <h3 class="font-heading text-lg font-bold">Installing Neubrutal CLI</h3>
               <p class="mt-1 font-mono text-sm text-ink/70">npm install -g neubrutal</p>
             </div>
-            <span class="border-2 border-ink bg-blue px-2 py-1 font-mono text-xs font-bold uppercase shadow-brutal-sm">v1.0.0</span>
+            <span class="border-2 border-ink bg-blue px-2 py-1 font-mono text-xs font-bold uppercase shadow-brutal-sm"
+              >v1.0.0</span
+            >
           </div>
 
           <Progress value={45} label="Downloading packages" />
@@ -638,10 +785,19 @@ const footerGroups = [
         <List
           variant="check"
           items={[
-            { text: "Eight typed variants", description: "primary, secondary, outline, borderless, ghost, danger, success, warning." },
-            { text: "Renders as <a> or <button>", description: "Picks the right tag automatically from whether href is set." },
+            {
+              text: "Eight typed variants",
+              description: "primary, secondary, outline, borderless, ghost, danger, success, warning.",
+            },
+            {
+              text: "Renders as <a> or <button>",
+              description: "Picks the right tag automatically from whether href is set.",
+            },
             { text: "Three sizes", description: "sm, md, and lg, applied as a single class-list swap." },
-            { text: "Full native attribute passthrough", description: "Extends HTMLAttributes<'a'> — type, disabled, aria-*, all just work." },
+            {
+              text: "Full native attribute passthrough",
+              description: "Extends HTMLAttributes<'a'> — type, disabled, aria-*, all just work.",
+            },
             { text: "Zero client JS", description: "Pure server-rendered HTML — nothing to hydrate." },
           ]}
         />
@@ -659,13 +815,31 @@ const footerGroups = [
     <div class="flex flex-wrap gap-4">
       <Button data-dialog-open="demo-modal" variant="secondary">Open modal</Button>
       <Button data-dialog-open="cart-drawer" variant="secondary">Open drawer</Button>
-      <Button data-toast-trigger data-toast-title="Saved" data-toast-description="Your changes were saved." data-toast-variant="success" variant="success">
+      <Button
+        data-toast-trigger
+        data-toast-title="Saved"
+        data-toast-description="Your changes were saved."
+        data-toast-variant="success"
+        variant="success"
+      >
         Success toast
       </Button>
-      <Button data-toast-trigger data-toast-title="Something broke" data-toast-description="Try that again." data-toast-variant="error" variant="danger">
+      <Button
+        data-toast-trigger
+        data-toast-title="Something broke"
+        data-toast-description="Try that again."
+        data-toast-variant="error"
+        variant="danger"
+      >
         Error toast
       </Button>
-      <Button data-toast-trigger data-toast-title="Heads up" data-toast-description="This action can't be undone." data-toast-variant="warning" variant="warning">
+      <Button
+        data-toast-trigger
+        data-toast-title="Heads up"
+        data-toast-description="This action can't be undone."
+        data-toast-variant="warning"
+        variant="warning"
+      >
         Warning toast
       </Button>
     </div>
@@ -723,15 +897,15 @@ const footerGroups = [
     title="Build your next project loud."
     description="Every component, block, and layout on this page is yours to copy."
     primaryCta={{ label: "Read the docs", href: "https://docs.astro.build" }}
-    secondaryCta={{ label: "Star on GitHub", href: "https://github.com" }}
+    secondaryCta={{ label: "Star on GitHub", href: site.social.github }}
     accent="lavender"
   />
 
   <Fragment slot="overlays">
     <Modal id="demo-modal" title="Confirm action">
       <p class="text-ink/80">
-        This is a modal dialog. It traps focus, closes on backdrop click or Escape, and needs zero JS to wire up
-        beyond a <code class="font-mono text-sm">data-dialog-open</code> attribute.
+        This is a modal dialog. It traps focus, closes on backdrop click or Escape, and needs zero JS to wire up beyond
+        a <code class="font-mono text-sm">data-dialog-open</code> attribute.
       </p>
       <div class="mt-6 flex justify-end gap-3">
         <Button data-dialog-close variant="ghost">Cancel</Button>
@@ -750,7 +924,7 @@ const footerGroups = [
         class="flex size-11 items-center justify-center border-2 border-ink bg-blue shadow-brutal-sm hover:-translate-x-0.5 hover:-translate-y-0.5"
       >
         <svg viewBox="0 0 16 16" fill="none" class="size-4" stroke="currentColor" stroke-width="2.5">
-          <path d="M8 13V3M3 8l5-5 5 5" stroke-linecap="square" stroke-linejoin="miter" />
+          <path d="M8 13V3M3 8l5-5 5 5" stroke-linecap="square" stroke-linejoin="miter"></path>
         </svg>
       </a>
       <button
@@ -760,7 +934,10 @@ const footerGroups = [
         class="flex size-11 items-center justify-center border-2 border-ink bg-green shadow-brutal-sm hover:-translate-x-0.5 hover:-translate-y-0.5"
       >
         <svg viewBox="0 0 16 16" fill="none" class="size-4" stroke="currentColor" stroke-width="2.5">
-          <path d="M2 2h1.5l1.4 8.4a1 1 0 001 .8h6.2a1 1 0 001-.8L14 5H4" stroke-linecap="square" stroke-linejoin="round" />
+          <path
+            d="M2 2h1.5l1.4 8.4a1 1 0 001 .8h6.2a1 1 0 001-.8L14 5H4"
+            stroke-linecap="square"
+            stroke-linejoin="round"></path>
         </svg>
       </button>
     </SpeedDial>

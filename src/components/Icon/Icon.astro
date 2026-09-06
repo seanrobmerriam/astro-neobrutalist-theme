@@ -1,0 +1,40 @@
+---
+// A small, named registry rather than a full icon-library integration —
+// this replaces icons that were genuinely duplicated byte-for-byte across
+// multiple components (close: 6 places, menu: 2), not every inline SVG in
+// the theme. Most components' icons are intentionally one-off (Alert's four
+// variant icons, Accordion's chevron, Carousel's arrows) and don't belong in
+// a shared registry; add a name here only when a *second* component needs
+// the exact same glyph — the same rule that justified this file existing.
+type IconName = "close" | "menu";
+
+interface IconDef {
+  viewBox: string;
+  strokeWidth: string;
+  paths: string[];
+}
+
+const icons: Record<IconName, IconDef> = {
+  close: { viewBox: "0 0 16 16", strokeWidth: "2.5", paths: ["M3 3l10 10M13 3L3 13"] },
+  menu: { viewBox: "0 0 16 16", strokeWidth: "2", paths: ["M2 4h12M2 8h12M2 12h12"] },
+};
+
+interface Props {
+  name: IconName;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+const icon = icons[name];
+---
+
+<svg
+  viewBox={icon.viewBox}
+  fill="none"
+  stroke="currentColor"
+  stroke-width={icon.strokeWidth}
+  aria-hidden="true"
+  class:list={["shrink-0", className]}
+>
+  {icon.paths.map((d) => <path d={d} stroke-linecap="square" />)}
+</svg>

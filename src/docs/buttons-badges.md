@@ -10,13 +10,13 @@ order: 3
 
 Renders an `<a>` when `href` is set, a `<button>` otherwise — or force one explicitly with `as`. Extends `HTMLAttributes<'a'>`, so native attributes (`type`, `disabled`, `aria-*`, `target`, …) all pass through untouched.
 
-| Prop | Type | Default |
-|---|---|---|
-| `variant` | `primary \| secondary \| outline \| ghost \| borderless \| danger \| success \| warning` | `primary` |
-| `size` | `sm \| md \| lg` | `md` |
-| `as` | `a \| button` | inferred from `href` |
-| `type` | `button \| submit \| reset` | `button` |
-| `class` | `string` | — |
+| Prop      | Type                                                                                     | Default              |
+| --------- | ---------------------------------------------------------------------------------------- | -------------------- |
+| `variant` | `primary \| secondary \| outline \| ghost \| borderless \| danger \| success \| warning` | `primary`            |
+| `size`    | `sm \| md \| lg`                                                                         | `md`                 |
+| `as`      | `a \| button`                                                                            | inferred from `href` |
+| `type`    | `button \| submit \| reset`                                                              | `button`             |
+| `class`   | `string`                                                                                 | —                    |
 
 ```astro
 <Button variant="primary" size="lg">Get started</Button>
@@ -32,11 +32,11 @@ Renders an `<a>` when `href` is set, a `<button>` otherwise — or force one exp
 
 A flat, categorical label.
 
-| Prop | Type | Default |
-|---|---|---|
-| `label` | `string` | — (required) |
-| `accent` | `yellow \| pink \| blue \| green \| orange \| lavender` | `blue` |
-| `class` | `string` | — |
+| Prop     | Type                                                    | Default      |
+| -------- | ------------------------------------------------------- | ------------ |
+| `label`  | `string`                                                | — (required) |
+| `accent` | `yellow \| pink \| blue \| green \| orange \| lavender` | `blue`       |
+| `class`  | `string`                                                | —            |
 
 ```astro
 <Badge label="New" accent="yellow" />
@@ -48,10 +48,10 @@ A flat, categorical label.
 
 A removable chip — useful for active filters or selections.
 
-| Prop | Type | Default |
-|---|---|---|
+| Prop    | Type     | Default      |
+| ------- | -------- | ------------ |
 | `label` | `string` | — (required) |
-| `class` | `string` | — |
+| `class` | `string` | —            |
 
 ```astro
 <BadgeDismiss label="React" />
@@ -65,11 +65,11 @@ The dismiss button is rendered but not wired to remove the chip from the DOM —
 
 A dot-plus-label pair for live system or presence state.
 
-| Prop | Type | Default |
-|---|---|---|
-| `label` | `string` | — (required) |
-| `status` | `online \| offline \| busy` | `online` |
-| `class` | `string` | — |
+| Prop     | Type                        | Default      |
+| -------- | --------------------------- | ------------ |
+| `label`  | `string`                    | — (required) |
+| `status` | `online \| offline \| busy` | `online`     |
+| `class`  | `string`                    | —            |
 
 ```astro
 <BadgeStatus label="Operational" status="online" />

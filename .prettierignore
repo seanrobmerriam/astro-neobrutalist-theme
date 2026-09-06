@@ -1,0 +1,12 @@
+dist/
+.astro/
+node_modules/
+pnpm-lock.yaml
+test-results/
+playwright-report/
+release/
+
+# Planning docs contain illustrative/pseudocode snippets in fenced code
+# blocks that aren't valid standalone files — Prettier's markdown formatter
+# tries to parse them and fails.
+docs/superpowers/

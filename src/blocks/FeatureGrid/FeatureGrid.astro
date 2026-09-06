@@ -1,5 +1,6 @@
 ---
 import Card from "../../components/Card/Card.astro";
+import Container from "../../components/Container/Container.astro";
 
 type Accent = "yellow" | "pink" | "blue" | "green" | "orange" | "lavender";
 
@@ -24,16 +25,16 @@ const { id, eyebrow, title, description, features, class: className } = Astro.pr
 const accentCycle: Accent[] = ["yellow", "blue", "pink", "green", "orange", "lavender"];
 ---
 
-<section id={id} class:list={["mx-auto max-w-6xl px-6 py-20", className]}>
+<Container as="section" id={id} class:list={["py-20", className]}>
   {
     (eyebrow || title || description) && (
       <div class="mx-auto mb-14 max-w-2xl text-center">
         {eyebrow && (
-          <span class="inline-block border-2 border-ink bg-blue px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide shadow-brutal-sm">
+          <span class="inline-block border-2 border-ink-on-accent bg-blue px-3 py-1 font-mono text-xs font-bold text-ink-on-accent uppercase tracking-wide shadow-brutal-sm">
             {eyebrow}
           </span>
         )}
-        {title && <h2 class="mt-4 text-balance font-display text-4xl font-extrabold uppercase sm:text-5xl">{title}</h2>}
+        {title && <h2 class="mt-4 text-balance font-display text-section-lg font-extrabold uppercase">{title}</h2>}
         {description && <p class="mt-4 text-pretty text-ink/70">{description}</p>}
       </div>
     )
@@ -51,4 +52,4 @@ const accentCycle: Accent[] = ["yellow", "blue", "pink", "green", "orange", "lav
       ))
     }
   </div>
-</section>
+</Container>

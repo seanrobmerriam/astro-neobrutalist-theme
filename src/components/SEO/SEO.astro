@@ -1,0 +1,51 @@
+---
+// Centralized <head> metadata: canonical URL, Open Graph, Twitter card, and
+// site-wide JSON-LD. Per-content-type structured data (BlogPosting,
+// BreadcrumbList) belongs here too once the blog is a real content
+// collection instead of a hard-coded array — see docs/superpowers/plans/
+// 2026-09-04-rubric-remediation.md Phase 4.
+import { site } from "../../config/site";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Path to a social-preview image, absolute or site-relative. Defaults to `site.ogImage`. */
+  image?: string;
+  type?: "website" | "article";
+  noindex?: boolean;
+}
+
+const { title, description, image = site.ogImage, type = "website", noindex = false } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image, Astro.site);
+
+// Escape `<` so a value can never prematurely close the script tag it's embedded in.
+const websiteJsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: site.name,
+  description: site.description,
+  url: site.url,
+}).replace(/</g, "\\u003c");
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+<meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
+
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:image" content={imageURL} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content={site.locale} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageURL} />
+
+<script type="application/ld+json" is:inline set:html={websiteJsonLd} />

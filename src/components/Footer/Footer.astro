@@ -5,18 +5,13 @@ interface LinkGroup {
 }
 
 interface Props {
-  brand?: string;
+  brand: string;
   tagline?: string;
   groups?: LinkGroup[];
   class?: string;
 }
 
-const {
-  brand = "Neubrutal",
-  tagline = "An Astro + Tailwind theme, built loud on purpose.",
-  groups = [],
-  class: className,
-} = Astro.props;
+const { brand, tagline, groups = [], class: className } = Astro.props;
 
 const year = new Date().getFullYear();
 ---
@@ -39,7 +34,10 @@ const year = new Date().getFullYear();
             <ul class="mt-4 flex flex-col gap-2.5">
               {group.links.map((link) => (
                 <li>
-                  <a href={link.href} class="font-medium text-ink hover:underline hover:decoration-2 hover:underline-offset-4">
+                  <a
+                    href={link.href}
+                    class="font-medium text-ink hover:underline hover:decoration-2 hover:underline-offset-4"
+                  >
                     {link.label}
                   </a>
                 </li>

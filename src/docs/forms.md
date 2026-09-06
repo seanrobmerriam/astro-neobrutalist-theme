@@ -10,12 +10,12 @@ Every form control shares the same border, shadow, and focus-visible language, s
 
 `src/components/Input/InputForm.astro` — extends `HTMLAttributes<'input'>`.
 
-| Prop | Type | Default |
-|---|---|---|
-| `label` | `string` | — (required) |
-| `id` | `string` | — (required) |
-| `helpText` | `string` | — |
-| `type` | native input type | `text` |
+| Prop       | Type              | Default      |
+| ---------- | ----------------- | ------------ |
+| `label`    | `string`          | — (required) |
+| `id`       | `string`          | — (required) |
+| `helpText` | `string`          | —            |
+| `type`     | native input type | `text`       |
 
 ```astro
 <InputForm label="Email" id="email" name="email" type="email" autocomplete="email" required />
@@ -25,11 +25,11 @@ Every form control shares the same border, shadow, and focus-visible language, s
 
 `src/components/Input/InputFormIcon.astro` — an input with a trailing envelope icon, for email-style fields.
 
-| Prop | Type | Default |
-|---|---|---|
-| `label` | `string` | — (required) |
-| `id` | `string` | — (required) |
-| `type` | native input type | `email` |
+| Prop    | Type              | Default      |
+| ------- | ----------------- | ------------ |
+| `label` | `string`          | — (required) |
+| `id`    | `string`          | — (required) |
+| `type`  | native input type | `email`      |
 
 ```astro
 <InputFormIcon label="Email address" id="newsletter-email" name="email" placeholder="you@example.com" />
@@ -39,11 +39,11 @@ Every form control shares the same border, shadow, and focus-visible language, s
 
 `src/components/Input/InputFormSearch.astro` — an input with an attached submit button.
 
-| Prop | Type | Default |
-|---|---|---|
-| `label` | `string` | — (required) |
-| `id` | `string` | — (required) |
-| `buttonLabel` | `string` | `"Search"` |
+| Prop          | Type     | Default      |
+| ------------- | -------- | ------------ |
+| `label`       | `string` | — (required) |
+| `id`          | `string` | — (required) |
+| `buttonLabel` | `string` | `"Search"`   |
 
 ```astro
 <InputFormSearch label="Search the docs" id="search" buttonLabel="Search" />
@@ -53,12 +53,12 @@ Every form control shares the same border, shadow, and focus-visible language, s
 
 `src/components/TextArea/TextArea.astro` — extends `HTMLAttributes<'textarea'>`.
 
-| Prop | Type | Default |
-|---|---|---|
-| `label` | `string` | — (required) |
-| `id` | `string` | — (required) |
-| `helpText` | `string` | — |
-| `rows` | `number` | `4` |
+| Prop       | Type     | Default      |
+| ---------- | -------- | ------------ |
+| `label`    | `string` | — (required) |
+| `id`       | `string` | — (required) |
+| `helpText` | `string` | —            |
+| `rows`     | `number` | `4`          |
 
 ```astro
 <TextArea label="Feedback" id="feedback" placeholder="Tell us what's working…" helpText="We read every message." />
@@ -68,11 +68,11 @@ Every form control shares the same border, shadow, and focus-visible language, s
 
 `src/components/Checkbox/Checkbox.astro` — a single checkbox with an optional description. Extends `HTMLAttributes<'input'>` (minus `type`).
 
-| Prop | Type | Default |
-|---|---|---|
-| `id` | `string` | — (required) |
-| `label` | `string` | — (required) |
-| `description` | `string` | — |
+| Prop          | Type     | Default      |
+| ------------- | -------- | ------------ |
+| `id`          | `string` | — (required) |
+| `label`       | `string` | — (required) |
+| `description` | `string` | —            |
 
 ```astro
 <Checkbox id="terms" name="terms" label="I agree to the Terms of Service" required />
@@ -82,10 +82,10 @@ Every form control shares the same border, shadow, and focus-visible language, s
 
 `src/components/Checkbox/CheckboxGroup.astro` — a bordered, dividered group of checkboxes for multi-select settings.
 
-| Prop | Type | Default |
-|---|---|---|
-| `legend` | `string` | — (required) |
-| `name` | `string` | — (required) |
+| Prop      | Type                               | Default      |
+| --------- | ---------------------------------- | ------------ |
+| `legend`  | `string`                           | — (required) |
+| `name`    | `string`                           | — (required) |
 | `options` | `{ value, label, description? }[]` | — (required) |
 
 ```astro
@@ -103,19 +103,22 @@ Every form control shares the same border, shadow, and focus-visible language, s
 
 `src/components/Forms/Select.astro` — extends `HTMLAttributes<'select'>`.
 
-| Prop | Type | Default |
-|---|---|---|
-| `label` | `string` | — (required) |
-| `id` | `string` | — (required) |
-| `options` | `{ label, value }[]` | — (required) |
-| `placeholder` | `string` | — |
+| Prop          | Type                 | Default      |
+| ------------- | -------------------- | ------------ |
+| `label`       | `string`             | — (required) |
+| `id`          | `string`             | — (required) |
+| `options`     | `{ label, value }[]` | — (required) |
+| `placeholder` | `string`             | —            |
 
 ```astro
 <Select
   label="Role"
   id="role"
   placeholder="What best describes you?"
-  options={[{ label: "Designer", value: "designer" }, { label: "Engineer", value: "engineer" }]}
+  options={[
+    { label: "Designer", value: "designer" },
+    { label: "Engineer", value: "engineer" },
+  ]}
 />
 ```
 
@@ -123,18 +126,21 @@ Every form control shares the same border, shadow, and focus-visible language, s
 
 `src/components/Forms/RadioGroup.astro`
 
-| Prop | Type | Default |
-|---|---|---|
-| `legend` | `string` | — (required) |
-| `name` | `string` | — (required) |
-| `options` | `{ label, value }[]` | — (required) |
-| `value` | `string` (preselected value) | — |
+| Prop      | Type                         | Default      |
+| --------- | ---------------------------- | ------------ |
+| `legend`  | `string`                     | — (required) |
+| `name`    | `string`                     | — (required) |
+| `options` | `{ label, value }[]`         | — (required) |
+| `value`   | `string` (preselected value) | —            |
 
 ```astro
 <RadioGroup
   legend="Account type"
   name="account-type"
   value="personal"
-  options={[{ label: "Personal", value: "personal" }, { label: "Team", value: "team" }]}
+  options={[
+    { label: "Personal", value: "personal" },
+    { label: "Team", value: "team" },
+  ]}
 />
 ```

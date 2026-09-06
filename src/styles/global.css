@@ -1,31 +1,57 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: "Clariza Sparks";
-  src:
-    url("../assets/fonts/ClarizaSparks-Regular.woff2") format("woff2"),
-    url("../assets/fonts/ClarizaSparks-Regular.woff") format("woff");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 @theme {
   /* Typography — display/heading/body/mono, per the neubrutalist type system.
      Clariza Sparks is the theme's signature font: the only local, bundled
      face, so it carries the loudest roles (display + heading). It ships as
      a single weight — bold text in these roles relies on the browser's
-     synthesized bold. Body stays on Inter for small-size legibility. */
-  --font-display: "Clariza Sparks", sans-serif;
-  --font-heading: "Clariza Sparks", sans-serif;
-  --font-sans: "Inter", sans-serif;
-  --font-mono: "Space Mono", monospace;
+     synthesized bold. Body stays on Inter for small-size legibility.
 
-  /* Structural neutrals */
+     All three are wired up via Astro's Fonts API (astro.config.mjs `fonts`),
+     not a hand-written @font-face — Astro generates the @font-face rules and
+     self-hosts the Google-provided families at build time. The --font-* CSS
+     variables referenced below (--font-clariza-sparks, --font-inter,
+     --font-space-mono) come from that config's `cssVariable` fields and are
+     only defined on pages that render the matching <Font /> tag in
+     Layout.astro — see src/layouts/Layout.astro. */
+  --font-display: var(--font-clariza-sparks);
+  --font-heading: var(--font-clariza-sparks);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-space-mono);
+
+  /* Fluid display sizes — replace a hard text-Nxl/sm:text-Mxl jump with a
+     clamp() that scales continuously between the same two sizes over a
+     400px–1280px viewport range, so headings don't visibly "snap" at the sm
+     breakpoint. Values are min/max-matched to the sizes they replace:
+     hero-split ~= text-5xl -> sm:text-6xl, hero-centered ~= text-5xl ->
+     sm:text-7xl, section-lg ~= text-4xl -> sm:text-5xl, section-sm ~=
+     text-3xl -> sm:text-4xl. */
+  --text-hero-split: clamp(3rem, 2.659rem + 1.364vw, 3.75rem);
+  --text-hero-centered: clamp(3rem, 2.318rem + 2.727vw, 4.5rem);
+  --text-section-lg: clamp(2.25rem, 1.909rem + 1.364vw, 3rem);
+  --text-section-sm: clamp(1.875rem, 1.705rem + 0.682vw, 2.25rem);
+
+  /* Structural neutrals — these invert in dark mode (see the color-scheme
+     block below). Borders, plain body text, and page backgrounds should
+     always use these two tokens so they follow the theme automatically. */
   --color-ink: oklch(0 0 0);
   --color-paper: oklch(0.9934 0.0107 95.16); /* Off White */
 
-  /* Categorical accents — flat fills only, no gradients */
+  /* Fixed, non-inverting black — for text/icons sitting directly on a
+     categorical accent fill (Button's filled variants, Badge, Alert, a
+     "featured" PricingCard, ...). The six accents below stay the same
+     bright, light-mode-calibrated colors in both themes ("keep the
+     accents" — a dark theme here means the page inverts, not the palette),
+     so text on top of them must stay dark for contrast regardless of
+     theme. Using --color-ink for that text would invert it to near-white
+     in dark mode and break contrast against a fill that never changed.
+     Only ever redefined here — never inside a dark-mode block. */
+  --color-ink-on-accent: oklch(0 0 0);
+
+  /* Categorical accents — flat fills only, no gradients. Deliberately not
+     one of these is "the" primary/secondary/success color — see the
+     "Naming six colors so they don't collide" post in the demo blog for
+     why these are named by appearance, not role. */
   --color-yellow: oklch(0.8789 0.1617 90.94); /* Bold Yellow */
   --color-pink: oklch(0.7116 0.1812 22.84); /* Coral Pink */
   --color-blue: oklch(0.7682 0.123 250.03); /* Sky Blue */
@@ -33,16 +59,46 @@
   --color-orange: oklch(0.7969 0.1443 60.82); /* Orange */
   --color-lavender: oklch(0.7776 0.1147 292.01); /* Lavender */
 
-  /* Hard offset shadows — zero blur, three-tier system */
-  --shadow-brutal-sm: 3px 3px 0 0 oklch(0 0 0);
-  --shadow-brutal: 5px 5px 0 0 oklch(0 0 0);
-  --shadow-brutal-lg: 8px 8px 0 0 oklch(0 0 0);
-  --shadow-brutal-xl: 12px 12px 0 0 oklch(0 0 0);
+  /* Focus-ring color, split out from --color-blue rather than reusing it
+     directly — blue is also a categorical accent buyers may reassign to a
+     completely different hue, and doing so shouldn't silently recolor
+     every focus indicator in the theme along with it. */
+  --color-focus-ring: var(--color-blue);
 
-  /* Inverted (off-white) shadows for components that sit on a dark surface
-     — a black shadow disappears against the dialog backdrop scrim. */
+  /* Hard offset shadows — zero blur, three-tier system. These reference
+     --color-ink (not a hardcoded black) specifically so they invert
+     automatically in dark mode: a black shadow would nearly disappear
+     against a dark page background. */
+  --shadow-brutal-sm: 3px 3px 0 0 var(--color-ink);
+  --shadow-brutal: 5px 5px 0 0 var(--color-ink);
+  --shadow-brutal-lg: 8px 8px 0 0 var(--color-ink);
+  --shadow-brutal-xl: 12px 12px 0 0 var(--color-ink);
+
+  /* Fixed (non-inverting) light shadows for components that sit on a dark
+     backdrop scrim regardless of site theme — a dialog's own backdrop, not
+     the page background. Unlike --shadow-brutal-*, these never change with
+     the theme, the same way --color-ink-on-accent doesn't. */
   --shadow-brutal-invert-lg: 8px 8px 0 0 oklch(0.9934 0.0107 95.16);
   --shadow-brutal-invert-xl: 12px 12px 0 0 oklch(0.9934 0.0107 95.16);
+}
+
+/* Dark mode: ink and paper invert (a near-white ink, a dark — not pure
+   black — paper, leaving room for the shadow scale to still read against
+   it), everything else (accents, ink-on-accent, focus-ring) stays fixed.
+   Three-state pattern: bare :root is light (already the @theme defaults
+   above); the media query covers "system" with no explicit choice; the
+   [data-theme] rules let an explicit choice win either direction. See
+   scripts/theme-toggle.ts for what sets [data-theme]. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-ink: oklch(0.9821 0.0086 95.16);
+    --color-paper: oklch(0.19 0.014 95.16);
+  }
+}
+
+:root[data-theme="dark"] {
+  --color-ink: oklch(0.9821 0.0086 95.16);
+  --color-paper: oklch(0.19 0.014 95.16);
 }
 
 /* Square corners are load-bearing to the style. Browser-default radii on */
@@ -58,4 +114,165 @@ button {
 body {
   background-color: var(--color-paper);
   color: var(--color-ink);
+}
+
+/* A single long, unbroken word in a heading (a brand name, an unhyphenated
+   title) has no space to wrap at, and this theme's display type is large,
+   bold, and uppercase — exactly the combination most likely to overflow a
+   narrow viewport. Caught on /docs at 320px: "Documentation" alone overflowed
+   its container by ~40px because it had nowhere to break. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  overflow-wrap: break-word;
+}
+
+/* Shared long-form content styling — rendered Markdown in the docs
+   collection and blog posts both use this, via `class="prose"` on their
+   content wrapper. Kept as a single global class rather than duplicated
+   per-layout scoped styles, now that there are two real consumers. */
+.prose h1 {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.prose h2 {
+  margin-top: 2.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--color-ink);
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.prose h3 {
+  margin-top: 2rem;
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.prose p {
+  margin-top: 1rem;
+  line-height: 1.7;
+  color: color-mix(in oklch, var(--color-ink) 85%, transparent);
+}
+
+.prose p.lead {
+  margin-top: 0.5rem;
+  font-size: 1.125rem;
+  color: color-mix(in oklch, var(--color-ink) 65%, transparent);
+}
+
+.prose a {
+  color: var(--color-ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.prose ul,
+.prose ol {
+  margin-top: 1rem;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.prose ul {
+  list-style: square;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose code {
+  border: 2px solid var(--color-ink);
+  background: var(--color-paper);
+  padding: 0.1rem 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+.prose pre code {
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.prose pre {
+  margin-top: 1.25rem;
+  border: 3px solid var(--color-ink);
+  box-shadow: 8px 8px 0 0 var(--color-ink);
+  padding: 1.25rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+/* display:block lets a wide table scroll horizontally on its own instead of
+   forcing the page to — rendered Markdown tables have no fixed column count,
+   so there's no way to know in advance whether one will fit. */
+.prose table {
+  display: block;
+  margin-top: 1.25rem;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  border: 3px solid var(--color-ink);
+}
+
+.prose th,
+.prose td {
+  border: 2px solid var(--color-ink);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.prose th {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.prose blockquote {
+  margin-top: 1.25rem;
+  border-left: 4px solid var(--color-ink);
+  padding-left: 1rem;
+  font-style: italic;
+}
+
+.prose hr {
+  margin: 2.5rem 0;
+  border: none;
+  border-top: 3px solid var(--color-ink);
+}
+
+/* The hover/active "pop" on buttons, cards, and tabs relies on an animated
+   transform (translate) plus a transitioning shadow. Under reduced motion,
+   collapse the transition to near-instant so the same hover/active state
+   still shows — the affordance survives, the animation doesn't. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

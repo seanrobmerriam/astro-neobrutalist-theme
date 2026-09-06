@@ -10,11 +10,11 @@ order: 8
 
 A real, functional tab set — clicking a tab swaps the visible panel and updates `aria-selected`/`hidden` accordingly, via a small vanilla-JS click handler (no framework, no hydration directive needed).
 
-| Prop | Type | Default |
-|---|---|---|
-| `tabs` | `{ label, content }[]` | — (required) |
-| `label` | `string` (accessible label for the tablist) | `"Tabs"` |
-| `class` | `string` | — |
+| Prop    | Type                                        | Default      |
+| ------- | ------------------------------------------- | ------------ |
+| `tabs`  | `{ label, content }[]`                      | — (required) |
+| `label` | `string` (accessible label for the tablist) | `"Tabs"`     |
+| `class` | `string`                                    | —            |
 
 ```astro
 <Tabs

@@ -10,9 +10,15 @@ export const neubrutalTheme = {
     "editor.foreground": "oklch(0.9934 0.0107 95.16)",
   },
   settings: [
-    { scope: ["comment"], settings: { foreground: "oklch(0.9934 0.0107 95.16 / 0.45)" } },
+    // 0.45 measured at 4.36:1 against the black editor background — under the
+    // 4.5:1 AA text-contrast threshold (caught by an automated axe-core pass
+    // on /docs/getting-started). 0.55 clears it at 6.16:1 with margin.
+    { scope: ["comment"], settings: { foreground: "oklch(0.9934 0.0107 95.16 / 0.55)" } },
     { scope: ["string", "string.quoted", "string.template"], settings: { foreground: "oklch(0.8046 0.1136 149.93)" } },
-    { scope: ["constant.numeric", "constant.language", "constant.character"], settings: { foreground: "oklch(0.7969 0.1443 60.82)" } },
+    {
+      scope: ["constant.numeric", "constant.language", "constant.character"],
+      settings: { foreground: "oklch(0.7969 0.1443 60.82)" },
+    },
     {
       scope: ["keyword", "storage.type", "storage.modifier", "keyword.control", "keyword.operator.new"],
       settings: { foreground: "oklch(0.7116 0.1812 22.84)" },
@@ -29,6 +35,9 @@ export const neubrutalTheme = {
       scope: ["entity.name.tag", "entity.name.type", "support.type", "entity.other.attribute-name", "support.class"],
       settings: { foreground: "oklch(0.7776 0.1147 292.01)" },
     },
-    { scope: ["punctuation", "meta.brace", "punctuation.definition"], settings: { foreground: "oklch(0.9934 0.0107 95.16 / 0.75)" } },
+    {
+      scope: ["punctuation", "meta.brace", "punctuation.definition"],
+      settings: { foreground: "oklch(0.9934 0.0107 95.16 / 0.75)" },
+    },
   ],
 };

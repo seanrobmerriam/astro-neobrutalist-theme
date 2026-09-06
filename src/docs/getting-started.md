@@ -41,9 +41,7 @@ Every component is a typed Astro file — import it and pass props like any othe
 import Button from "../components/Button/Button.astro";
 ---
 
-<Button variant="primary" size="lg" href="/docs">
-  Read the docs
-</Button>
+<Button variant="primary" size="lg" href="/docs"> Read the docs </Button>
 ```
 
 Props are documented per-component in the rest of this section. Most components also accept a `class` prop, which is appended to (not replacing) the component's own classes via `class:list`.

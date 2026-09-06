@@ -1,19 +1,44 @@
 {
-  "name": "",
+  "name": "neubrutal",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "node": ">=22.12.0"
   },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "postbuild": "pagefind --site dist",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "audit:a11y": "node scripts/audit-a11y.mjs",
+    "audit:lighthouse": "node scripts/audit-lighthouse.mjs",
+    "audit:links": "node scripts/audit-links.mjs",
+    "test:e2e": "playwright test",
+    "package:release": "node scripts/package-release.mjs"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.2.2",
+    "sharp": "^0.35.4",
     "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
+    "chrome-launcher": "^1.2.1",
+    "lighthouse": "^13.4.1",
+    "pagefind": "^1.5.2",
+    "playwright": "^1.63.0",
+    "prettier": "^3.9.6",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^5.9.3",
+    "wait-on": "^9.1.0"
   }
 }

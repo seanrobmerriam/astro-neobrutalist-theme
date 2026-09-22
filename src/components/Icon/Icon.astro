@@ -1,40 +1,117 @@
 ---
-// A small, named registry rather than a full icon-library integration —
-// this replaces icons that were genuinely duplicated byte-for-byte across
-// multiple components (close: 6 places, menu: 2), not every inline SVG in
-// the theme. Most components' icons are intentionally one-off (Alert's four
-// variant icons, Accordion's chevron, Carousel's arrows) and don't belong in
-// a shared registry; add a name here only when a *second* component needs
-// the exact same glyph — the same rule that justified this file existing.
-type IconName = "close" | "menu";
+// Registry-driven icon component backed by the SVGs in src/assets/icons/{bw,color}.
+//
+// Two variants per icon, distinguished by `variant="bw" | "color"`:
+//   - "bw":    two-tone black-and-white, fits the neubrutalist outline aesthetic
+//   - "color": black-and-{single-accent}, drops cleanly onto any page background
+//
+// SVGs are static (no strokes to recolor with currentColor — they're filled
+// compositions), so they can't share the simple path-based renderer that
+// `close`/`menu` used before this rewrite. Instead they're loaded as raw
+// markup via ?raw and inlined. The inline `width="96" height="96"` attributes
+// are stripped and replaced with width/height="100%" so a parent Tailwind
+// `size-*` class on the wrapping span controls the rendered size.
+//
+// All 256 icons are eagerly imported — Vite turns each into a tiny string,
+// and Astro inlines them at build time. There's no per-icon cost at runtime
+// (no fetch, no decoding) and no extra HTTP requests.
 
-interface IconDef {
-  viewBox: string;
-  strokeWidth: string;
-  paths: string[];
+import type { HTMLAttributes } from "astro/types";
+
+type Variant = "bw" | "color";
+
+const bwRaw = import.meta.glob<string>("/src/assets/icons/bw/*.svg", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
+
+const colorRaw = import.meta.glob<string>("/src/assets/icons/color/*.svg", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
+
+// Filenames contain spaces (e.g. "Down arrow.svg") — normalize to a
+// camelCase-friendly id so consumers don't have to deal with it.
+function toId(filename: string): string {
+  return filename
+    .replace(/\.svg$/, "")
+    .split(" ")
+    .map((part, i) =>
+      i === 0
+        ? part.toLowerCase()
+        : part.charAt(0).toUpperCase() + part.slice(1).toLowerCase(),
+    )
+    .join("");
 }
 
-const icons: Record<IconName, IconDef> = {
-  close: { viewBox: "0 0 16 16", strokeWidth: "2.5", paths: ["M3 3l10 10M13 3L3 13"] },
-  menu: { viewBox: "0 0 16 16", strokeWidth: "2", paths: ["M2 4h12M2 8h12M2 12h12"] },
-};
+function buildMap(raw: Record<string, string>): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const [path, content] of Object.entries(raw)) {
+    const filename = path.split("/").pop() ?? "";
+    out[toId(filename)] = content;
+  }
+  return out;
+}
 
-interface Props {
+const bwIcons = buildMap(bwRaw);
+const colorIcons = buildMap(colorRaw);
+
+const allNames = new Set([...Object.keys(bwIcons), ...Object.keys(colorIcons)]);
+type IconName = string;
+
+if (allNames.size === 0) {
+  throw new Error(
+    "Icon.astro: no icons loaded from src/assets/icons/{bw,color}. Check that the directories exist and contain .svg files.",
+  );
+}
+
+// Strip the inline width/height attributes so the wrapping span's Tailwind
+// `size-*` class controls rendered size. Also drop the xmlns attribute —
+// not needed once inlined into HTML5.
+function normalize(svg: string): string {
+  return svg
+    .replace(/\swidth="[^"]*"/, "")
+    .replace(/\sheight="[^"]*"/, "")
+    .replace(/<svg([^>]*)>/, '<svg$1 width="100%" height="100%">')
+    .replace(/\sxmlns="[^"]*"/, "");
+}
+
+interface Props extends Omit<HTMLAttributes<"span">, "class"> {
   name: IconName;
+  variant?: Variant;
   class?: string;
 }
 
-const { name, class: className } = Astro.props;
-const icon = icons[name];
+const props = Astro.props as Props;
+const { name, variant = "color", class: className, ...rest } = props;
+
+const source = (variant === "bw" ? bwIcons[name] : colorIcons[name]) ?? null;
+const rendered = source ? normalize(source) : null;
+const wrongVariant =
+  source === null &&
+  allNames.has(name) &&
+  (variant === "bw" ? !colorIcons[name] : !bwIcons[name]);
 ---
 
-<svg
-  viewBox={icon.viewBox}
-  fill="none"
-  stroke="currentColor"
-  stroke-width={icon.strokeWidth}
-  aria-hidden="true"
-  class:list={["shrink-0", className]}
->
-  {icon.paths.map((d) => <path d={d} stroke-linecap="square" />)}
-</svg>
+{
+  rendered ? (
+    <span
+      aria-hidden="true"
+      class:list={["inline-block align-middle leading-none", className]}
+      {...rest}
+    >
+      <Fragment set:html={rendered} />
+    </span>
+  ) : (
+    <span
+      aria-hidden="true"
+      class:list={["inline-block", className]}
+      data-missing-icon={name}
+      data-icon-variant={variant}
+      data-wrong-variant={wrongVariant ? "true" : undefined}
+      {...rest}
+    />
+  )
+}

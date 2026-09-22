@@ -3,7 +3,7 @@ type Variant = "underline" | "contained" | "pill" | "vertical";
 
 interface Tab {
   label: string;
-  content: string;
+  content?: string;
 }
 
 interface Props {
@@ -116,7 +116,8 @@ const panelWrapper: Record<Variant, string> = {
         class={panelWrapper[variant]}
         hidden={i !== 0}
       >
-        <p class="text-ink">{tab.content}</p>
+        {tab.content && <p class="text-ink">{tab.content}</p>}
+        <slot name={`panel-${i}`} />
       </div>
     ))
   }

@@ -3,6 +3,7 @@ interface Option {
   value: string;
   label: string;
   description?: string;
+  checked?: boolean;
 }
 
 interface Props {
@@ -30,6 +31,7 @@ const { legend, name, options, class: className } = Astro.props;
             name={name}
             id={`${name}-${option.value}`}
             value={option.value}
+            checked={option.checked}
             class="mt-0.5 size-5 shrink-0 border-2 border-ink bg-paper shadow-brutal-sm checked:bg-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
           />
           <span class="text-ink">

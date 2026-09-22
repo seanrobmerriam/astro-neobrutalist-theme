@@ -20,6 +20,9 @@ importers:
       astro:
         specifier: ^7.2.2
         version: 7.2.2(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0)
+      htmx.org:
+        specifier: ^2.0.10
+        version: 2.0.10
       sharp:
         specifier: ^0.35.4
         version: 0.35.4(@types/node@24.13.3)
@@ -1597,6 +1600,9 @@ packages:
   html-void-elements@3.0.0:
     resolution: {integrity: sha512-bEqo66MRXsUGxWHV5IP0PUiAWwoEjba4VCzg0LjFJBpchPaTfyfCKTG6bc5F8ucKec3q5y6qOdGyYTSBEvhCrg==}
 
+  htmx.org@2.0.10:
+    resolution: {integrity: sha512-kdeJe7ZVwaS6QMz/ebBIVtZdpwen6L0OQ5GOhPV9MKBb196TCZeZu4yA7ZIQsaLKv7EpXz+So7KSXNuHXhj7Cw==}
+
   http-cache-semantics@4.2.0:
     resolution: {integrity: sha512-dTxcvPXqPvXBQpq5dUr6mEMJX4oIEFv6bwom3FDwKRDsuIjjJGANqhBuoAn9c1RQJIdAKav33ED65E2ys+87QQ==}
 
@@ -2221,6 +2227,9 @@ packages:
 
   third-party-web@0.29.2:
     resolution: {integrity: sha512-fegtha91tq2DHphyoiBXVHjVi2YG9zFaRnboT9C28tO1en9Y3wJsfspuy40F+u5wl3hHVbw7cnd1b67kEGHb8g==}
+
+  third-party-web@0.30.0:
+    resolution: {integrity: sha512-p+PfyL5U0ediGzvwPzMSdD9MnC8rHW6nWJJVLIQvqN7RsSqfaZ+7n4c9GILqH36EYR0eXB9CzAeCRnKFr/9uJg==}
 
   tiny-inflate@1.0.3:
     resolution: {integrity: sha512-pkY1fj1cKHb2seWDy0B16HeWyczlJA9/WW3u3c4z/NiWDsO3DOU5D7nhTLE9CF0yXv/QZFY7sEJmj24dK+Rrqw==}
@@ -3225,7 +3234,7 @@ snapshots:
   '@paulirish/trace_engine@0.0.65':
     dependencies:
       legacy-javascript: 0.0.1
-      third-party-web: 0.29.2
+      third-party-web: 0.30.0
 
   '@playwright/test@1.63.0':
     dependencies:
@@ -4124,6 +4133,8 @@ snapshots:
 
   html-void-elements@3.0.0: {}
 
+  htmx.org@2.0.10: {}
+
   http-cache-semantics@4.2.0: {}
 
   http-link-header@1.1.4: {}
@@ -4764,6 +4775,8 @@ snapshots:
   tapable@2.3.3: {}
 
   third-party-web@0.29.2: {}
+
+  third-party-web@0.30.0: {}
 
   tiny-inflate@1.0.3: {}
 

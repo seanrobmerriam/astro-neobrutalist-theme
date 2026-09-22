@@ -18,7 +18,6 @@ import CardMessage from "../components/Card/CardMessage.astro";
 import CardStacked from "../components/Card/CardStacked.astro";
 
 import Avatar from "../components/Avatar/Avatar.astro";
-import AvatarGroup from "../components/Avatar/AvatarGroup.astro";
 import List from "../components/List/List.astro";
 
 import Accordion from "../components/Accordion/Accordion.astro";
@@ -383,55 +382,116 @@ const footerGroups = [
       </div>
     </div>
 
-    <div class="mt-10 grid gap-10 lg:grid-cols-2">
+    <div class="mt-10 grid gap-10 lg:grid-cols-[2fr_1fr]">
       <div>
-        <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide opacity-60">Group — mock chat room</p>
-        <div class="border-[3px] border-ink bg-paper shadow-brutal">
-          <div class="flex items-center gap-3 border-b-[3px] border-ink px-4 py-3">
-            <AvatarGroup>
-              <Avatar name="Ava Stone" accent="yellow" size="sm" />
-              <Avatar name="Marcus Lin" accent="blue" size="sm" />
-              <Avatar name="Priya Anand" accent="pink" size="sm" />
-            </AvatarGroup>
-            <p class="text-sm font-semibold"># general <span class="font-normal text-ink/50">3 members</span></p>
+        <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide opacity-60">AI agent chat</p>
+        <div class="flex h-[600px] flex-col border-[3px] border-ink bg-paper shadow-brutal" data-agent-chat>
+          <header class="flex items-center gap-3 border-b-[3px] border-ink bg-lavender px-4 py-3">
+            <div class="flex size-10 shrink-0 items-center justify-center border-2 border-ink bg-paper font-mono text-sm font-bold shadow-brutal-sm">
+              AI
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="font-heading font-bold">Neubrutal Agent</p>
+              <p class="text-xs text-ink/60">
+                <span class="inline-block size-2 bg-green align-middle"></span>
+                Online · reads your repo, runs tools, replies in seconds
+              </p>
+            </div>
+            <button
+              type="button"
+              class="border-2 border-ink bg-paper px-3 py-1 font-mono text-xs font-bold uppercase shadow-brutal-sm hover:bg-yellow"
+              onclick="document.querySelector('[data-agent-thread]').innerHTML = ''; document.querySelector('[data-agent-empty]').hidden = false;"
+            >
+              Reset
+            </button>
+          </header>
+
+          <div data-agent-thread class="flex-1 space-y-4 overflow-y-auto p-4">
+            <div data-agent-empty class="flex h-full flex-col items-center justify-center gap-4 text-center">
+              <div class="flex size-14 items-center justify-center border-[3px] border-ink bg-lavender font-display text-2xl font-extrabold uppercase shadow-brutal">
+                AI
+              </div>
+              <div class="max-w-sm">
+                <p class="font-heading text-lg font-bold">Start a conversation</p>
+                <p class="mt-1 text-sm text-ink/70">
+                  Ask about the theme, the components, or how to wire up HTMX. Replies are powered by a tiny in-memory
+                  mock so the demo works offline — swap the endpoint for your LLM of choice.
+                </p>
+              </div>
+              <div class="flex flex-wrap justify-center gap-2">
+                {
+                  [
+                    "What can this theme do?",
+                    "How do the components stay zero-JS?",
+                    "Tell me about the color tokens",
+                    "How would I deploy this?",
+                  ].map((prompt) => (
+                    <button
+                      type="button"
+                      class="border-2 border-ink bg-paper px-3 py-2 text-xs font-semibold shadow-brutal-sm hover:bg-yellow"
+                      data-suggested-prompt
+                      onclick={`document.getElementById('agent-input').value = ${JSON.stringify(prompt)}; document.getElementById('agent-input').focus()`}
+                    >
+                      {prompt}
+                    </button>
+                  ))
+                }
+              </div>
+            </div>
           </div>
 
-          <div class="flex flex-col gap-4 p-4">
-            <div class="flex items-start gap-3">
-              <Avatar name="Ava Stone" accent="yellow" size="sm" />
-              <div>
-                <p class="text-xs text-ink/50">Ava <span class="ml-1">9:41 AM</span></p>
-                <p class="mt-0.5 inline-block border-2 border-ink bg-yellow/25 px-3 py-2 text-sm">
-                  Just shipped the new Table component 🎉
-                </p>
-              </div>
-            </div>
-            <div class="flex items-start gap-3">
-              <Avatar name="Marcus Lin" accent="blue" size="sm" />
-              <div>
-                <p class="text-xs text-ink/50">Marcus <span class="ml-1">9:42 AM</span></p>
-                <p class="mt-0.5 inline-block border-2 border-ink bg-blue/25 px-3 py-2 text-sm">
-                  The status pills look great
-                </p>
-              </div>
-            </div>
-          </div>
+          <form
+            id="agent-form"
+            class="flex items-end gap-3 border-t-[3px] border-ink bg-paper p-3"
+            data-agent-form
+          >
+            <button
+              type="button"
+              class="flex size-10 shrink-0 items-center justify-center border-2 border-ink bg-paper shadow-brutal-sm hover:bg-yellow"
+              aria-label="Attach a file"
+            >
+              <span class="font-mono text-lg font-bold">+</span>
+            </button>
+            <textarea
+              id="agent-input"
+              name="message"
+              rows="1"
+              placeholder="Ask anything…"
+              required
+              class="max-h-32 min-h-10 flex-1 resize-none border-2 border-ink bg-paper px-3 py-2 text-sm shadow-brutal-sm focus:outline-none focus-visible:shadow-brutal"
+              onkeydown="(function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();this.closest('form').requestSubmit();}}).call(this,arguments[0])"
+            ></textarea>
+            <button
+              type="submit"
+              class="flex size-10 shrink-0 items-center justify-center border-2 border-ink bg-yellow shadow-brutal-sm hover:bg-green"
+              aria-label="Send message"
+              onclick="setTimeout(() => { const t = document.createElement('div'); t.dataset.typing = ''; t.className = 'flex items-start gap-3'; t.innerHTML = '<div class=&quot;flex size-8 shrink-0 items-center justify-center border-2 border-ink bg-lavender font-mono text-xs font-bold shadow-brutal-sm&quot;>AI</div><div class=&quot;flex items-center gap-1 self-center text-sm text-ink/60&quot;><span class=&quot;inline-block size-2 animate-bounce bg-ink&quot; style=&quot;animation-delay:0ms&quot;></span><span class=&quot;inline-block size-2 animate-bounce bg-ink&quot; style=&quot;animation-delay:120ms&quot;></span><span class=&quot;inline-block size-2 animate-bounce bg-ink&quot; style=&quot;animation-delay:240ms&quot;></span></div>'; document.querySelector('[data-agent-thread]')?.appendChild(t); }, 50)"
+            >
+              <span class="font-mono text-base font-bold">→</span>
+            </button>
+          </form>
         </div>
       </div>
 
       <div>
-        <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide opacity-60">Lists</p>
+        <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide opacity-60">Capabilities</p>
         <Card interactive={false} class="p-0!">
           <div class="p-6">
-            <h3 class="font-heading text-lg font-bold">What's included</h3>
-            <p class="mt-1 text-sm text-ink/70">Everything ships in the box.</p>
+            <h3 class="font-heading text-lg font-bold">What this agent can do</h3>
+            <p class="mt-1 text-sm text-ink/70">
+              The endpoint at <code class="font-mono text-xs">/api/chat/[i].ts</code> is a prerendered Astro API
+              route. The client hashes your input to pick a reply — swap the <code class="font-mono text-xs">REPLIES</code>
+              array for an LLM call to ship.
+            </p>
             <List
               variant="check"
               class="mt-4"
               items={[
-                { text: "Typed props on every component" },
-                { text: "Zero client JS unless you opt in" },
-                { text: "Composable blocks and layouts" },
+                { text: "Suggested prompts", description: "Four click-to-fill chips replace the empty state." },
+                { text: "Streaming-ready markup", description: "Each reply is an HTML fragment returned from a route." },
+                { text: "Typing indicator", description: "Three-dot bounce renders during the round-trip." },
+                { text: "Shift+Enter for newline", description: "Enter submits, Shift+Enter inserts a line break." },
+                { text: "Reset conversation", description: "Clear the thread without reloading the page." },
               ]}
             />
           </div>
@@ -511,6 +571,278 @@ const footerGroups = [
             { label: "Security", content: "Panels swap with the native hidden attribute — no hydration involved." },
           ]}
         />
+      </div>
+    </div>
+
+    <p class="mt-16 mb-6 text-center font-mono text-xs font-bold uppercase tracking-wide opacity-60">
+      Settings panel
+    </p>
+    <Card interactive={false} class="mx-auto max-w-3xl p-0!">
+      <Tabs
+        variant="contained"
+        tabs={[
+          { label: "Account" },
+          { label: "Security" },
+          { label: "Notifications" },
+          { label: "Billing" },
+        ]}
+      >
+        <Fragment slot="panel-0">
+          <div class="grid gap-4 sm:grid-cols-2">
+            <InputForm label="Display name" id="settings-account-name" name="name" value="Ava Stone" />
+            <InputForm label="Email" id="settings-account-email" name="email" type="email" value="ava@example.com" />
+            <InputForm label="Location" id="settings-account-location" name="location" placeholder="City, country" />
+            <Select
+              label="Timezone"
+              id="settings-account-tz"
+              name="timezone"
+              value="utc-5"
+              options={[
+                { label: "Pacific (UTC−8)", value: "utc-8" },
+                { label: "Mountain (UTC−7)", value: "utc-7" },
+                { label: "Central (UTC−6)", value: "utc-6" },
+                { label: "Eastern (UTC−5)", value: "utc-5" },
+                { label: "Atlantic (UTC−4)", value: "utc-4" },
+              ]}
+            />
+          </div>
+          <div class="mt-6 flex justify-end gap-3">
+            <Button variant="ghost">Cancel</Button>
+            <Button>Save changes</Button>
+          </div>
+        </Fragment>
+
+        <Fragment slot="panel-1">
+          <div class="space-y-4">
+            <InputForm
+              label="Current password"
+              id="settings-security-current"
+              name="current"
+              type="password"
+              autocomplete="current-password"
+            />
+            <div class="grid gap-4 sm:grid-cols-2">
+              <InputForm
+                label="New password"
+                id="settings-security-new"
+                name="new"
+                type="password"
+                autocomplete="new-password"
+                helpText="At least 12 characters."
+              />
+              <InputForm
+                label="Confirm new password"
+                id="settings-security-confirm"
+                name="confirm"
+                type="password"
+                autocomplete="new-password"
+              />
+            </div>
+            <div class="border-t-2 border-ink pt-4">
+              <Checkbox
+                id="settings-security-2fa"
+                name="2fa"
+                label="Require two-factor authentication"
+                description="All members will need an authenticator app on next login."
+                checked
+              />
+            </div>
+            <div class="flex justify-end">
+              <Button>Update password</Button>
+            </div>
+          </div>
+        </Fragment>
+
+        <Fragment slot="panel-2">
+          <CheckboxGroup
+            legend="Email me about…"
+            name="settings-notifications"
+            options={[
+              { value: "mentions", label: "Mentions and replies", description: "When someone @s you or replies to your comment.", checked: true },
+              { value: "assignments", label: "Assignments", description: "When you're added to a task or project.", checked: true },
+              { value: "deploys", label: "Deploy results", description: "Success and failure notifications from your projects.", checked: true },
+              { value: "weekly", label: "Weekly digest", description: "A short Monday recap of activity in your workspaces." },
+              { value: "marketing", label: "Product news", description: "Major releases and feature announcements from us." },
+            ]}
+          />
+          <div class="mt-6 flex justify-end">
+            <Button variant="outline">Save preferences</Button>
+          </div>
+        </Fragment>
+
+        <Fragment slot="panel-3">
+          <div class="space-y-4">
+            <div class="flex items-start justify-between gap-4 border-2 border-ink p-4">
+              <div>
+                <p class="font-heading font-bold">Pro plan</p>
+                <p class="mt-1 text-sm text-ink/70">Renews on Oct 14, 2026 · 12 seats</p>
+              </div>
+              <span class="border-2 border-ink bg-green px-3 py-1 font-mono text-xs font-bold uppercase shadow-brutal-sm">
+                Active
+              </span>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <InputForm label="Card number" id="settings-billing-card" name="card" placeholder="4242 4242 4242 4242" />
+              <InputForm label="Postal code" id="settings-billing-zip" name="zip" placeholder="94110" />
+            </div>
+            <div class="flex flex-wrap items-center justify-between gap-3 border-t-2 border-ink pt-4">
+              <a href="#" class="text-sm font-semibold underline decoration-2 underline-offset-4">Download invoices</a>
+              <div class="flex gap-2">
+                <Button variant="ghost" size="sm">Cancel plan</Button>
+                <Button size="sm">Update card</Button>
+              </div>
+            </div>
+          </div>
+        </Fragment>
+      </Tabs>
+    </Card>
+
+    <div class="mt-10 grid gap-10 lg:grid-cols-5">
+      <div class="lg:col-span-3">
+        <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide opacity-60">Pricing comparison</p>
+        <Card interactive={false} class="p-0!">
+          <Tabs
+            variant="pill"
+            tabs={[
+              { label: "Free" },
+              { label: "Pro" },
+              { label: "Team" },
+              { label: "Enterprise" },
+            ]}
+          >
+            <Fragment slot="panel-0">
+              <div class="grid gap-6 sm:grid-cols-[1fr_auto] sm:items-end">
+                <div>
+                  <p class="font-mono text-xs font-bold uppercase tracking-wide text-ink/60">Free</p>
+                  <p class="mt-1 font-display text-4xl font-extrabold">$0<span class="text-base font-medium text-ink/60">/mo</span></p>
+                  <p class="mt-2 text-sm text-ink/70">For exploring the theme and personal projects.</p>
+                </div>
+                <Button variant="outline">Get started</Button>
+              </div>
+              <List
+                class="mt-6"
+                variant="check"
+                items={[
+                  { text: "All 40+ components", description: "Buttons, cards, forms, overlays, blocks." },
+                  { text: "Light + dark themes", description: "OKLCH tokens, all six accents." },
+                  { text: "Single project", description: "One site, one domain." },
+                ]}
+              />
+            </Fragment>
+
+            <Fragment slot="panel-1">
+              <div class="grid gap-6 sm:grid-cols-[1fr_auto] sm:items-end">
+                <div>
+                  <p class="font-mono text-xs font-bold uppercase tracking-wide text-ink/60">Pro</p>
+                  <p class="mt-1 font-display text-4xl font-extrabold">$24<span class="text-base font-medium text-ink/60">/mo</span></p>
+                  <p class="mt-2 text-sm text-ink/70">For solo builders shipping real products.</p>
+                </div>
+                <Button>Choose Pro</Button>
+              </div>
+              <List
+                class="mt-6"
+                variant="check"
+                items={[
+                  { text: "Everything in Free", description: "Components, themes, blocks." },
+                  { text: "Up to 5 projects", description: "Commercial use allowed." },
+                  { text: "Premium blocks", description: "Pricing, testimonials, FAQ, blog index." },
+                  { text: "Email support", description: "Replies within 1 business day." },
+                ]}
+              />
+            </Fragment>
+
+            <Fragment slot="panel-2">
+              <div class="grid gap-6 sm:grid-cols-[1fr_auto] sm:items-end">
+                <div>
+                  <p class="font-mono text-xs font-bold uppercase tracking-wide text-ink/60">Team</p>
+                  <p class="mt-1 font-display text-4xl font-extrabold">$96<span class="text-base font-medium text-ink/60">/mo</span></p>
+                  <p class="mt-2 text-sm text-ink/70">For small teams working in the same codebase.</p>
+                </div>
+                <Button variant="secondary">Choose Team</Button>
+              </div>
+              <List
+                class="mt-6"
+                variant="check"
+                items={[
+                  { text: "Everything in Pro", description: "All features and components." },
+                  { text: "Up to 12 seats", description: "Per-seat billing, shared style guide." },
+                  { text: "Figma library", description: "Tokens, components, and example screens." },
+                  { text: "Shared workspace", description: "One source of truth across designers and devs." },
+                ]}
+              />
+            </Fragment>
+
+            <Fragment slot="panel-3">
+              <div class="grid gap-6 sm:grid-cols-[1fr_auto] sm:items-end">
+                <div>
+                  <p class="font-mono text-xs font-bold uppercase tracking-wide text-ink/60">Enterprise</p>
+                  <p class="mt-1 font-display text-4xl font-extrabold">Custom</p>
+                  <p class="mt-2 text-sm text-ink/70">For org-wide rollouts with compliance needs.</p>
+                </div>
+                <Button variant="success">Contact sales</Button>
+              </div>
+              <List
+                class="mt-6"
+                variant="check"
+                items={[
+                  { text: "Everything in Team", description: "All features, plus custom contracts." },
+                  { text: "Unlimited seats", description: "Volume pricing and SSO." },
+                  { text: "Custom theme tokens", description: "Bring your own brand into the same components." },
+                  { text: "Dedicated support", description: "Slack channel and named CSM." },
+                ]}
+              />
+            </Fragment>
+          </Tabs>
+        </Card>
+      </div>
+
+      <div class="lg:col-span-2">
+        <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide opacity-60">Code preview</p>
+        <Card interactive={false} class="p-0!">
+          <Tabs
+            variant="underline"
+            tabs={[
+              { label: "Install" },
+              { label: "Usage" },
+              { label: "Props" },
+            ]}
+          >
+            <Fragment slot="panel-0">
+              <Terminal
+                filename="terminal"
+                code={`pnpm add astro neubrutal-theme
+pnpm astro add tailwind
+# drop the components into src/components/`}
+              />
+            </Fragment>
+            <Fragment slot="panel-1">
+              <Terminal
+                filename="hero.astro"
+                code={`---
+import Button from "../components/Button/Button.astro";
+---
+<section class="border-[3px] border-ink bg-yellow p-10 shadow-brutal-lg">
+  <h1 class="font-display text-5xl font-extrabold uppercase">Ship loud.</h1>
+  <Button href="/docs" class="mt-6">Read the docs</Button>
+</section>`}
+              />
+            </Fragment>
+            <Fragment slot="panel-2">
+              <Terminal
+                filename="Button.astro"
+                code={`interface Props {
+  variant?: "primary" | "secondary" | "outline" | "ghost"
+           | "borderless" | "danger" | "success" | "warning";
+  size?: "sm" | "md" | "lg";
+  as?: "a" | "button";
+  href?: string;
+  type?: "button" | "submit" | "reset";
+  class?: string;
+}`}
+              />
+            </Fragment>
+          </Tabs>
+        </Card>
       </div>
     </div>
   </ShowcaseSection>
@@ -731,23 +1063,424 @@ const footerGroups = [
         </form>
       </Card>
     </div>
+
+    <p class="mt-16 mb-6 text-center font-mono text-xs font-bold uppercase tracking-wide opacity-60">
+      Real-world forms
+    </p>
+    <div class="grid gap-8 lg:grid-cols-2">
+      <Card interactive={false} class="p-0!">
+        <form id="login-form" class="flex flex-col gap-5 p-8">
+          <div>
+            <span class="inline-block border-2 border-ink bg-blue px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide shadow-brutal-sm">
+              Sign in
+            </span>
+            <h3 class="mt-3 font-heading text-2xl font-bold">Welcome back</h3>
+            <p class="mt-1 text-sm text-ink/70">Use your work email to access your team's workspace.</p>
+          </div>
+
+          <InputForm
+            label="Email"
+            id="login-email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            placeholder="you@company.com"
+            required
+          />
+
+          <div>
+            <InputForm
+              label="Password"
+              id="login-password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              placeholder="••••••••"
+              required
+            />
+            <div class="mt-2 flex items-center justify-between text-sm">
+              <Checkbox id="login-remember" name="remember" label="Remember me for 30 days" />
+              <a href="#" class="font-semibold underline decoration-2 underline-offset-4">Forgot?</a>
+            </div>
+          </div>
+
+          <Button type="submit" class="w-full justify-center"> Sign in </Button>
+
+          <div class="relative my-2 flex items-center text-xs uppercase tracking-wide text-ink/40">
+            <span class="flex-1 border-t-2 border-ink/20"></span>
+            <span class="px-3">or</span>
+            <span class="flex-1 border-t-2 border-ink/20"></span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <Button type="button" variant="outline" class="justify-center">Continue with GitHub</Button>
+            <Button type="button" variant="outline" class="justify-center">Continue with Google</Button>
+          </div>
+        </form>
+      </Card>
+
+      <Card interactive={false} class="p-0!">
+        <form id="contact-form" class="flex flex-col gap-5 p-8">
+          <div>
+            <span class="inline-block border-2 border-ink bg-pink px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide shadow-brutal-sm">
+              Contact
+            </span>
+            <h3 class="mt-3 font-heading text-2xl font-bold">Get in touch</h3>
+            <p class="mt-1 text-sm text-ink/70">Bug reports, partnership ideas, or just to say hi.</p>
+          </div>
+
+          <div class="grid gap-5 sm:grid-cols-2">
+            <InputForm label="Your name" id="contact-name" name="name" autocomplete="name" required />
+            <InputForm label="Email" id="contact-email" name="email" type="email" autocomplete="email" required />
+          </div>
+
+          <Select
+            label="What's this about?"
+            id="contact-topic"
+            name="topic"
+            placeholder="Pick a topic"
+            options={[
+              { label: "Bug report", value: "bug" },
+              { label: "Feature request", value: "feature" },
+              { label: "Partnership", value: "partnership" },
+              { label: "Press inquiry", value: "press" },
+              { label: "Something else", value: "other" },
+            ]}
+            required
+          />
+
+          <TextArea
+            label="Message"
+            id="contact-message"
+            name="message"
+            placeholder="Tell us a bit more…"
+            helpText="Markdown supported. Don't share passwords or secrets here."
+            required
+          />
+
+          <RadioGroup
+            legend="Response preference"
+            name="contact-response"
+            value="email"
+            options={[
+              { label: "Email me back", value: "email" },
+              { label: "No reply needed", value: "none" },
+            ]}
+          />
+
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <Checkbox
+              id="contact-copy"
+              name="copy"
+              label="Send me a copy"
+              description="A confirmation lands in your inbox."
+            />
+            <Button type="submit">Send message</Button>
+          </div>
+        </form>
+      </Card>
+    </div>
+
+    <p class="mt-16 mb-6 text-center font-mono text-xs font-bold uppercase tracking-wide opacity-60">
+      Profile settings
+    </p>
+    <Card interactive={false} class="mx-auto max-w-3xl p-0!">
+      <form id="profile-form" class="flex flex-col gap-6 p-8">
+        <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+          <div
+            class="flex size-20 shrink-0 items-center justify-center border-[3px] border-ink bg-yellow font-display text-2xl font-extrabold uppercase shadow-brutal-sm"
+            aria-hidden="true"
+          >
+            AS
+          </div>
+          <div class="flex-1">
+            <h3 class="font-heading text-xl font-bold">Profile</h3>
+            <p class="mt-1 text-sm text-ink/70">This is what shows up on your posts and replies.</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <Button type="button" variant="outline" size="sm">Upload avatar</Button>
+              <Button type="button" variant="ghost" size="sm">Remove</Button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          <InputForm label="Display name" id="profile-name" name="name" value="Ava Stone" required />
+          <InputForm label="Handle" id="profile-handle" name="handle" value="@ava" helpText="Letters, numbers, dashes." />
+          <InputForm
+            label="Email"
+            id="profile-email"
+            name="email"
+            type="email"
+            value="ava@example.com"
+            autocomplete="email"
+            required
+          />
+          <Select
+            label="Role"
+            id="profile-role"
+            name="role"
+            value="designer"
+            options={[
+              { label: "Designer", value: "designer" },
+              { label: "Engineer", value: "engineer" },
+              { label: "Founder", value: "founder" },
+              { label: "PM", value: "pm" },
+              { label: "Other", value: "other" },
+            ]}
+          />
+        </div>
+
+        <TextArea
+          label="Bio"
+          id="profile-bio"
+          name="bio"
+          value="Building loud interfaces. Ex-academia, current-coast."
+          helpText="Up to 280 characters."
+        >
+          <Fragment slot="actions">
+            <span class="text-xs text-ink/60" data-bio-count>62 / 280</span>
+            <Button type="reset" variant="ghost" size="sm">Discard</Button>
+            <Button type="submit" size="sm">Save profile</Button>
+          </Fragment>
+        </TextArea>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 border-t-2 border-ink pt-4">
+          <p class="text-sm text-ink/60">Changes are saved to your account immediately.</p>
+          <div class="flex gap-2">
+            <Button type="button" variant="danger" size="sm">Delete account</Button>
+            <Button type="submit" size="sm">Save changes</Button>
+          </div>
+        </div>
+      </form>
+    </Card>
   </ShowcaseSection>
 
   <script>
-    // Demo-only: the registration form has nowhere real to submit, so show
-    // a success toast instead — a small proof that Forms and Toast compose.
-    document.getElementById("signup-form")?.addEventListener("submit", (event) => {
-      event.preventDefault();
-      window.showToast?.({
-        title: "Account created",
-        description: "Check your inbox to confirm your email.",
-        variant: "success",
+    // Demo-only handlers for the four showcase forms. The forms have nowhere
+    // real to submit, so each one fires a toast that matches its context.
+    function wireForm(id: string, toast: { title: string; description: string; variant: "success" | "default" }) {
+      document.getElementById(id)?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        window.showToast?.(toast);
       });
+    }
+    wireForm("signup-form", {
+      title: "Account created",
+      description: "Check your inbox to confirm your email.",
+      variant: "success",
     });
+    wireForm("login-form", {
+      title: "Welcome back, Ava",
+      description: "Signing you in…",
+      variant: "default",
+    });
+    wireForm("contact-form", {
+      title: "Message sent",
+      description: "We'll reply within 1 business day.",
+      variant: "success",
+    });
+    wireForm("profile-form", {
+      title: "Profile saved",
+      description: "Your changes are live.",
+      variant: "success",
+    });
+
+    // Bio character counter — only one element, no need for a shared script.
+    const bio = document.getElementById("profile-bio") as HTMLTextAreaElement | null;
+    const counter = document.querySelector("[data-bio-count]");
+    if (bio && counter) {
+      const max = 280;
+      const update = () => {
+        counter.textContent = `${bio.value.length} / ${max}`;
+      };
+      bio.addEventListener("input", update);
+      update();
+    }
+
+    // Filterable table: live-filter rows by the search input. The data-search
+    // attribute on each row holds a lowercased haystack of every searchable
+    // field, so the filter is just an indexOf check — no JSON parsing.
+    const filterInput = document.getElementById("filter-rows") as HTMLInputElement | null;
+    const filterTable = document.querySelector<HTMLElement>("[data-filterable-table]");
+    const filterCount = document.querySelector<HTMLElement>("[data-filter-count]");
+    const filterEmpty = document.querySelector<HTMLElement>("[data-filter-empty]");
+    if (filterInput && filterTable && filterCount && filterEmpty) {
+      const rows = Array.from(filterTable.querySelectorAll<HTMLElement>("[data-filter-row]"));
+      const apply = () => {
+        const q = filterInput.value.trim().toLowerCase();
+        let visible = 0;
+        rows.forEach((row) => {
+          const hay = row.dataset.search ?? "";
+          const match = q === "" || hay.includes(q);
+          row.hidden = !match;
+          if (match) visible++;
+        });
+        filterCount.textContent = String(visible);
+        filterEmpty.hidden = visible !== 0;
+      };
+      filterInput.addEventListener("input", apply);
+      apply();
+    }
+
+    // Agent chat: deterministic hash of the input picks which canned reply
+    // to fetch from /api/chat/N. Same input → same reply, different inputs
+    // spread across the catalogue. The endpoint is prerendered, so each
+    // reply is a static file.
+    const agentForm = document.querySelector<HTMLFormElement>("[data-agent-form]");
+    const agentThread = document.querySelector<HTMLElement>("[data-agent-thread]");
+    if (agentForm && agentThread) {
+      const REPLY_COUNT = 6;
+      const hash = (s: string) => {
+        let h = 0;
+        for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+        return Math.abs(h);
+      };
+      const escape = (s: string) =>
+        s
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+
+      agentForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const input = agentForm.querySelector<HTMLTextAreaElement>("textarea[name='message']");
+        const text = (input?.value ?? "").trim();
+        if (!text) return;
+
+        agentForm.querySelector("[data-agent-empty]")?.setAttribute("hidden", "");
+
+        // Echo the user message first so the round-trip feels instant.
+        const userBubble = document.createElement("article");
+        userBubble.className = "flex items-start gap-3 justify-end";
+        userBubble.innerHTML = `<div class="min-w-0 flex-1 text-right">
+          <p class="text-xs text-ink/50"><span class="mr-1">just now</span> You</p>
+          <p class="mt-1 inline-block max-w-prose border-2 border-ink bg-yellow/40 px-3 py-2 text-sm text-left">${escape(text)}</p>
+        </div>
+        <div class="flex size-8 shrink-0 items-center justify-center border-2 border-ink bg-yellow font-mono text-xs font-bold shadow-brutal-sm">YOU</div>`;
+        agentThread.appendChild(userBubble);
+
+        const idx = hash(text) % REPLY_COUNT;
+        const reply = await fetch(`/api/chat/${idx}`).then((r) => r.text());
+        agentThread.querySelector("[data-typing]")?.remove();
+        agentThread.insertAdjacentHTML("beforeend", reply);
+        agentThread.scrollTop = agentThread.scrollHeight;
+        agentForm.reset();
+      });
+    }
   </script>
 
   <ShowcaseSection id="data" eyebrow="Components" title="Table, Progress & Alerts">
     <Table caption="Team members" columns={tableColumns} rows={tableRows} />
+
+    <div class="mt-12 grid gap-10 lg:grid-cols-2">
+      <div>
+        <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide opacity-60">Filterable</p>
+        <div class="overflow-x-auto border-[3px] border-ink bg-paper shadow-brutal">
+          <div class="flex items-center gap-3 border-b-[3px] border-ink bg-yellow px-4 py-3">
+            <InputFormSearch
+              label="Filter rows"
+              id="filter-rows"
+              placeholder="Filter by name, role, or status…"
+              buttonLabel="Filter"
+            />
+            <div class="ml-auto flex items-center gap-2 font-mono text-xs font-bold uppercase">
+              <span data-filter-count>{tableRows.length}</span> rows
+            </div>
+          </div>
+          <table class="w-full border-collapse text-left" data-filterable-table>
+            <thead>
+              <tr class="bg-ink text-paper">
+                <th scope="col" class="whitespace-nowrap px-4 py-3 font-mono text-xs font-bold uppercase tracking-wide">Name</th>
+                <th scope="col" class="whitespace-nowrap px-4 py-3 font-mono text-xs font-bold uppercase tracking-wide">Role</th>
+                <th scope="col" class="whitespace-nowrap px-4 py-3 font-mono text-xs font-bold uppercase tracking-wide">Status</th>
+                <th scope="col" class="whitespace-nowrap px-4 py-3 font-mono text-xs font-bold uppercase tracking-wide">Joined</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                [
+                  { name: "Ava Stone", role: "Design Lead", status: "Active", joined: "Mar 2022", tone: "green" as const },
+                  { name: "Marcus Lin", role: "Engineer", status: "Active", joined: "Jun 2023", tone: "green" as const },
+                  { name: "Priya Anand", role: "Product", status: "Invited", joined: "Sep 2025", tone: "blue" as const },
+                  { name: "Theo Brandt", role: "Engineer", status: "Suspended", joined: "Jan 2024", tone: "pink" as const },
+                  { name: "Lena Park", role: "Researcher", status: "Active", joined: "Aug 2024", tone: "green" as const },
+                  { name: "Diego Rivas", role: "Engineer", status: "Pending", joined: "Sep 2026", tone: "orange" as const },
+                  { name: "Hana Yamada", role: "Marketing", status: "Active", joined: "Nov 2024", tone: "green" as const },
+                  { name: "Owen Walsh", role: "Support", status: "Offboarding", joined: "Feb 2025", tone: "pink" as const },
+                ].map((row) => (
+                  <tr class="border-t-2 border-ink" data-filter-row data-search={`${row.name} ${row.role} ${row.status}`.toLowerCase()}>
+                    <td class="whitespace-nowrap px-4 py-3">{row.name}</td>
+                    <td class="whitespace-nowrap px-4 py-3">{row.role}</td>
+                    <td class="whitespace-nowrap px-4 py-3">
+                      <span class:list={[`inline-block border-2 border-ink-on-accent px-2 py-0.5 text-xs font-bold text-ink-on-accent uppercase bg-${row.tone}`]}>
+                        {row.status}
+                      </span>
+                    </td>
+                    <td class="whitespace-nowrap px-4 py-3 font-mono text-xs text-ink/70">{row.joined}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+          <p data-filter-empty class="hidden px-4 py-8 text-center text-sm text-ink/60">No rows match that filter.</p>
+        </div>
+      </div>
+
+      <div>
+        <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide opacity-60">Rich data</p>
+        <div class="overflow-x-auto border-[3px] border-ink bg-paper shadow-brutal">
+          <table class="w-full border-collapse text-left">
+            <thead>
+              <tr class="bg-ink text-paper">
+                <th scope="col" class="whitespace-nowrap px-4 py-3 font-mono text-xs font-bold uppercase tracking-wide">Member</th>
+                <th scope="col" class="whitespace-nowrap px-4 py-3 font-mono text-xs font-bold uppercase tracking-wide">Plan</th>
+                <th scope="col" class="whitespace-nowrap px-4 py-3 font-mono text-xs font-bold uppercase tracking-wide">Last seen</th>
+                <th scope="col" class="whitespace-nowrap px-4 py-3 text-right font-mono text-xs font-bold uppercase tracking-wide">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                [
+                  { name: "Ava Stone", accent: "yellow" as const, plan: "Pro", seen: "2 minutes ago", tone: "green" as const, online: true },
+                  { name: "Marcus Lin", accent: "blue" as const, plan: "Team", seen: "an hour ago", tone: "green" as const, online: false },
+                  { name: "Priya Anand", accent: "pink" as const, plan: "Free trial", seen: "yesterday", tone: "orange" as const, online: false },
+                  { name: "Theo Brandt", accent: "lavender" as const, plan: "Pro", seen: "3 days ago", tone: "pink" as const, online: false },
+                ].map((row) => (
+                  <tr class="border-t-2 border-ink">
+                    <td class="px-4 py-3">
+                      <div class="flex items-center gap-3">
+                        <Avatar name={row.name} accent={row.accent} size="sm" />
+                        <div>
+                          <p class="font-semibold">{row.name}</p>
+                          <p class="text-xs text-ink/60">ava@example.com</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-4 py-3">
+                      <span class="inline-block border-2 border-ink bg-paper px-2 py-0.5 text-xs font-bold uppercase">{row.plan}</span>
+                    </td>
+                    <td class="px-4 py-3 text-sm text-ink/70">
+                      <span class="inline-flex items-center gap-2">
+                        <span class:list={["inline-block size-2 border-2 border-ink", { "bg-green": row.online, "bg-paper": !row.online }[String(row.online)]]} aria-hidden="true"></span>
+                        {row.seen}
+                      </span>
+                    </td>
+                    <td class="px-4 py-3">
+                      <div class="flex justify-end gap-2">
+                        <Button size="sm" variant="outline">View</Button>
+                        <Button size="sm" variant="ghost">Edit</Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
     <div class="mt-10 flex justify-center">
       <Card interactive={false} class="w-full max-w-lg p-0!">
@@ -890,6 +1623,167 @@ const footerGroups = [
         </div>
       </CarouselSlide>
     </Carousel>
+  </ShowcaseSection>
+
+  <ShowcaseSection
+    id="reactivity"
+    eyebrow="Reactivity"
+    title="Server-driven, with HTMX"
+    description="Optional reactivity for the few components that need to move without a framework runtime — backed by prerendered endpoints under /api."
+  >
+    <script>
+      // HTMX powers the three demos below: a moving progress bar, toasts
+      // that fire on a timer, and a carousel that streams additional slides.
+      // It's imported once at the page level rather than globally so other
+      // pages don't pay for the bytes.
+      import "htmx.org";
+    </script>
+
+    <div class="grid gap-10 lg:grid-cols-3">
+      <div>
+        <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide opacity-60">Progress on demand</p>
+        <Card interactive={false} class="p-0!">
+          <div class="flex flex-col gap-5 p-6">
+            <p class="text-sm text-ink/70">
+              Click the button to advance a server-rendered progress bar. Each click hits a prerendered
+              <code class="font-mono text-xs">/api/progress/N</code> endpoint and HTMX swaps in the new fragment.
+            </p>
+
+            <div
+              hx-get="/api/progress/0"
+              hx-trigger="load"
+              hx-swap="outerHTML"
+            >
+              <div class="w-full border-2 border-ink bg-paper p-1 shadow-brutal-sm">
+                <div class="h-3 bg-blue" style="width: 0%"></div>
+              </div>
+              <p class="text-sm text-ink/50">Loading…</p>
+            </div>
+
+            <details class="border-2 border-ink p-3">
+              <summary class="cursor-pointer text-sm font-semibold">How this works</summary>
+              <p class="mt-2 text-sm text-ink/70">
+                <code class="font-mono text-xs">src/pages/api/progress/[v].ts</code> is a prerendered Astro API route
+                with <code class="font-mono text-xs">getStaticPaths</code> emitting one file per progress step
+                (0 → 8 → 18 → … → 100). Each fragment's button has <code class="font-mono text-xs">hx-get</code>
+                pointing at the next step, so HTMX walks the sequence with zero custom JS.
+              </p>
+            </details>
+          </div>
+        </Card>
+      </div>
+
+      <div>
+        <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide opacity-60">Toasts on a timer</p>
+        <Card interactive={false} class="p-0!">
+          <div class="flex flex-col gap-5 p-6">
+            <p class="text-sm text-ink/70">
+              Press start to receive a fresh toast every three seconds. Each one comes from a prerendered endpoint that
+              rotates through a sequence of canned messages.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                hx-get="/api/toast/0"
+                hx-trigger="click"
+                hx-swap="beforeend"
+                hx-target="#ht-toast-stream"
+                class="border-2 border-ink bg-yellow px-4 py-2 font-heading text-sm font-semibold shadow-brutal-sm hover:-translate-x-0.5 hover:-translate-y-0.5"
+              >
+                Start
+              </button>
+              <button
+                type="button"
+                onclick="document.querySelectorAll('#ht-toast-stream [role=status]').forEach((t) => t.remove())"
+                class="border-2 border-ink bg-paper px-4 py-2 font-heading text-sm font-semibold shadow-brutal-sm hover:bg-pink"
+              >
+                Clear
+              </button>
+              <span class="ml-auto font-mono text-xs uppercase text-ink/60">/api/toast/N</span>
+            </div>
+
+            <div
+              id="ht-toast-stream"
+              class="flex min-h-32 flex-col items-stretch gap-2 border-2 border-dashed border-ink/30 p-3"
+            >
+              <p class="self-center text-center text-sm text-ink/40">Toasts will land here.</p>
+            </div>
+
+            <details class="border-2 border-ink p-3">
+              <summary class="cursor-pointer text-sm font-semibold">How this works</summary>
+              <p class="mt-2 text-sm text-ink/70">
+                Each toast fragment includes a hidden button with
+                <code class="font-mono text-xs">hx-get="/api/toast/N+1"</code> and
+                <code class="font-mono text-xs">hx-trigger="every 3s"</code> — clicking <em>Start</em> appends the
+                first toast, and the hidden trigger inside it keeps appending the next one every 3 seconds. No timer,
+                no client state.
+              </p>
+            </details>
+          </div>
+        </Card>
+      </div>
+
+      <div>
+        <p class="mb-4 font-mono text-xs font-bold uppercase tracking-wide opacity-60">Streamed carousel</p>
+        <Card interactive={false} class="p-0!">
+          <div class="flex flex-col gap-5 p-6">
+            <p class="text-sm text-ink/70">
+              The track starts with three slides and asks the server for two more when you click
+              <em>Load more</em>. Each batch is HTML rendered by an Astro endpoint.
+            </p>
+
+            <div class="overflow-x-auto border-2 border-ink">
+              <div class="flex snap-x snap-mandatory" data-htmx-carousel>
+                <div class="w-full shrink-0 snap-start px-2 sm:w-1/2 lg:w-1/3">
+                  <div class="h-full border-[3px] border-ink bg-yellow p-4 shadow-brutal">
+                    <p class="font-heading text-base font-bold">"Slide one — server-driven."</p>
+                    <p class="mt-2 text-xs text-ink/70">— preloaded in HTML</p>
+                  </div>
+                </div>
+                <div class="w-full shrink-0 snap-start px-2 sm:w-1/2 lg:w-1/3">
+                  <div class="h-full border-[3px] border-ink bg-blue p-4 shadow-brutal">
+                    <p class="font-heading text-base font-bold">"Slide two — also preloaded."</p>
+                    <p class="mt-2 text-xs text-ink/70">— preloaded in HTML</p>
+                  </div>
+                </div>
+                <div class="w-full shrink-0 snap-start px-2 sm:w-1/2 lg:w-1/3">
+                  <div class="h-full border-[3px] border-ink bg-pink p-4 shadow-brutal">
+                    <p class="font-heading text-base font-bold">"Slide three — preloaded too."</p>
+                    <p class="mt-2 text-xs text-ink/70">— preloaded in HTML</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <button
+                type="button"
+                hx-get="/api/carousel/0"
+                hx-trigger="click"
+                hx-swap="beforeend"
+                hx-target="[data-htmx-carousel]"
+                class="border-2 border-ink bg-paper px-4 py-2 font-heading text-sm font-semibold shadow-brutal-sm hover:bg-green"
+              >
+                Load 2 more
+              </button>
+              <span class="font-mono text-xs uppercase text-ink/60">/api/carousel/N</span>
+            </div>
+
+            <details class="border-2 border-ink p-3">
+              <summary class="cursor-pointer text-sm font-semibold">How this works</summary>
+              <p class="mt-2 text-sm text-ink/70">
+                <code class="font-mono text-xs">src/pages/api/carousel/[i].ts</code> uses
+                <code class="font-mono text-xs">getStaticPaths</code> to prerender one file per batch. Each batch
+                fragment ends with a hidden trigger button whose
+                <code class="font-mono text-xs">hx-get</code> points at the next batch — click <em>Load 2 more</em>
+                once and the carousel keeps loading as you scroll.
+              </p>
+            </details>
+          </div>
+        </Card>
+      </div>
+    </div>
   </ShowcaseSection>
 
   <CTA

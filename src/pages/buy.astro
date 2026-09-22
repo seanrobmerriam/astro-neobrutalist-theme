@@ -1,0 +1,125 @@
+---
+// Stub destination for the primary "Buy Theme" CTA — wired everywhere on the
+// site, but a real purchase flow (Stripe checkout, license-fulfillment
+// service, signed download link) has to be wired up before this can ship.
+// Until that exists, this page is a clear "checkout not yet connected"
+// surface that:
+//
+//   1. confirms the click landed in the right place,
+//   2. tells the buyer what would happen next,
+//   3. gives them real alternative paths (pricing, contact, docs) so the
+//      dead-end still routes somewhere useful.
+//
+// Replace the placeholder alert banner with a real `data-testid`/checkout
+// integration when the backend exists.
+import LandingLayout from "../layouts/LandingLayout.astro";
+import Container from "../components/Container/Container.astro";
+import Card from "../components/Card/Card.astro";
+import Badge from "../components/Badge/Badge.astro";
+import Button from "../components/Button/Button.astro";
+import { plans } from "../config/plans";
+import { site } from "../config/site";
+
+const footerGroups = [
+  {
+    heading: "Product",
+    links: [
+      { label: "Landing", href: "/" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Docs", href: "/docs" },
+    ],
+  },
+  site.footerResources,
+];
+
+// Checkout isn't connected yet — exposing the reason front-and-center is the
+// honest version of pretending a successful purchase happened. The Banner
+// sits above the plan picker so the buyer reads it before anything that
+// looks like a confirmed order.
+const checkoutStatus = {
+  /** TODO: swap with the real `notConnected | ready` flag driven by your
+   * checkout integration (e.g. `import.meta.env.PUBLIC_CHECKOUT_ENABLED`). */
+  state: "stub" as const,
+  reason:
+    "Checkout isn't wired up yet. Browse the plans below — clicking a tier won't charge anything — and reach out on the Contact page when you're ready to buy.",
+};
+---
+
+<LandingLayout
+  title={`Buy ${site.name} — Theme checkout`}
+  description={`Purchase the ${site.name} Astro theme. Checkout is a stub — read the notice before picking a tier.`}
+  navLinks={site.nav}
+  navCtaLabel="Buy Theme"
+  navCtaHref="/buy"
+  footerGroups={footerGroups}
+>
+  <Container size="md" class="py-20">
+    <div class="mb-10 text-center">
+      <Badge label="Checkout" accent="orange" />
+      <h1 class="mt-4 text-balance font-display text-section-lg font-extrabold uppercase">
+        Buy {site.name}
+      </h1>
+      <p class="mx-auto mt-4 max-w-md text-pretty text-ink/70">
+        One-time purchase. Three license tiers. Pick the one that fits the project — no subscription.
+      </p>
+    </div>
+
+    {
+      checkoutStatus.state === "stub" && (
+        <div
+          role="status"
+          class="mb-12 border-[3px] border-ink-on-accent bg-yellow p-5 text-ink-on-accent shadow-brutal"
+        >
+          <p class="font-heading text-base font-bold uppercase tracking-wide">Heads up</p>
+          <p class="mt-2 text-pretty text-ink-on-accent/85">{checkoutStatus.reason}</p>
+        </div>
+      )
+    }
+
+    <h2 class="sr-only">Pick a license tier</h2>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        plans.map((plan) => (
+          <Card interactive={false}>
+            <div class="flex items-start justify-between gap-3">
+              <p class="font-heading text-lg font-bold uppercase tracking-wide">{plan.name}</p>
+              <Badge
+                label={`${plan.price}${plan.period ? ` ${plan.period}` : ""}`}
+                accent={plan.featured ? "pink" : "blue"}
+              />
+            </div>
+            {plan.description && <p class="mt-2 text-pretty text-ink/70">{plan.description}</p>}
+            <ul class="mt-4 flex flex-col gap-2 text-sm">
+              {plan.features.map((feature) => (
+                <li class="flex gap-2">
+                  <span aria-hidden="true" class="font-mono font-bold text-green">
+                    ✓
+                  </span>
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+            <Button
+              href={checkoutStatus.state === "stub" ? "/contact" : `/checkout/${plan.name.toLowerCase()}`}
+              variant={plan.featured ? "primary" : "outline"}
+              class="mt-6 w-full justify-center"
+            >
+              {checkoutStatus.state === "stub" ? `Ask about ${plan.name}` : `Buy ${plan.name}`}
+            </Button>
+          </Card>
+        ))
+      }
+    </div>
+
+    <div class="mt-12 text-center text-sm text-ink/60">
+      <p>
+        Comparing tiers? <a href="/pricing" class="font-semibold text-ink underline decoration-2 underline-offset-4"
+          >See the full pricing breakdown</a
+        > — or <a
+          href="/docs"
+          class="font-semibold text-ink underline decoration-2 underline-offset-4">browse the docs</a
+        > before you commit.
+      </p>
+    </div>
+  </Container>
+</LandingLayout>

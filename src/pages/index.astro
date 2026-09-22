@@ -49,6 +49,9 @@ import Gallery from "../components/Gallery/Gallery.astro";
 import Terminal from "../components/Terminal/Terminal.astro";
 import buttonSource from "../components/Button/Button.astro?raw";
 
+import WTerminal from "../blocks/Terminal/WTermBash.astro";
+import buttonCode from '../components/Button/Button.astro?raw';
+
 const accentHex: Record<string, string> = {
   yellow: "#FFD23F",
   pink: "#FF6B6B",
@@ -57,6 +60,20 @@ const accentHex: Record<string, string> = {
   orange: "#FFA552",
   lavender: "#BBA9FA",
 };
+
+// Static class-name map for the "Everything you get" stat numbers. The
+// dynamic `text-${accent}` template-literal approach silently drops the
+// classes Tailwind v4's JIT scanner can't see at build time — three of the
+// six rendered black. Using a literal lookup here keeps every class name
+// visible to the scanner.
+const accentTextClasses = [
+  "text-yellow",
+  "text-pink",
+  "text-blue",
+  "text-green",
+  "text-orange",
+  "text-lavender",
+] as const;
 
 function placeholderImage(label: string, hex: string) {
   const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='400' height='400' fill='${hex}'/><text x='50%' y='53%' font-family='monospace' font-size='120' font-weight='700' fill='black' text-anchor='middle' dominant-baseline='middle'>${label}</text></svg>`;
@@ -70,31 +87,6 @@ const galleryImages = [
   { src: placeholderImage("04", accentHex.green), alt: "Green poster tile 04" },
   { src: placeholderImage("05", accentHex.orange), alt: "Orange poster tile 05" },
   { src: placeholderImage("06", accentHex.lavender), alt: "Lavender poster tile 06" },
-];
-
-const featureItems = [
-  {
-    title: "Zero-JS by default",
-    description: "Every component ships as static HTML — interactivity is opt-in and minimal.",
-  },
-  {
-    title: "Tokenized aesthetic",
-    description:
-      "Borders, shadows, and accents are Tailwind v4 theme tokens — change the vibe without rebuilding components.",
-  },
-  {
-    title: "Full component set",
-    description: "Buttons to drawers, tables to toasts — everything a real product needs is here.",
-  },
-  {
-    title: "Composable blocks",
-    description: "Hero, navbar, CTA, and feature grid blocks are built from the same primitives you get.",
-  },
-  {
-    title: "Accessible by construction",
-    description: "Focus rings, contrast, and semantics are part of the design system, not an afterthought.",
-  },
-  { title: "Astro-native", description: "Typed props, slots, and scoped styles — no framework runtime required." },
 ];
 
 const tableColumns = [
@@ -115,24 +107,69 @@ const navLinks = [
   { label: "Forms", href: "#forms" },
   { label: "Overlays", href: "#overlays" },
   { label: "Docs", href: "/docs" },
-  { label: "Get it", href: "#cta-block" },
+];
+
+// Theme features highlighted in the "Why this theme" section — every one of
+// these maps to a real, demonstrable surface on this page or in the docs,
+// not invented copy. If a feature is added or removed here, the matching
+// demo block below should be updated so the two don't drift.
+const themeFeatures = [
+  {
+    title: "40+ typed Astro components",
+    description: "Buttons, cards, forms, modals, tables, tabs — all typed, slotted, and copy-paste ready.",
+  },
+  {
+    title: "Tailwind v4 @theme tokens",
+    description:
+      "Six categorical accents, two inverting neutrals, and a three-tier hard-offset shadow scale — every component reads from the same tokens.",
+  },
+  {
+    title: "Zero client JS by default",
+    description:
+      "Pages ship as static HTML. Interactivity (modals, drawers, tabs, gallery) is opt-in via shared data-* attributes.",
+  },
+  {
+    title: "Composable blocks & layouts",
+    description: "Hero, Navbar, Pricing, FAQ, CTA, Footer — blocks built from the same primitives you get.",
+  },
+  {
+    title: "Accessible by construction",
+    description: "Visible focus rings, contrast-checked tokens, semantic HTML, keyboard-friendly overlays — by default.",
+  },
+  {
+    title: "Self-hosted fonts",
+    description:
+      "Display, body, and mono fonts are loaded via Astro's Fonts API — no runtime request to Google, no render-blocking external CSS.",
+  },
+];
+
+// What's actually in the theme — surfaces the buyer is buying, not invented
+// filler. Counts are illustrative placeholders; the README and the showcase
+// below are the real source of truth and should be kept in sync.
+const whatsInside = [
+  { title: "Components", count: "40+" },
+  { title: "Blocks", count: "7" },
+  { title: "Layouts", count: "3" },
+  { title: "Pages", count: "15" },
+  { title: "Color tokens", count: "9" },
+  { title: "Shadow tiers", count: "4" },
 ];
 
 const footerGroups = [
   {
-    heading: "Components",
+    heading: "Theme",
     links: [
-      { label: "Buttons", href: "#buttons" },
+      { label: "Components", href: "#buttons" },
       { label: "Forms", href: "#forms" },
       { label: "Overlays", href: "#overlays" },
     ],
   },
   {
-    heading: "Blocks",
+    heading: "Buy",
     links: [
-      { label: "Hero", href: "#top" },
-      { label: "Feature grid", href: "#features" },
-      { label: "CTA", href: "#cta-block" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Buy Theme", href: "/buy" },
+      { label: "Docs", href: "/docs" },
     ],
   },
   site.footerResources,
@@ -143,28 +180,54 @@ const footerGroups = [
   title={`${site.name} — Astro Neubrutalist Theme`}
   description="A complete neubrutalist design system for Astro: components, blocks, and layouts built with Tailwind CSS v4."
   navLinks={navLinks}
-  navCtaLabel="Get the theme"
-  navCtaHref="#cta-block"
+  navCtaLabel="Buy Theme"
+  navCtaHref="/buy"
   footerGroups={footerGroups}
 >
   <Hero
     id="top"
     eyebrow="Astro + Tailwind CSS v4"
-    title="Neubrutalism, fully assembled. Fully Astro."
-    subtitle="Thick borders, hard shadows, and flat color — a complete component library, block set, and layout, ready to build on."
-    primaryCta={{ label: "Browse components", href: "#buttons" }}
-    secondaryCta={{ label: "Read the docs", href: "https://docs.astro.build" }}
+    title="The neubrutalist theme with the components built in."
+    subtitle="Thick borders, hard shadows, and flat color — a complete Astro component library, block set, and layout. Pick a tier, copy the components, ship."
+    primaryCta={{ label: "Buy Theme", href: "/buy" }}
+    secondaryCta={{ label: "Browse components", href: "#buttons" }}
   />
 
   <FeatureGrid
     id="features"
-    eyebrow="Why this theme"
-    title="Everything a real product needs"
-    description="Every piece below is a typed Astro component — copy it, compose it, or use it as-is."
-    features={featureItems}
+    eyebrow="Theme features"
+    title="Why this theme"
+    description="The features that come with every license tier — typed props, theme tokens, and zero-JS interactivity, all wired up out of the box."
+    features={themeFeatures}
   />
 
-  <ShowcaseSection id="gallery" eyebrow="Components" title="Gallery">
+  <ShowcaseSection
+    id="inside"
+    eyebrow="What's in the box"
+    title="Everything you get"
+    description="The actual surfaces that ship with the theme — counts are illustrative, scroll down to see every one."
+    tone="paper"
+  >
+    <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+      {
+        whatsInside.map((item, i) => (
+          <li class="border-[3px] border-ink bg-paper p-5 shadow-brutal-sm">
+            <p class:list={["font-display text-4xl font-extrabold uppercase", accentTextClasses[i % accentTextClasses.length]]}>
+              {item.count}
+            </p>
+            <p class="mt-1 font-heading text-sm font-bold uppercase tracking-wide text-ink/80">{item.title}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </ShowcaseSection>
+
+  <ShowcaseSection
+    id="gallery"
+    eyebrow="Components"
+    title="Gallery"
+    description="A responsive image grid with keyboard-navigable lightbox — open any tile to view it full-size, then arrow through the rest without leaving the dialog."
+  >
     <Gallery images={galleryImages} columns={3} />
   </ShowcaseSection>
 
@@ -845,6 +908,15 @@ import Button from "../components/Button/Button.astro";
         </Card>
       </div>
     </div>
+  </ShowcaseSection>
+
+  <ShowcaseSection
+    id="WTerminal"
+    eyebrow="Components"
+    title="Terminal"
+    description="A robust terminal component with a psuedo-bash prompt, ready to display code or command output in a familiar interface. Renders directly to the DOM — native text selection, copy/paste, find, and accessibility are all included."
+  >
+    <WTerminal code={buttonSource} filename="Button.astro" />
   </ShowcaseSection>
 
   <ShowcaseSection
@@ -1788,10 +1860,10 @@ import Button from "../components/Button/Button.astro";
 
   <CTA
     id="cta-block"
-    title="Build your next project loud."
-    description="Every component, block, and layout on this page is yours to copy."
-    primaryCta={{ label: "Read the docs", href: "https://docs.astro.build" }}
-    secondaryCta={{ label: "Star on GitHub", href: site.social.github }}
+    title="Ready to build loud?"
+    description="Pick a license tier, get the source, and ship a complete neubrutalist product on day one."
+    primaryCta={{ label: "Buy Theme", href: "/buy" }}
+    secondaryCta={{ label: "Read the docs", href: "/docs" }}
     accent="lavender"
   />
 

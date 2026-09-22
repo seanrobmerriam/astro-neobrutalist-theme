@@ -1,0 +1,87 @@
+---
+
+---
+
+<!-- Element where the interactive terminal will attach -->
+<div id="wterm-sandbox"></div>
+
+<style>
+  #wterm-sandbox {
+    width: 100%;
+    height: 480px;
+    background-color: var(--color-blue);
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: calc(100% + 4pt);
+    border-radius: 0;
+    border: 3px solid var(--color-ink);
+    box-shadow: 8px 8px 0 0 var(--color-ink);
+    overflow: hidden;
+    padding: 10px;
+    --term-cursor: var(--color-ink);
+  }
+</style>
+
+<script>
+  import { WTerm } from "@wterm/dom";
+  import { BashShell } from "@wterm/just-bash";
+  import { GhosttyCore } from "@wterm/ghostty";
+  import "@wterm/dom/src/terminal.css";
+
+  async function initSandbox() {
+    const container = document.getElementById("wterm-sandbox");
+    if (!container) return;
+
+    // 1. Setup an in-memory virtual filesystem for the user to explore
+    const shell = new BashShell({
+      files: {
+        "/home/user/welcome.txt": "Welcome to the Vercel wterm Astro Sandbox!\nTry executing standard terminal commands like 'ls' or 'cat welcome.txt'.\n",
+        "/home/user/projects/demo.js": "console.log('Hello from a virtual file!');\n",
+        "/home/user/about.md": "# Astro + Zig WASM\nThis terminal core compiles Zig code straight down to WebAssembly for native performance in the browser.\n"
+      },
+      greeting: "Type 'help' or 'ls' to see available options.\r\n\r\n",
+      // Bold-yellow prompt with a black "outline" via inverse-video background,
+      // then the default bold-blue cwd + reset. Inverse (ANSI 7) flips fg/bg
+      // on the affected cells, so the user@wterm: text renders as black text
+      // on a yellow block — a neubrutalist-readable highlight that survives
+      // the terminal's 24-bit color core without needing CSS text-shadow.
+      prompt: (cwd: string) => {
+        const black = "\x1b[30m";
+        const reset = "\x1b[0m";
+        const display = cwd === "/home/user" ? "~" : cwd;
+        return `${black}user@wterm${reset}:${display}$ `;
+      },
+    });
+
+    // 2. Load the libghostty-backed core for full VT coverage, including the
+    // SGR attributes (italic, inverse) used by the prompt above. Wasm is
+    // served from /public/ghostty-vt.wasm because the package's default
+    // new URL(..., import.meta.url) pattern doesn't survive Astro's Vite
+    // build — see the @wterm/ghostty docs ("Bundlers" section).
+    const core = await GhosttyCore.load({ wasmPath: "/ghostty-vt.wasm" });
+
+    // 3. Initialize the DOM terminal engine with a blinking cursor
+    const term = new WTerm(container, {
+      core,
+      cursorBlink: true,
+      // Pipe keyboard inputs immediately into the virtual Bash machine
+      onData: (data) => {
+        shell.handleInput(data);
+      }
+    });
+
+    await term.init();
+
+    // 4. Bind the shell out-stream to write directly to the screen layout
+    shell.attach((data: string) => {
+      term.write(data);
+    });
+  }
+
+  // Ensure initialization fires cleanly in module environments
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSandbox);
+  } else {
+    initSandbox();
+  }
+</script>

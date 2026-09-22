@@ -46,17 +46,49 @@ export default defineConfig({
       },
     },
     {
-      provider: fontProviders.google(),
-      name: "Inter",
-      cssVariable: "--font-inter",
-      weights: ["400", "500", "600"],
+      provider: fontProviders.local(),
+      name: "Vaneska",
+      cssVariable: "--font-vaneska",
+      fallbacks: ["sans-serif"],
+      options: {
+        variants: [
+          {
+            weight: 400,
+            style: "normal",
+            src: ["./src/assets/fonts/Vaneska.woff"],
+          },
+        ],
+      },
     },
     {
-      provider: fontProviders.google(),
-      name: "Space Mono",
-      cssVariable: "--font-space-mono",
-      weights: ["400", "700"],
+      provider: fontProviders.local(),
+      name: "Gorga Grotesque",
+      cssVariable: "--font-gorga-grotesque",
+      fallbacks: ["sans-serif"],
+      options: {
+        variants: [
+          {
+            weight: 700,
+            style: "normal",
+            src: ["./src/assets/fonts/GorgaGrotesque-Bold.woff2"],
+          },
+        ],
+      },
+    },
+    {
+      provider: fontProviders.local(),
+      name: "TBJ Terminal Mono",
+      cssVariable: "--font-tbj-terminal-mono",
       fallbacks: ["monospace"],
+      options: {
+        variants: [
+          {
+            weight: 500,
+            style: "normal",
+            src: ["./src/assets/fonts/TBJTerminalMono-Medium.woff2"],
+          },
+        ],
+      },
     },
   ],
 });

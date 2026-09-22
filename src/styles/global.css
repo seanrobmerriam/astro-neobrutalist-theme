@@ -2,22 +2,24 @@
 
 @theme {
   /* Typography — display/heading/body/mono, per the neubrutalist type system.
-     Clariza Sparks is the theme's signature font: the only local, bundled
-     face, so it carries the loudest roles (display + heading). It ships as
-     a single weight — bold text in these roles relies on the browser's
-     synthesized bold. Body stays on Inter for small-size legibility.
+     Display uses Clariza Sparks (bundled locally): the theme's signature
+     face, reserved for the loudest role. Heading (h2–h4) uses Vaneska, also
+     bundled locally. Body uses Gorga Grotesque Bold — a single bold weight
+     keeps everything on-brand and matches the squared-off, high-contrast
+     typography. Mono (used for terminal blocks and code-like chrome) uses
+     TBJ Terminal Mono Medium.
 
-     All three are wired up via Astro's Fonts API (astro.config.mjs `fonts`),
+     All four are wired up via Astro's Fonts API (astro.config.mjs `fonts`),
      not a hand-written @font-face — Astro generates the @font-face rules and
-     self-hosts the Google-provided families at build time. The --font-* CSS
-     variables referenced below (--font-clariza-sparks, --font-inter,
-     --font-space-mono) come from that config's `cssVariable` fields and are
-     only defined on pages that render the matching <Font /> tag in
+     self-hosts the files. The --font-* CSS variables referenced below
+     (--font-clariza-sparks, --font-vaneska, --font-gorga-grotesque,
+     --font-tbj-terminal-mono) come from that config's `cssVariable` fields
+     and are only defined on pages that render the matching <Font /> tag in
      Layout.astro — see src/layouts/Layout.astro. */
   --font-display: var(--font-clariza-sparks);
-  --font-heading: var(--font-clariza-sparks);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-space-mono);
+  --font-heading: var(--font-vaneska);
+  --font-sans: var(--font-gorga-grotesque);
+  --font-mono: var(--font-tbj-terminal-mono);
 
   /* Fluid display sizes — replace a hard text-Nxl/sm:text-Mxl jump with a
      clamp() that scales continuously between the same two sizes over a

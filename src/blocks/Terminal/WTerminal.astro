@@ -1,0 +1,38 @@
+
+
+<!-- 1. The container element where wterm will render -->
+<div id="terminal-container"></div>
+
+<style>
+  #terminal-container {
+    width: 100%;
+    height: 400px;
+    background: #000;
+  }
+</style>
+
+<!-- 2. Client-side script handles the WASM instantiation and DOM rendering -->
+<script>
+  import { WTerm } from "@wterm/dom";
+  // Import the default terminal styles provided by the library
+  import "@wterm/dom/src/terminal.css"; 
+
+  async function initTerminal() {
+    const container = document.getElementById("terminal-container");
+    if (!container) return;
+
+    // Instantiate wterm
+    const term = new WTerm(container, {
+      cursorBlink: true,
+    });
+
+    // Await the Zig/WASM core initialization
+    await term.init();
+
+    // Now write to your terminal core or bridge!
+    term.bridge.write("Welcome to wterm inside Astro!\r\n$ ");
+  }
+
+  // Ensure execution occurs safely in the browser after DOM is ready
+  document.addEventListener("DOMContentLoaded", initTerminal);
+</script>

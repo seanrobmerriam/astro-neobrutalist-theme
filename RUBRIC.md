@@ -89,24 +89,24 @@ A theme must also pass every mandatory release gate, regardless of its numerical
 
 Examples of market-dependent page coverage might include:
 
-- Homepage
-- About
-- Contact
-- Pricing
-- Services or features
-- Blog or resources
-- Article detail
-- Category and tag archives
-- Author profile
-- Case studies or portfolio
-- FAQ
-- Testimonials
-- Team
-- Careers
-- Newsletter confirmation
-- Search
-- 404
-- Privacy and terms
+* Homepage
+* About
+* Contact
+* Pricing
+* Services or features
+* Blog or resources
+* Article detail
+* Category and tag archives
+* Author profile
+* Case studies or portfolio
+* FAQ
+* Testimonials
+* Team
+* Careers
+* Newsletter confirmation
+* Search
+* 404
+* Privacy and terms
 
 Not every theme needs every page. Premium quality means supplying the pages necessary for the advertised use case.
 
@@ -391,53 +391,53 @@ Astro documents both component testing and end-to-end browser testing, including
 
 A theme cannot be labeled premium if any of these fail:
 
-- [ ] Installs successfully from a clean clone using documented commands.
-- [ ] Production build completes without theme-generated errors or warnings.
-- [ ] All advertised pages, components, and features are included.
-- [ ] No broken internal links, missing assets, or dead navigation items exist.
-- [ ] Primary user journeys work without JavaScript errors.
-- [ ] Keyboard navigation works throughout the site.
-- [ ] No serious automated accessibility violations remain.
-- [ ] Text and interactive elements meet WCAG AA contrast requirements.
-- [ ] Mobile layouts have no unintended horizontal overflow.
-- [ ] Representative pages score at least 90 in Lighthouse Performance.
-- [ ] Representative pages score at least 95 in Lighthouse Accessibility, SEO, and Best Practices.
-- [ ] Critical responsive layouts are manually checked on small, medium, and large screens.
-- [ ] Metadata, canonical URLs, favicon, sitemap, robots behavior, and social previews are valid.
-- [ ] All sample secrets, private credentials, personal data, and debug code are removed.
-- [ ] Every bundled asset has redistribution rights.
-- [ ] License, support policy, compatibility, and external requirements are documented.
-- [ ] Installation and customization documentation has been followed successfully by someone other than the author.
-- [ ] The hosted demo represents the exact product being sold.
-- [ ] A buyer can replace the sample brand without reconstructing the theme.
-- [ ] The theme has a documented Astro and Node compatibility range.
+* [ ] Installs successfully from a clean clone using documented commands.
+* [ ] Production build completes without theme-generated errors or warnings.
+* [ ] All advertised pages, components, and features are included.
+* [ ] No broken internal links, missing assets, or dead navigation items exist.
+* [ ] Primary user journeys work without JavaScript errors.
+* [ ] Keyboard navigation works throughout the site.
+* [ ] No serious automated accessibility violations remain.
+* [ ] Text and interactive elements meet WCAG AA contrast requirements.
+* [ ] Mobile layouts have no unintended horizontal overflow.
+* [ ] Representative pages score at least 90 in Lighthouse Performance.
+* [ ] Representative pages score at least 95 in Lighthouse Accessibility, SEO, and Best Practices.
+* [ ] Critical responsive layouts are manually checked on small, medium, and large screens.
+* [ ] Metadata, canonical URLs, favicon, sitemap, robots behavior, and social previews are valid.
+* [ ] All sample secrets, private credentials, personal data, and debug code are removed.
+* [ ] Every bundled asset has redistribution rights.
+* [ ] License, support policy, compatibility, and external requirements are documented.
+* [ ] Installation and customization documentation has been followed successfully by someone other than the author.
+* [ ] The hosted demo represents the exact product being sold.
+* [ ] A buyer can replace the sample brand without reconstructing the theme.
+* [ ] The theme has a documented Astro and Node compatibility range.
 
 # Premium Differentiators
 
 These are not required for every theme, but they can distinguish an exceptional product:
 
-- Multiple complete homepage compositions rather than minor hero variations
-- Light, dark, and system color modes
-- Carefully art-directed dark mode rather than mechanically inverted colors
-- Internationalization and right-to-left layout support
-- Search with a no-service static option
-- CMS integration examples
-- Configurable MDX components
-- Automatic social-image generation
-- Accessible view transitions
-- Print styles for relevant page types
-- Command-palette navigation
-- Schema-validated global configuration
-- Component showcase or internal design-system page
-- Visual regression testing
-- Automated dependency and accessibility checks
-- Multiple deployment examples
-- Migration scripts for breaking updates
-- Figma design source matching the implemented theme
-- Documented extension recipes
-- Sample integration branches that keep the core theme lightweight
-- Import scripts or sample data generators
-- Reduced-motion, high-contrast, and forced-colors support
+* Multiple complete homepage compositions rather than minor hero variations
+* Light, dark, and system color modes
+* Carefully art-directed dark mode rather than mechanically inverted colors
+* Internationalization and right-to-left layout support
+* Search with a no-service static option
+* CMS integration examples
+* Configurable MDX components
+* Automatic social-image generation
+* Accessible view transitions
+* Print styles for relevant page types
+* Command-palette navigation
+* Schema-validated global configuration
+* Component showcase or internal design-system page
+* Visual regression testing
+* Automated dependency and accessibility checks
+* Multiple deployment examples
+* Migration scripts for breaking updates
+* Figma design source matching the implemented theme
+* Documented extension recipes
+* Sample integration branches that keep the core theme lightweight
+* Import scripts or sample data generators
+* Reduced-motion, high-contrast, and forced-colors support
 
 # Final Reviewer Questions
 

@@ -39,21 +39,21 @@ function apply(theme: Theme) {
 
 function updateButtons(theme: Theme) {
   const label =
-    theme === "light"
+    theme === null
       ? "Light theme (click for dark)"
-      : theme === "dark"
-        ? "Dark theme (click for system)"
-        : "System theme (click for light)";
+      : theme === "light"
+        ? "Light theme (click for dark)"
+        : "Dark theme (click for light)";
   document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((button) => {
     button.setAttribute("aria-label", label);
-    button.dataset.currentTheme = theme ?? "system";
+    button.dataset.currentTheme = theme ?? "light";
   });
 }
 
 document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((button) => {
   button.addEventListener("click", () => {
     const current = getStored();
-    const next: Theme = current === null ? "light" : current === "light" ? "dark" : null;
+    const next: Theme = current === "dark" ? "light" : "dark";
     apply(next);
   });
 });

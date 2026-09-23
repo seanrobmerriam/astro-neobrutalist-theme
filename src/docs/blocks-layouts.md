@@ -1,6 +1,6 @@
 ---
 title: Blocks & Layouts
-description: Hero, Navbar, FeatureGrid, Pricing, Testimonials, FAQ, CTA, Footer, and the page layouts.
+description: Hero, Navbar, FeatureGrid, Pricing, Testimonials, FAQ, CTA, Footer, WTerminal, and the page layouts.
 order: 10
 ---
 
@@ -84,12 +84,12 @@ Blocks are larger, pre-composed sections built entirely from the components docu
   eyebrow="Pricing"
   title="Get the whole theme"
   plans={[
-    { name: "Free", price: "$0", features: ["Components", "MIT license"], ctaLabel: "Get started", ctaHref: "#" },
+    { name: "Personal", price: "$29", features: ["Components", "MIT license"], ctaLabel: "Get started", ctaHref: "#" },
     {
       name: "Pro",
       price: "$49",
       period: "one-time",
-      features: ["Everything in Free", "Figma files"],
+      features: ["Everything in Personal", "Figma files"],
       ctaLabel: "Get Pro",
       ctaHref: "#",
       featured: true,
@@ -132,6 +132,10 @@ Blocks are larger, pre-composed sections built entirely from the components docu
 | `class`   | `string`                                  | —             |
 
 Two slots: a default slot (rendered on the bottom-right, next to the copyright line) and a named `social` slot (rendered under the brand/tagline).
+
+## WTerminal
+
+`src/blocks/Terminal/WTermBash.astro` — an interactive browser terminal with an in-memory shell and a bundled Ghostty WASM core. See [WTerminal in Media](/docs/media#wterminal) for usage, dependencies, customization, and current limitations.
 
 ## Layouts
 

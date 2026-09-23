@@ -74,7 +74,7 @@ and sorts by `order`.
 ## Drafts
 
 Set `draft: true` on a post to keep working on it without publishing it.
-Drafts are visible in `pnpm dev` (so you can preview them) and excluded
+Drafts are visible in `bun run dev` (so you can preview them) and excluded
 everywhere in a production build — the listing, tag pages, author pages,
 the RSS feed, and the sitemap. This is centralized in `src/lib/blog.ts`'s
 `getPublishedPosts()`, which every blog route calls instead of

@@ -13,7 +13,7 @@ const REPLIES = [
   "Every component in this theme is a typed `.astro` file with a `Props` interface and a `Record<Variant, string>` of Tailwind classes — same pattern across the library.",
   "All tokens live in `src/styles/global.css` under `@theme`. Swap an OKLCH value there and the whole theme follows — accents, shadows, and focus ring included.",
   "Zero client JS by default. Interactivity uses plain data attributes and shared scripts (`src/scripts/dialog.ts`, `src/scripts/theme-toggle.ts`). Reactivity for things like this chat uses HTMX partials.",
-  "Run `pnpm build`. The output is fully static HTML in `dist/`. HTMX endpoints under `src/pages/api/` are also prerendered, so the whole thing deploys to any static host.",
+  "Run `bun run build`. The output is fully static HTML in `dist/`. HTMX endpoints under `src/pages/api/` are also prerendered, so the whole thing deploys to any static host.",
   "Got it — I've noted that. (This is a canned demo response; a real agent would call a model here and stream tokens via Server-Sent Events.)",
 ];
 

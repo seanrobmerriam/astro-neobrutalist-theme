@@ -16,7 +16,7 @@ export default defineConfig({
   },
 
   webServer: {
-    command: "pnpm build && pnpm astro preview --port 4322",
+    command: "bun run build && bun run astro preview --port 4322",
     url: "http://localhost:4322",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

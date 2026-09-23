@@ -8,11 +8,11 @@ not a framework runtime.
 
 ## Prerequisites
 
-| Requirement                   | Version                                                                            |
-| ----------------------------- | ---------------------------------------------------------------------------------- |
-| [Node.js](https://nodejs.org) | ≥ 22.12.0                                                                          |
-| [pnpm](https://pnpm.io)       | this repo is a pnpm workspace (`pnpm-workspace.yaml`) — npm/yarn are not supported |
-| [Astro](https://astro.build)  | 7.x (bundled as a dependency, no global install needed)                            |
+| Requirement                   | Version                                                      |
+| ----------------------------- | ------------------------------------------------------------ |
+| [Node.js](https://nodejs.org) | ≥ 22.12.0                                                    |
+| [Bun](https://bun.sh)         | 1.4.2 — package manager and script runner; commit `bun.lock` |
+| [Astro](https://astro.build)  | 7.x (bundled as a dependency, no global install needed)      |
 
 No third-party accounts are required to run the theme locally. It has no
 external services or API keys — see `.env.example`.
@@ -20,38 +20,38 @@ external services or API keys — see `.env.example`.
 ## Quick start
 
 ```sh
-pnpm install
-pnpm dev              # http://localhost:4321
+bun install
+bun run dev              # http://localhost:4321
 ```
 
 Other commands:
 
 ```sh
-pnpm build            # production build to ./dist/ (also indexes search via Pagefind)
-pnpm preview           # serve the production build locally
-pnpm check             # type-check .astro files (astro check)
-pnpm format            # format the codebase with Prettier
-pnpm format:check      # check formatting without writing
+bun run build            # production build to ./dist/ (also indexes search via Pagefind)
+bun run preview           # serve the production build locally
+bun run check             # type-check .astro files (astro check)
+bun run format            # format the codebase with Prettier
+bun run format:check      # check formatting without writing
 ```
 
-Quality gates — all require `pnpm build && pnpm preview` (or any static server) running first, except `test:e2e` and `audit:links`, which manage their own server/build:
+Quality gates — all require `bun run build && bun run preview` (or any static server) running first, except `test:e2e` and `audit:links`, which manage their own server/build:
 
 ```sh
-pnpm test:e2e                          # Playwright e2e suite (Chromium, Firefox, WebKit)
-pnpm audit:a11y   [baseUrl]            # axe-core + keyboard walk + viewport overflow
-pnpm audit:lighthouse [baseUrl]        # Lighthouse: performance, a11y, best practices, SEO
-pnpm audit:links                       # broken internal links in ./dist/ (run after pnpm build)
-pnpm package:release                   # zips a buyer-facing distributable to ./release/
+bun run test:e2e                          # Playwright e2e suite (Chromium, Firefox, WebKit)
+bun run audit:a11y   [baseUrl]            # axe-core + keyboard walk + viewport overflow
+bun run audit:lighthouse [baseUrl]        # Lighthouse: performance, a11y, best practices, SEO
+bun run audit:links                       # broken internal links in ./dist/ (run after bun run build)
+bun run package:release                   # zips a buyer-facing distributable to ./release/
 ```
 
 For background dev-server workflows (useful when scripting or working
 alongside an agent):
 
 ```sh
-pnpm astro dev --background
-pnpm astro dev status
-pnpm astro dev stop
-pnpm astro dev logs
+bun run astro dev --background
+bun run astro dev status
+bun run astro dev stop
+bun run astro dev logs
 ```
 
 ## Project map
@@ -72,6 +72,14 @@ src/
 `src/pages/index.astro` is the living showcase/reference for every
 component — check it before assuming how a component is meant to be used or
 composed.
+
+## Interactive terminal
+
+The showcase imports `src/blocks/Terminal/WTermBash.astro` as `WTerminal`.
+This block runs a browser-based shell with an in-memory filesystem and
+requires client JavaScript plus the bundled `public/ghostty-vt.wasm` asset.
+See [the WTerminal documentation](src/docs/media.md#wterminal) for usage,
+setup, customization, and current limitations.
 
 ## Customization
 
@@ -114,7 +122,7 @@ The Playwright suite (`tests/e2e/`) covers navigation (desktop + mobile
 drawer), modal/drawer focus trapping, tabs, the accordion, the gallery
 lightbox, the contact form, theme toggling, and a per-page-type axe-core
 sweep. It manages its own build + preview server (`playwright.config.ts`),
-so `pnpm test:e2e` alone is enough to run it locally.
+so `bun run test:e2e` alone is enough to run it locally.
 
 ## Support and versioning
 
@@ -131,7 +139,7 @@ this repository is hosted on.
 ## Deployment
 
 This is a fully static site (`output: "static"`, the Astro default) — no
-SSR adapter is required. Deploy the contents of `pnpm build`'s `./dist/`
+SSR adapter is required. Deploy the contents of `bun run build`'s `./dist/`
 output to any static host (Netlify, Vercel, Cloudflare Pages, GitHub Pages,
 S3 + CloudFront, etc.). No environment variables are required at build or
 runtime.
@@ -150,8 +158,8 @@ presenting it to a buyer.
   (`https://example.com`, `/og-default.png`) — set the real domain and add a
   real social-preview image before launch.
 - `/search`'s Pagefind index is generated by the `postbuild` script and only
-  exists after a real `pnpm build` — the search box is empty under
-  `pnpm dev`. Verify it with `pnpm build && pnpm preview`.
+  exists after a real `bun run build` — the search box is empty under
+  `bun run dev`. Verify it with `bun run build && bun run preview`.
 - No live demo is deployed yet — see the plan doc for the deployment step.
 - See `docs/superpowers/plans/2026-09-04-rubric-remediation.md` for the full
   list of what's tracked as in-progress toward a commercial release, and

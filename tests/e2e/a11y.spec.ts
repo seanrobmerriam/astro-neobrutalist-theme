@@ -3,7 +3,7 @@ import AxeBuilder from "@axe-core/playwright";
 
 // One representative page per distinct template/page-type in the theme —
 // this is a CI gate on the templates, not a re-run of every route.
-// `pnpm audit:a11y` covers every actual route (including generated ones)
+// `bun run audit:a11y` covers every actual route (including generated ones)
 // and additional checks (overflow, keyboard walk) this suite doesn't.
 const pageTypes: [name: string, path: string][] = [
   ["kitchen-sink showcase", "/"],

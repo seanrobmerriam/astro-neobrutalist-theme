@@ -5,7 +5,7 @@
 // at a path nothing in `dist/` actually serves.
 //
 // Usage: node scripts/audit-links.mjs [distDir]
-// Requires `pnpm build` to have run first. Exits non-zero on any broken
+// Requires `bun run build` to have run first. Exits non-zero on any broken
 // internal link or asset reference. External links (http(s)://, mailto:,
 // tel:) are checked with a short-timeout HEAD/GET request and reported as
 // warnings only — a flaky or slow third party shouldn't fail CI.
@@ -16,7 +16,7 @@ import path from "node:path";
 const DIST = path.resolve(process.argv[2] ?? "dist");
 
 if (!fs.existsSync(DIST)) {
-  console.error(`No build output at ${DIST} — run \`pnpm build\` first.`);
+  console.error(`No build output at ${DIST} — run \`bun run build\` first.`);
   process.exit(1);
 }
 

@@ -8,6 +8,7 @@ import Icon from "../../components/Icon/Icon.astro";
 interface NavLink {
   label: string;
   href: string;
+  children?: NavLink[];
 }
 
 interface Props {
@@ -29,14 +30,39 @@ const drawerId = "mobile-nav";
 
     <nav class="hidden items-center gap-8 lg:flex" aria-label="Primary">
       {
-        links.map((link) => (
-          <a
-            href={link.href}
-            class="font-heading font-semibold text-ink hover:underline hover:decoration-2 hover:underline-offset-4"
-          >
-            {link.label}
-          </a>
-        ))
+        links.map((link) =>
+          link.children && link.children.length > 0 ? (
+            <div class="group relative">
+              <button
+                type="button"
+                aria-haspopup="true"
+                class="flex items-center gap-1 font-heading font-semibold text-ink hover:underline hover:decoration-2 hover:underline-offset-4"
+              >
+                {link.label}
+                <svg viewBox="0 0 16 16" fill="none" class="size-3" stroke="currentColor" stroke-width="2.5">
+                  <path d="M3 6l5 5 5-5" stroke-linecap="square" stroke-linejoin="miter" />
+                </svg>
+              </button>
+              <div class="invisible absolute left-0 top-full z-40 min-w-44 -translate-y-1 border-[3px] border-ink bg-paper pt-2 opacity-0 shadow-brutal-lg transition-all duration-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                {link.children.map((child) => (
+                  <a
+                    href={child.href}
+                    class="block border-t-[3px] border-ink px-4 py-3 font-heading font-semibold text-ink first:border-t-0 hover:bg-yellow"
+                  >
+                    {child.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <a
+              href={link.href}
+              class="font-heading font-semibold text-ink hover:underline hover:decoration-2 hover:underline-offset-4"
+            >
+              {link.label}
+            </a>
+          ),
+        )
       }
     </nav>
 
@@ -68,11 +94,24 @@ const drawerId = "mobile-nav";
 <Drawer id={drawerId} title="Menu" side="right">
   <nav class="flex flex-col gap-5" aria-label="Mobile">
     {
-      links.map((link) => (
-        <a href={link.href} class="font-heading text-lg font-semibold text-ink">
-          {link.label}
-        </a>
-      ))
+      links.map((link) =>
+        link.children && link.children.length > 0 ? (
+          <div>
+            <p class="font-heading text-lg font-bold uppercase text-ink">{link.label}</p>
+            <div class="mt-2 flex flex-col gap-3 border-l-[3px] border-ink pl-4">
+              {link.children.map((child) => (
+                <a href={child.href} class="font-heading font-semibold text-ink">
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <a href={link.href} class="font-heading text-lg font-semibold text-ink">
+            {link.label}
+          </a>
+        ),
+      )
     }
   </nav>
 

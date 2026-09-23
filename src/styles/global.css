@@ -7,19 +7,19 @@
      bundled locally. Body uses Gorga Grotesque Bold — a single bold weight
      keeps everything on-brand and matches the squared-off, high-contrast
      typography. Mono (used for terminal blocks and code-like chrome) uses
-     TBJ Terminal Mono Medium.
+     Alma Mono Regular.
 
      All four are wired up via Astro's Fonts API (astro.config.mjs `fonts`),
      not a hand-written @font-face — Astro generates the @font-face rules and
      self-hosts the files. The --font-* CSS variables referenced below
-     (--font-clariza-sparks, --font-vaneska, --font-gorga-grotesque,
-     --font-tbj-terminal-mono) come from that config's `cssVariable` fields
+     (--font-clariza-sparks, --font-eustace, --font-devina-rodent,
+     --font-alma-mono) come from that config's `cssVariable` fields
      and are only defined on pages that render the matching <Font /> tag in
      Layout.astro — see src/layouts/Layout.astro. */
   --font-display: var(--font-clariza-sparks);
-  --font-heading: var(--font-vaneska);
-  --font-sans: var(--font-gorga-grotesque);
-  --font-mono: var(--font-tbj-terminal-mono);
+  --font-heading: var(--font-eustace);
+  --font-sans: var(--font-devina-rodent);
+  --font-mono: var(--font-alma-mono);
 
   /* Fluid display sizes — replace a hard text-Nxl/sm:text-Mxl jump with a
      clamp() that scales continuously between the same two sizes over a
@@ -84,20 +84,9 @@
   --shadow-brutal-invert-xl: 12px 12px 0 0 oklch(0.9934 0.0107 95.16);
 }
 
-/* Dark mode: ink and paper invert (a near-white ink, a dark — not pure
-   black — paper, leaving room for the shadow scale to still read against
-   it), everything else (accents, ink-on-accent, focus-ring) stays fixed.
-   Three-state pattern: bare :root is light (already the @theme defaults
-   above); the media query covers "system" with no explicit choice; the
-   [data-theme] rules let an explicit choice win either direction. See
-   scripts/theme-toggle.ts for what sets [data-theme]. */
-@media (prefers-color-scheme: dark) {
-  :root[data-theme="dark"] {
-    --color-ink: oklch(0.9821 0.0086 95.16);
-    --color-paper: oklch(0.19 0.014 95.16);
-  }
-}
-
+/* Dark mode is opt-in only — light is the default. The bare :root below is
+   already the @theme defaults (light). Explicit dark mode is applied via
+   [data-theme="dark"] on <html>, which is set by scripts/theme-toggle.ts. */
 :root[data-theme="dark"] {
   --color-ink: oklch(0.9821 0.0086 95.16);
   --color-paper: oklch(0.19 0.014 95.16);

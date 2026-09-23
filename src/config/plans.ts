@@ -17,7 +17,7 @@ export interface Plan {
 export const plans: Plan[] = [
   {
     name: "Personal",
-    price: "$0",
+    price: "$29",
     description: "Personal, non-commercial projects",
     features: ["Components, blocks, and layouts", "Personal license", "Documentation & component reference"],
     ctaLabel: "Get started",

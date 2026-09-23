@@ -23,17 +23,18 @@ Seven flat colors, all defined in OKLCH for perceptually consistent lightness:
 }
 ```
 
-Each generates the full set of Tailwind utilities for free: `bg-yellow`, `text-pink`, `border-blue`, `bg-green/25`, and so on. `ink` and `paper` are the structural neutrals — text, borders, and backgrounds — everything else is an accent, used deliberately rather than everywhere at once.
+Each generates the full set of Tailwind utilities automatically: `bg-yellow`, `text-pink`, `border-blue`, `bg-green/25`, and so on. `ink` and `paper` are the structural neutrals — text, borders, and backgrounds — everything else is an accent, used deliberately rather than everywhere at once.
 
 ## Typography
 
-| Role              | Token                          | Face                                 |
-| ----------------- | ------------------------------ | ------------------------------------ |
-| Display / Heading | `font-display`, `font-heading` | Clariza Sparks (local, bundled font) |
-| Body              | `font-sans`                    | Inter                                |
-| Mono / labels     | `font-mono`                    | Space Mono                           |
+| Role          | Token          | Face                                 |
+| ------------- | -------------- | ------------------------------------ |
+| Display       | `font-display` | Clariza Sparks (local, bundled font) |
+| Heading       | `font-heading` | Eustace (local, bundled font)        |
+| Body          | `font-sans`    | Devina Rodent                        |
+| Mono / labels | `font-mono`    | Alma Mono Regular                    |
 
-Clariza Sparks ships as a single weight, so it's reserved for the loudest roles — hero titles, section headings, the logo. Body copy stays on Inter for legibility at small sizes.
+Clariza Sparks ships as a single weight, so it's reserved for the loudest roles — hero titles and the logo. Headings use the self-hosted Eustace family. Body copy uses the self-hosted Devina Rodent family.
 
 ## Shadows
 

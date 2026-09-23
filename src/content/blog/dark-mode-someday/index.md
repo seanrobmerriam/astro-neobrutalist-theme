@@ -2,7 +2,7 @@
 title: "Dark mode, someday"
 description: "Notes toward an art-directed dark palette, not a mechanical inversion."
 publishDate: 2026-09-20
-author: marcus-lin
+author: sean-merriam
 tags: ["design", "roadmap"]
 heroImage: "./hero.svg"
 draft: true

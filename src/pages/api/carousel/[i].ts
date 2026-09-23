@@ -10,7 +10,7 @@ const SLIDES: Array<{ accent: string; quote: string; author: string }> = [
   { accent: "bg-pink", quote: "Customers noticed the buttons.", author: "PM, consumer app" },
   { accent: "bg-blue", quote: "Three components in, two days saved.", author: "Solo founder" },
   { accent: "bg-green", quote: "It looks like a poster and ships like a system.", author: "Brand lead" },
-  { accent: "bg-orange", quote: "Accessibility came along for free.", author: "A11y consultant" },
+  { accent: "bg-orange", quote: "Accessibility was built in.", author: "A11y consultant" },
   { accent: "bg-lavender", quote: "The hardest part was picking the accent.", author: "Marketing" },
 ];
 
@@ -37,8 +37,8 @@ export const GET: APIRoute = async ({ params }) => {
   const next = i + 1 < BATCHES ? String(i + 1) : "end";
   const slides = batch
     .map(
-      (s) => `<div class="w-full shrink-0 snap-start px-2 sm:w-1/2 lg:w-1/3">
-  <div class="h-full border-[3px] border-ink ${s.accent} p-6 shadow-brutal">
+      (s) => `<div class="w-full shrink-0 basis-full snap-start px-2 sm:basis-1/2 lg:basis-1/3">
+  <div class="flex h-full flex-col justify-between border-[3px] border-ink ${s.accent} p-6 shadow-brutal">
     <p class="font-heading text-lg font-bold">"${s.quote}"</p>
     <p class="mt-3 text-sm text-ink/70">— ${s.author}</p>
   </div>

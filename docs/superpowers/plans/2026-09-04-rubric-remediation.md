@@ -52,10 +52,10 @@ missing scaffolding, not broken foundations.
 | ~~No broken internal links, missing assets, or dead nav items~~ | ✅ **2026-09-05**: the Glide 404 (Phase 1) and the dead `<a href="#">` blog cards (Phase 4 — every post now links to a real detail page) are both resolved |
 | Primary journeys work without JS errors | ✅ Re-verified 2026-09-05 against the dev server after all Phase 1 changes |
 | ~~Keyboard navigation works throughout~~ | ✅ **2026-09-05**: automated keyboard walk (Playwright) across all 7 pages — every focus stop has a visible indicator, no traps. This is also where the `focus:outline-none`/`focus-visible:outline` cascade hazard and the native-`<dialog>` focus-trap gap were found and fixed (see Phase 3 notes above) |
-| ~~No serious automated a11y violations~~ | ✅ **2026-09-05**: axe-core (`@axe-core/playwright`, WCAG 2.0/2.1 A+AA) — 0 violations across all 7 pages. Repeatable via `pnpm audit:a11y` |
+| ~~No serious automated a11y violations~~ | ✅ **2026-09-05**: axe-core (`@axe-core/playwright`, WCAG 2.0/2.1 A+AA) — 0 violations across all 7 pages. Repeatable via `bun run audit:a11y` |
 | ~~WCAG AA contrast throughout~~ | ✅ **2026-09-05**: computed real contrast ratios (OKLCH→sRGB conversion + WCAG formula) for every token combination actually used in the codebase — all pass, minimum 4.90:1. The one real failure found was the Shiki code-comment color (4.36:1 against black), fixed to 6.16:1. **Re-verified 2026-09-05 (Phase 5)** after dark mode landed: Phase 3's audit predates dark mode and so couldn't have caught it, and Lighthouse (which runs with a dark `prefers-color-scheme` in this headless environment) found real new failures — an un-migrated `List.astro` item color ignoring its accent-fill container, and four page-level eyebrow badges (`/blog`, `/blog/tags/*`, `/portfolio`, `/404`) still on the old inverting `border-ink`/`text-ink` pair instead of the fixed `-on-accent` tokens. All fixed; axe + Lighthouse both clean across every audited route afterward |
 | ~~No unintended mobile horizontal overflow~~ | ✅ **2026-09-05**: 0 overflow at 320/768/1280px across all 7 pages, verified programmatically and re-confirmed visually via screenshots at 375/768/1440px on 3 pages. This is what caught the skip-link sizing bug and the single-unbreakable-word heading overflow (see Phase 3 notes) |
-| ~~Lighthouse Performance ≥ 90~~ | ✅ **2026-09-05**: 99 on all 4 representative pages, mobile throttled (4x CPU, 1.6 Mbps). Repeatable via `pnpm audit:lighthouse` |
+| ~~Lighthouse Performance ≥ 90~~ | ✅ **2026-09-05**: 99 on all 4 representative pages, mobile throttled (4x CPU, 1.6 Mbps). Repeatable via `bun run audit:lighthouse` |
 | ~~Lighthouse A11y / SEO / Best Practices ≥ 95~~ | ✅ **2026-09-05**: 100/100/100 on all 4 representative pages |
 | ~~Responsive manually checked S/M/L~~ | ✅ **2026-09-05**: screenshots captured and visually reviewed at 375/768/1440px on `/`, `/landing`, `/docs` — clean reflow, no broken layouts, no clipping, no awkward stacking |
 | Metadata, canonical, favicon, sitemap, robots, social previews valid | ⚠️ **Mostly resolved 2026-09-05**: canonical, OG, Twitter card, sitemap, and `robots.txt` all present and verified in build output. Still generic: favicon is the stock Astro icon (see `CLAUDE.md` known issues) and `site.ogImage` points at `/og-default.png`, which doesn't exist as a file yet |
@@ -79,7 +79,7 @@ missing scaffolding, not broken foundations.
 |----|---------|----------|
 | ~~P0-1~~ | ~~**Font licensing.** 59 font files, 58 unused, no licence documentation.~~ — **partially resolved 2026-09-05**: 58 unused/unlicensed files deleted (1.7 MB → 48 KB). The one remaining, actively-used face (`ClarizaSparks-Regular`) is a deliberate exception — the user chose to keep it and verify its license separately rather than delete it now; see `src/assets/fonts/LICENSE-TODO.md` | `src/assets/fonts/` |
 | ~~P0-2~~ | ~~**No LICENSE file**~~ — **resolved 2026-09-05**: `LICENSE.md` added at repo root, a commercial EULA with Personal/Pro/Team tiers matching the pricing page. Contains `[YOUR LEGAL NAME OR COMPANY]` / `[SUPPORT/CONTACT EMAIL]` placeholders that still need real values before it's shown to a buyer | `LICENSE.md` |
-| ~~P0-3~~ | ~~**Broken stylesheet on every page** — Glide CSS 404~~ — **resolved 2026-09-05**: dead `<link>` removed; verified gone from both `pnpm build` output and the dev-server-served HTML | `src/layouts/Layout.astro` |
+| ~~P0-3~~ | ~~**Broken stylesheet on every page** — Glide CSS 404~~ — **resolved 2026-09-05**: dead `<link>` removed; verified gone from both `bun run build` output and the dev-server-served HTML | `src/layouts/Layout.astro` |
 | ~~P0-4~~ | ~~**Marketing claims not backed by deliverables**~~ — **resolved 2026-09-05**: Figma source, priority email support, and private Discord bullets removed from the pricing tiers; "MIT license" bullet replaced with tier-matched license names. See `docs/superpowers/plans/PRELAUNCH-CHECKLIST.md` for what has to actually be built before each removed claim can go back on the page | `src/pages/landing.astro` |
 | ~~P0-5~~ | ~~**Three Tabs variants are non-functional decorative markup**~~ — **resolved 2026-09-05**: `TabsPill.astro`, `TabsContained.astro`, `TabsVertical.astro` deleted; `Tabs.astro` extended with a `variant` prop (`underline` / `contained` / `pill` / `vertical`) on the existing working controller, plus arrow-key/Home/End roving-tabindex navigation that the original didn't have. Demoed in `src/pages/index.astro` | `src/components/Tab/Tabs.astro` |
 
@@ -236,7 +236,7 @@ legal or trust issue, so it's deferred to Phase 6 rather than blocking on it her
    repo, and standing one up (flat config, Astro-aware plugin choice) is a
    separate decision from wiring up a formatter, so it's left for later
    rather than rushed. Prettier was run only against files touched this
-   session, not the whole pre-existing codebase — `pnpm format:check`
+   session, not the whole pre-existing codebase — `bun run format:check`
    currently reports ~55 files that predate the formatter and don't match
    its style; a repo-wide reformat is a large, purely-stylistic diff that
    deserves to be its own commit, not folded into this one.
@@ -306,7 +306,7 @@ left wrong.
    packages). Ran axe-core (`@axe-core/playwright`) and Lighthouse (mobile throttling)
    against all seven pages / four representative pages respectively. Rather than a
    one-off CLI invocation, formalized both as `scripts/audit-a11y.mjs` and
-   `scripts/audit-lighthouse.mjs` (`pnpm audit:a11y` / `pnpm audit:lighthouse`) —
+   `scripts/audit-lighthouse.mjs` (`bun run audit:a11y` / `bun run audit:lighthouse`) —
    repeatable, not just a number captured once. Results in `docs/audits/`.
 8. ~~**Manual pass**~~ **Done, automated rather than eyeballed** — a keyboard-only
    walk, a 320px overflow check, and a Modal/Drawer focus-trap test were all driven
@@ -348,9 +348,9 @@ left wrong.
   a mismatched `<h4>…</h3>` tag pair from a subsection whose class attribute didn't
   match the sed pattern exactly.
 
-**Exit criteria status:** met, with recorded evidence. `pnpm audit:a11y`: 0 axe
+**Exit criteria status:** met, with recorded evidence. `bun run audit:a11y`: 0 axe
 violations, 0 heading-order skips, 0 horizontal overflow, 0 missing focus indicators
-across all 7 pages. `pnpm audit:lighthouse` (mobile throttling): Performance 99,
+across all 7 pages. `bun run audit:lighthouse` (mobile throttling): Performance 99,
 Accessibility 100, Best Practices 100, SEO 100 on all 4 representative pages — every
 mandatory Lighthouse gate clears its target with margin. Full detail:
 `docs/audits/2026-09-05-phase3-results.md`.
@@ -422,7 +422,7 @@ overflowed a 320px viewport by 157px. No existing docs page had a wide enough ta
 to trigger this before. Fixed by setting `.prose table` to `display: block;
 overflow-x: auto` so a wide table scrolls on its own instead of forcing the page to.
 
-**Exit criteria status:** met. `pnpm audit:a11y` and `pnpm audit:lighthouse` both
+**Exit criteria status:** met. `bun run audit:a11y` and `bun run audit:lighthouse` both
 re-run against the new routes (`/blog`, a post detail page, a tag page, an author
 page, `/portfolio`, `/docs/content`) — 0 violations, 0 overflow, 0 missing focus
 indicators, and Lighthouse 99/100/100/100 held with real images now in play.
@@ -483,7 +483,7 @@ indicators, and Lighthouse 99/100/100/100 held with real images now in play.
 2. ~~**`@axe-core/playwright`** assertion per page type~~ — ✅ done:
    `tests/e2e/a11y.spec.ts`, one representative page per distinct template (15
    page types), asserting zero serious/critical violations. Deliberately not a
-   re-run of every route — `pnpm audit:a11y` already covers every actual route
+   re-run of every route — `bun run audit:a11y` already covers every actual route
    plus overflow and keyboard checks this suite doesn't duplicate.
 3. ~~**Link checker**~~ — ✅ done: `scripts/audit-links.mjs`, a static crawler
    over the built `dist/` (no server needed). Internal links fail the check;
@@ -509,7 +509,7 @@ indicators, and Lighthouse 99/100/100/100 held with real images now in play.
    is still the `https://example.com` placeholder pending that decision.
 7. ~~**Packaging**~~ — ✅ done, as a build script rather than a `files`
    allowlist (this isn't published to npm — it's a buyer-facing zip):
-   `scripts/package-release.mjs` / `pnpm package:release`, excluding
+   `scripts/package-release.mjs` / `bun run package:release`, excluding
    `docs/superpowers/`, `docs/audits/`, `RUBRIC.md`, `.claude/`, `.agents/`,
    `.git/`, `node_modules/`, `dist/`, and `.github/` (a CI workflow describing
    *this* theme's own audit pipeline isn't buyer-facing either). Verified: 217
@@ -525,12 +525,12 @@ indicators, and Lighthouse 99/100/100/100 held with real images now in play.
 
 Two things found only by actually running the new CI gates against the real
 repo, not by writing them:
-- `pnpm format:check` — newly wired into CI — failed on 46 files, mostly
+- `bun run format:check` — newly wired into CI — failed on 46 files, mostly
   pre-existing content Phase 2 had explicitly deferred ("no repo-wide reformat
   ... left for a dedicated formatting commit"). Making format-check a real CI
   gate without doing that reformat would mean shipping a broken CI pipeline on
   day one, so this was the dedicated formatting commit Phase 2 deferred,
-  finally done here (`pnpm format`, then `.gitignore`/`.prettierignore` gained
+  finally done here (`bun run format`, then `.gitignore`/`.prettierignore` gained
   entries for `test-results/`, `playwright-report/`, and `release/`, which
   Prettier had also been trying and failing to parse).
 - `scripts/audit-lighthouse.mjs`'s Chrome auto-detection had an unguarded
@@ -598,7 +598,7 @@ dozens of files?"), which is currently a clear no.
   temporarily renaming `site.name` and rebuilding, not just by reading the
   code.
 - `SEO.astro`, sitemap, generated `robots.txt`, branded `404.astro` all added
-  and verified against both `pnpm build` output and a running dev server
+  and verified against both `bun run build` output and a running dev server
   (including a direct request to a nonexistent path, to confirm 404.astro
   actually serves rather than just existing as a file).
 - Fonts fully migrated to Astro's Fonts API — this turned out to fully
@@ -625,7 +625,7 @@ dozens of files?"), which is currently a clear no.
 **2026-09-05 (later same day)** — Phase 3 completed:
 
 - No system Chrome existed in this environment; installed Playwright's
-  Chromium (`pnpm exec playwright install chromium` — `--with-deps` failed
+  Chromium (`bun x playwright install chromium` — `--with-deps` failed
   on passwordless sudo, but the plain browser download runs headless fine
   without the OS packages). This is what made every finding below possible
   — none of it would have surfaced from reading the code.
@@ -650,7 +650,7 @@ dozens of files?"), which is currently a clear no.
   reasonable, disclosed design decision, not an oversight to route around.
 - Formalized reusable tooling instead of leaving one-off scratch scripts:
   `scripts/audit-a11y.mjs` and `scripts/audit-lighthouse.mjs`, wired to
-  `pnpm audit:a11y` / `pnpm audit:lighthouse`. Both exit non-zero on
+  `bun run audit:a11y` / `bun run audit:lighthouse`. Both exit non-zero on
   failure, so they're usable as a CI gate later (Phase 6) without rewriting
   them. `scripts/audit-screenshots.mjs` is a lighter one-off helper for
   manual visual review, not part of the repeatable suite.
@@ -691,7 +691,7 @@ dozens of files?"), which is currently a clear no.
   one gate ("no broken links") was directly gated on content architecture;
   most of Phase 4's value is in §3 (Information Architecture) and §6
   (Content Architecture) rubric sections, not the mandatory gates list.
-- `pnpm audit:a11y` and `pnpm audit:lighthouse` re-run against every new
+- `bun run audit:a11y` and `bun run audit:lighthouse` re-run against every new
   route type (listing, detail, tag archive, author profile) — 0 violations,
   0 overflow (after the table fix), Lighthouse 99/100/100/100 held with
   real images now rendering, not placeholders.
@@ -756,9 +756,9 @@ dozens of files?"), which is currently a clear no.
   and the new primitives aren't separately gated), but the "WCAG AA
   contrast throughout" gate was genuinely re-opened and re-closed within
   this phase — see its row above.
-- Final verification: `pnpm build` and `astro check` both clean (0
-  errors/warnings), `pnpm audit:a11y` all-pass across all 7 routes, and
-  `pnpm audit:lighthouse` at 99/100/100/100 across `/`, `/landing`,
+- Final verification: `bun run build` and `astro check` both clean (0
+  errors/warnings), `bun run audit:a11y` all-pass across all 7 routes, and
+  `bun run audit:lighthouse` at 99/100/100/100 across `/`, `/landing`,
   `/blog`, `/portfolio`, `/404`, and `/docs/getting-started` — the last
   three added to the routine audit set this phase since they hadn't been
   individually checked before.
@@ -791,7 +791,7 @@ dozens of files?"), which is currently a clear no.
   clicked a child, not the backdrop; fixed by clicking in page/viewport
   coordinates far from the centered dialog instead.
 - Two real, pre-existing gaps found only by making the new CI gates
-  actually run for the first time, not by writing them: `pnpm format:check`
+  actually run for the first time, not by writing them: `bun run format:check`
   failed on 46 files (mostly predating this phase — Phase 2 had explicitly
   deferred a repo-wide reformat), which would have shipped a broken CI
   pipeline on day one if left as-is, so it became the "dedicated formatting
@@ -817,8 +817,8 @@ dozens of files?"), which is currently a clear no.
   tracked; "Hosted demo represents the product" stays ❌ pending the
   deploy decision above, and "Docs followed successfully by someone
   other than the author" remains inherently unverifiable by self-review.
-- Final verification: `pnpm build`, `astro check` (0 errors), a full
-  repo-wide `pnpm format:check` (0 issues, post-reformat), `audit:links`
+- Final verification: `bun run build`, `astro check` (0 errors), a full
+  repo-wide `bun run format:check` (0 issues, post-reformat), `audit:links`
   (0 broken internal links across 38 built pages), `audit:a11y` (all 14
   routes), `audit:lighthouse` (100/99/100/100 across 6 representative
   routes), and the full Playwright suite (56/56 passing on Chromium and

@@ -20,20 +20,20 @@ const {
 ---
 
 <!doctype html>
-<html lang={site.locale}>
+<html lang={site.locale} data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script is:inline>
       // Blocking and inline on purpose: applies a stored theme choice before
       // first paint. Deferred or module scripts run too late here and cause
-      // a visible flash of the wrong theme. Errors are swallowed since a
-      // failure just means the page falls back to the prefers-color-scheme
-      // media query in global.css, which is a safe default either way.
+      // a visible flash of the wrong theme. The page defaults to light
+      // (data-theme="light" on <html>); this only overrides it when the
+      // visitor has explicitly picked dark.
       try {
         var theme = localStorage.getItem("theme");
-        if (theme === "light" || theme === "dark") {
-          document.documentElement.setAttribute("data-theme", theme);
+        if (theme === "dark") {
+          document.documentElement.setAttribute("data-theme", "dark");
         }
       } catch (e) {}
     </script>
@@ -43,9 +43,9 @@ const {
     <SEO title={title} description={description} image={image} noindex={noindex} />
 
     <Font cssVariable="--font-clariza-sparks" preload />
-    <Font cssVariable="--font-vaneska" preload />
-    <Font cssVariable="--font-gorga-grotesque" preload />
-    <Font cssVariable="--font-tbj-terminal-mono" />
+    <Font cssVariable="--font-eustace" preload />
+    <Font cssVariable="--font-devina-rodent" preload={[{ weight: "400", style: "normal" }]} />
+    <Font cssVariable="--font-alma-mono" />
   </head>
   <body class="bg-paper font-sans text-ink antialiased">
     <a

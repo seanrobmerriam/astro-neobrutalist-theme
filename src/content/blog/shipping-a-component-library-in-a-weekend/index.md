@@ -2,7 +2,7 @@
 title: "Shipping a full component library in a weekend"
 description: "Notes on building buttons, cards, and forms fast without reaching for a UI kit."
 publishDate: 2026-06-02
-author: ava-stone
+author: sean-merriam
 tags: ["process", "components"]
 heroImage: "./hero.svg"
 ---

@@ -13,6 +13,7 @@
 export interface NavLink {
   label: string;
   href: string;
+  children?: NavLink[];
 }
 
 export interface FooterGroup {
@@ -41,15 +42,31 @@ export const site = {
   },
 
   /** The nav shared verbatim across the multi-page site (blog, portfolio).
-   * The homepage (`/`) and `/landing` use their own anchor-based navs. */
+   * The homepage (`/`) and `/landing` use their own anchor-based navs.
+   * "Pages" is a parent entry; the Navbar renders its children indented
+   * beneath it on both the desktop nav and the mobile drawer. */
   nav: [
-    { label: "Home", href: "/landing" },
+    { label: "Home", href: "/" },
     { label: "About", href: "/about" },
-    { label: "Blog", href: "/blog" },
-    { label: "Portfolio", href: "/portfolio" },
+    {
+      label: "Pages",
+      href: "#",
+      children: [
+        { label: "Blog", href: "/blog" },
+        { label: "Portfolio", href: "/portfolio" },
+        { label: "Landing", href: "/landing" },
+      ],
+    },
     { label: "Pricing", href: "/pricing" },
     { label: "Docs", href: "/docs" },
   ] satisfies NavLink[],
+
+  /** The label/href used for the persistent "Get Theme" button rendered
+   * to the right of the nav on every page. */
+  cta: {
+    label: "Get Theme",
+    href: "/buy",
+  },
 
   /** The "Resources" footer group — identical on every page that has a
    * footer. Each page still supplies its own first ("Product"-type) group,

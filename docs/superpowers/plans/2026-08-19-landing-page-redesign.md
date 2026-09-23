@@ -13,7 +13,7 @@
 ## Global Constraints
 
 - Node **>=22.12.0** is required to run `astro` (package.json `engines`, and Astro/Vite's own check). If a shell's default `node -v` is older, prefix every command below with a matching nvm environment, e.g. `export PATH="$HOME/.nvm/versions/node/v22.12.0/bin:$PATH"` (any installed version >=22.12.0 works — check `nvm ls`).
-- Package manager is **pnpm** (see `pnpm-workspace.yaml`, `pnpm-lock.yaml`). Do not use `npm`/`yarn`.
+- Package manager is **Bun** (see `bun.lock`). Use `bun install` and `bun run <script>`.
 - **No test framework exists in this project** (confirmed: no test script in `package.json`, no test files anywhere). `@astrojs/check` is also not installed — do not add it as a side effect of this work. Verification for every task in this plan is: start/confirm the dev server, `curl` the affected route, and `grep` the response for expected content. This is the project's real, current verification method (see spec's Testing section) — not a shortcut.
 - All new/modified `.astro` files must follow the existing component convention: typed `Props` interface, `class?: string` merged via `class:list`, `Record<Variant, string>` maps for variant/accent styling (see `src/components/Button/Button.astro` and `src/components/Card/Card.astro` as reference).
 - Square corners, thick borders, hard offset shadows (`shadow-brutal*` tokens), and the six flat accent colors (`yellow`, `pink`, `blue`, `green`, `orange`, `lavender`) are the only visual language in this theme — no gradients, no blur, no border-radius.

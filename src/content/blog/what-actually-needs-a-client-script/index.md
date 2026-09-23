@@ -2,7 +2,7 @@
 title: "What actually needs a client script"
 description: "An audit of every <script> tag in the theme, and why most components don't have one."
 publishDate: 2026-07-08
-author: marcus-lin
+author: sean-merriam
 tags: ["process", "performance"]
 heroImage: "./hero.svg"
 ---
@@ -17,7 +17,7 @@ someone forgot exists?
 ## The native-first checklist
 
 - A disclosure widget (an accordion) doesn't need JS — `<details>` and
-  `<summary>` do the job, with keyboard support built in for free.
+  `<summary>` do the job, with keyboard support built in.
 - A modal doesn't need a focus-trap library — `<dialog>`'s `showModal()`
   traps focus and closes on Escape natively (with one edge case we found
   and patched — see the shared dialog script).

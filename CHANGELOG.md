@@ -46,7 +46,7 @@ lives in that plan document's revision log.
 - Six new pages: `/about`, `/team`, `/contact`, `/pricing`, `/privacy`,
   `/terms` — and `/search`, a full-text site search via Pagefind (indexed
   at build time via a `postbuild` script, no search service required).
-- `pnpm audit:a11y`, `pnpm audit:lighthouse`, and `pnpm audit:links` —
+- `bun run audit:a11y`, `bun run audit:lighthouse`, and `bun run audit:links` —
   repeatable, CI-usable scripts for accessibility (axe-core + a keyboard
   walk + viewport-overflow check), Lighthouse, and internal-link checking.
 - Playwright e2e suite (`tests/e2e/`) covering navigation, the mobile

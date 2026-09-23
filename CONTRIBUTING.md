@@ -7,18 +7,18 @@ day-to-day workflow for working on the theme itself.
 ## Setup
 
 ```sh
-pnpm install
-pnpm astro dev --background   # starts the dev server without blocking your shell
+bun install
+bun run astro dev --background   # starts the dev server without blocking your shell
 ```
 
-Manage the background dev server with `pnpm astro dev stop` and
-`pnpm astro dev status`.
+Manage the background dev server with `bun run astro dev stop` and
+`bun run astro dev status`.
 
 ## Before committing
 
 ```sh
-pnpm astro check   # type-check .astro files
-pnpm build         # production build must complete cleanly
+bun run astro check   # type-check .astro files
+bun run build         # production build must complete cleanly
 ```
 
 ## Conventions

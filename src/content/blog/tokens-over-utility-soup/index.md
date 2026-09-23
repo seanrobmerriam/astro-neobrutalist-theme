@@ -2,7 +2,7 @@
 title: "Tokens over utility soup"
 description: "How seven CSS variables replaced a hundred one-off Tailwind classes."
 publishDate: 2026-03-10
-author: ava-stone
+author: sean-merriam
 tags: ["design", "tokens"]
 heroImage: "./hero.svg"
 ---

@@ -49,8 +49,6 @@ const checkoutStatus = {
   title={`Buy ${site.name} — Theme checkout`}
   description={`Purchase the ${site.name} Astro theme. Checkout is a stub — read the notice before picking a tier.`}
   navLinks={site.nav}
-  navCtaLabel="Buy Theme"
-  navCtaHref="/buy"
   footerGroups={footerGroups}
 >
   <Container size="md" class="py-20">
@@ -104,7 +102,7 @@ const checkoutStatus = {
               variant={plan.featured ? "primary" : "outline"}
               class="mt-6 w-full justify-center"
             >
-              {checkoutStatus.state === "stub" ? `Ask about ${plan.name}` : `Buy ${plan.name}`}
+              {`Buy ${plan.name}`}
             </Button>
           </Card>
         ))
@@ -115,9 +113,8 @@ const checkoutStatus = {
       <p>
         Comparing tiers? <a href="/pricing" class="font-semibold text-ink underline decoration-2 underline-offset-4"
           >See the full pricing breakdown</a
-        > — or <a
-          href="/docs"
-          class="font-semibold text-ink underline decoration-2 underline-offset-4">browse the docs</a
+        > — or <a href="/docs" class="font-semibold text-ink underline decoration-2 underline-offset-4"
+          >browse the docs</a
         > before you commit.
       </p>
     </div>

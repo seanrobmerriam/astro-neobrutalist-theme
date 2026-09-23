@@ -30,7 +30,7 @@ Each tab's `content` is plain text — for richer panel content, render your own
 
 ## Accordion & AccordionContained
 
-`src/components/Accordion/Accordion.astro` and `AccordionContained.astro` are static, content-authored components (no props) built on native `<details>`/`<summary>` — the browser handles the open/close toggling for free, no JavaScript at all. `AccordionContained` differs only in visual treatment: one continuous bordered box instead of separately-shadowed rows.
+`src/components/Accordion/Accordion.astro` and `AccordionContained.astro` are static, content-authored components (no props) built on native `<details>`/`<summary>` — the browser handles the open/close toggling natively, no JavaScript at all. `AccordionContained` differs only in visual treatment: one continuous bordered box instead of separately-shadowed rows.
 
 ```astro
 <Accordion />

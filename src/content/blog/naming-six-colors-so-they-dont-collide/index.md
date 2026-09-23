@@ -2,7 +2,7 @@
 title: "Naming six colors so they don't collide"
 description: "Categorical, not semantic — why the accent tokens are named yellow, pink, and blue, not primary and success."
 publishDate: 2026-08-02
-author: ava-stone
+author: sean-merriam
 tags: ["design", "tokens"]
 heroImage: "./hero.svg"
 ---

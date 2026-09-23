@@ -1,6 +1,6 @@
 # Phase 3 accessibility & performance audit — 2026-09-05
 
-Run against a production build (`pnpm build` + `pnpm preview`) using headless
+Run against a production build (`bun run build` + `bun run preview`) using headless
 Chromium (Playwright's bundled build — no system Chrome was available in this
 environment). Raw tool output: `axe-2026-09-05.json`, `lighthouse-2026-09-05.json`.
 

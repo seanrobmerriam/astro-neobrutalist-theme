@@ -5,35 +5,35 @@ A neubrutalist Astro + Tailwind CSS v4 component library and theme: 40+ typed `.
 ## Development
 
 - Node ≥ 22.12.0 (enforced via `package.json` `engines`).
-- Use **pnpm**. This is a pnpm workspace (`pnpm-workspace.yaml`, `pnpm-lock.yaml`) — npm/yarn are not supported. `bun.lock` also exists in the working copy from a prior bun experiment; ignore it.
-- `pnpm install` for deps. **No third-party accounts or API keys required** — see `.env.example` (it's effectively empty).
+- Use **Bun 1.4.2** with the committed `bun.lock`. Use `bun install` for dependencies and `bun run <script>` for project scripts.
+- `bun install` for deps. **No third-party accounts or API keys required** — see `.env.example` (it's effectively empty).
 
 ### Scripts
 
-| Command | Purpose |
-|---|---|
-| `pnpm dev` | Astro dev server on `:4321` |
-| `pnpm build` | Production build to `./dist/`; runs `postbuild` automatically |
-| `pnpm postbuild` (auto) | Runs `pagefind --site dist` to index the site for `/search` |
-| `pnpm preview` | Serve the production build locally |
-| `pnpm astro` | Pass-through to the Astro CLI |
-| `pnpm check` | `astro check` — type-check `.astro` files |
-| `pnpm format` / `pnpm format:check` | Prettier (with `prettier-plugin-astro`), 120-col |
-| `pnpm test:e2e` | Playwright e2e (Chromium + Firefox + WebKit); manages its own build + preview |
-| `pnpm audit:a11y [baseUrl]` | axe-core + keyboard walk + horizontal-overflow check (needs `pnpm preview` running) |
-| `pnpm audit:lighthouse [baseUrl]` | Lighthouse mobile run with score thresholds |
-| `pnpm audit:links` | Static broken-internal-link checker against `./dist/` (run after `pnpm build`) |
-| `pnpm package:release` | Zip a buyer-facing distributable to `./release/` (needs `zip` CLI) |
+| Command                                   | Purpose                                                                                |
+| ----------------------------------------- | -------------------------------------------------------------------------------------- |
+| `bun run dev`                             | Astro dev server on `:4321`                                                            |
+| `bun run build`                           | Production build to `./dist/`; runs `postbuild` automatically                          |
+| `bun run postbuild` (auto)                | Runs `pagefind --site dist` to index the site for `/search`                            |
+| `bun run preview`                         | Serve the production build locally                                                     |
+| `bun run astro`                           | Pass-through to the Astro CLI                                                          |
+| `bun run check`                           | `astro check` — type-check `.astro` files                                              |
+| `bun run format` / `bun run format:check` | Prettier (with `prettier-plugin-astro`), 120-col                                       |
+| `bun run test:e2e`                        | Playwright e2e (Chromium + Firefox + WebKit); manages its own build + preview          |
+| `bun run audit:a11y [baseUrl]`            | axe-core + keyboard walk + horizontal-overflow check (needs `bun run preview` running) |
+| `bun run audit:lighthouse [baseUrl]`      | Lighthouse mobile run with score thresholds                                            |
+| `bun run audit:links`                     | Static broken-internal-link checker against `./dist/` (run after `bun run build`)      |
+| `bun run package:release`                 | Zip a buyer-facing distributable to `./release/` (needs `zip` CLI)                     |
 
 ### Background dev server
 
 When scripting or working alongside an agent, run the dev server in the background so the shell stays usable:
 
 ```
-pnpm astro dev --background
-pnpm astro dev status
-pnpm astro dev stop
-pnpm astro dev logs
+bun run astro dev --background
+bun run astro dev status
+bun run astro dev stop
+bun run astro dev logs
 ```
 
 ## Architecture
@@ -83,7 +83,7 @@ Tokens live in `src/styles/global.css` under `@theme`:
 - **Typography** — `--font-display`/`--font-heading` = Clariza Sparks (local, single weight — bold is synthesized); `--font-sans` = Inter; `--font-mono` = Space Mono. All three are wired up through Astro's Fonts API in `astro.config.mjs` (no hand-written `@font-face`). The `--font-*` CSS variables are defined via `<Font cssVariable="...">` tags in `Layout.astro`.
 - **Fluid display sizes** — `--text-hero-split`, `--text-hero-centered`, `--text-section-lg`, `--text-section-sm` are `clamp()`-based so headings don't "snap" at the sm breakpoint. Pair with `text-balance` and `text-pretty` for headlines.
 - **Structural neutrals** — `--color-ink` (black) and `--color-paper` (off-white). These **invert** in dark mode (three-state: bare `:root` is light, `prefers-color-scheme: dark` covers system, `:root[data-theme="dark"|"light"]` lets explicit choice win).
-- **`--color-ink-on-accent`** — fixed (non-inverting) black for text/borders that sit *directly* on a categorical accent fill. Categorical accents stay the same bright colors in both themes, so a border or text that inverts would lose contrast against a fill that didn't. **Only ever redefined inside `@theme`**, never inside the dark-mode blocks.
+- **`--color-ink-on-accent`** — fixed (non-inverting) black for text/borders that sit _directly_ on a categorical accent fill. Categorical accents stay the same bright colors in both themes, so a border or text that inverts would lose contrast against a fill that didn't. **Only ever redefined inside `@theme`**, never inside the dark-mode blocks.
 - **Categorical accents** — `--color-yellow`, `--color-pink`, `--color-blue`, `--color-green`, `--color-orange`, `--color-lavender`. Flat fills only, no gradients. Deliberately named by appearance, not role.
 - **`--color-focus-ring`** — split out from blue so reassigning the `--color-blue` accent doesn't silently recolor every focus indicator.
 - **Hard offset shadows** — `--shadow-brutal-{sm,'',lg,xl}` reference `--color-ink` (not hardcoded black) so they invert automatically. `--shadow-brutal-invert-{lg,xl}` are fixed-light shadows for components sitting on a dark backdrop scrim regardless of theme.
@@ -112,7 +112,7 @@ The browser's module cache means the listener is registered only once per page e
 
 `Tabs.astro` is self-contained: it has its own keyed event handler in its `<script>` block (Tab/arrow-key navigation, focus management, aria-selected). Don't lift it into the shared script — it's specific to tab semantics (role="tablist", roving tabindex, vertical-arrow-key variant).
 
-`ThemeToggle` cycles system → light → dark → system via `src/scripts/theme-toggle.ts`. "System" is the *absence* of `[data-theme]` on `<html>`, letting the `prefers-color-scheme` media query in global.css take over. The blocking inline script in `Layout.astro`'s `<head>` (not the deferred module) applies the stored preference before first paint to avoid a flash of the wrong theme.
+`ThemeToggle` cycles system → light → dark → system via `src/scripts/theme-toggle.ts`. "System" is the _absence_ of `[data-theme]` on `<html>`, letting the `prefers-color-scheme` media query in global.css take over. The blocking inline script in `Layout.astro`'s `<head>` (not the deferred module) applies the stored preference before first paint to avoid a flash of the wrong theme.
 
 ## Layouts
 
@@ -140,7 +140,7 @@ Four collections defined via `glob()` loaders and `astro/zod`:
 - **`authors`** — JSON files in `src/data/authors/`. Frontmatter: `name`, `role`, `bio`, `avatar` (Astro image, optional).
 - **`projects`** — JSON files in `src/data/projects/`. Frontmatter: `title`, `eyebrow`, `description`, `accent` (enum of the six colors), `order` (number, default `0`).
 
-**Drafts are visible in dev and excluded in production** — see `src/lib/blog.ts`. Preview a draft by running `pnpm dev`; it disappears from `pnpm build` output.
+**Drafts are visible in dev and excluded in production** — see `src/lib/blog.ts`. Preview a draft by running `bun run dev`; it disappears from `bun run build` output.
 
 ## `.prose` shared styles
 
@@ -154,30 +154,30 @@ Long-form Markdown content (docs and blog posts) uses `class="prose"` on its wra
 
 ## Gotchas
 
-- **`/search` is empty under `pnpm dev`** — Pagefind indexing only runs in `postbuild`. Verify search with `pnpm build && pnpm preview`.
+- **`/search` is empty under `bun run dev`** — Pagefind indexing only runs in `postbuild`. Verify search with `bun run build && bun run preview`.
 - **Date formatting** (`src/lib/format-date.ts`) — `z.coerce.date()` on a bare frontmatter date (`"2026-08-02"`) parses as UTC midnight. Without `timeZone: "UTC"`, `toLocaleDateString` shifts it back a day in US timezones. Always pass `timeZone: "UTC"` when rendering calendar dates from frontmatter.
 - **Carousel/Glide stylesheet** — `src/layouts/Layout.astro` historically linked `node_modules/@glidejs/glide/dist/css/glide.core.min.css`, but `@glidejs/glide` is **not** a dependency in `package.json` — that stylesheet 404s. The current Carousel implementation has been reworked around this; flag any leftover Glide references before assuming carousel styling is wired up.
 - **Bundled font license** — `src/assets/fonts/LICENSE-TODO.md`: the Clariza Sparks redistribution rights haven't been confirmed. Don't ship the distributable zip until that's resolved, or swap the display face for an OFL alternative (Syne, Archivo Black, Space Grotesk are listed as close matches).
 - **Site URL and OG image are placeholders** — `src/config/site.ts`'s `url` (`https://example.com`) and `ogImage` (`/og-default.png`) are TODO placeholders. `astro.config.mjs`'s `site` is read from `site.url`, so canonical URLs, the sitemap, and Open Graph URLs are all wrong until that's set.
 - **`/buy` checkout is a stub** — clicking any plan button goes to `/contact`, not Stripe. The Banner at the top of the page tells the buyer so the dead-end isn't silent.
 - **WebKit tests need system libs** — `playwright.config.ts` includes WebKit, but the sandbox here can't `playwright install-deps` without root. CI installs them via `playwright install --with-deps`. Expect WebKit to be skipped/flaky locally.
-- **No ESLint** — this is a deliberate gap, not an oversight (see `ci.yml`'s comment). `pnpm format:check` is the closest equivalent lint gate today.
+- **No ESLint** — this is a deliberate gap, not an oversight (see `ci.yml`'s comment). `bun run format:check` is the closest equivalent lint gate today.
 - **`docs/superpowers/` and `docs/audits/`** are excluded from Prettier (the markdown formatter fails on illustrative fenced snippets) and from the release zip (internal-only).
 - **No live demo is deployed yet** — see `RUBRIC.md` and the linked plan doc for tracked in-progress work toward a commercial release.
 
 ## Testing
 
-- **Playwright** (`tests/e2e/`) — covers nav (desktop + mobile drawer), modal/drawer focus trapping, tabs, accordion, gallery lightbox, contact form, theme toggling, and a per-page-type axe-core sweep. `playwright.config.ts` builds + serves preview on `:4322` itself, so `pnpm test:e2e` alone runs the suite. In CI, `CI=true` enables 2 retries and the github reporter.
-- **Audit scripts in `scripts/`** are repeatable, manual-run gates. `audit-a11y` (axe + heading order + 320/768/1280px overflow + keyboard-walk focus visibility) and `audit-lighthouse` (mobile-throttled, with score thresholds perf=90 / a11y=95 / best-practices=95 / seo=95) both need a preview server running first; `audit-links` needs `pnpm build` to have run.
+- **Playwright** (`tests/e2e/`) — covers nav (desktop + mobile drawer), modal/drawer focus trapping, tabs, accordion, gallery lightbox, contact form, theme toggling, and a per-page-type axe-core sweep. `playwright.config.ts` builds + serves preview on `:4322` itself, so `bun run test:e2e` alone runs the suite. In CI, `CI=true` enables 2 retries and the github reporter.
+- **Audit scripts in `scripts/`** are repeatable, manual-run gates. `audit-a11y` (axe + heading order + 320/768/1280px overflow + keyboard-walk focus visibility) and `audit-lighthouse` (mobile-throttled, with score thresholds perf=90 / a11y=95 / best-practices=95 / seo=95) both need a preview server running first; `audit-links` needs `bun run build` to have run.
 - **`audit-lighthouse.mjs` Chrome lookup** — tries `$CHROME_PATH`, system Chrome via `chrome-launcher`, then Playwright's bundled Chromium at `~/.cache/ms-playwright/chromium-*/chrome-linux64/chrome`. The `chrome-launcher.getInstallations()` call can throw on a Playwright-only machine — it's caught here, not propagated, so the Playwright fallback is reachable.
 
 ## CI (`.github/workflows/ci.yml`)
 
-Runs on push/PR to `main`: install → `pnpm check` → `pnpm format:check` → `pnpm build` → `pnpm audit:links` → `pnpm exec playwright install --with-deps chromium firefox webkit` → `pnpm test:e2e` (with `CI=true`) → start `pnpm preview` on `:4321` → `pnpm audit:a11y` → `pnpm audit:lighthouse`. Audit results upload to the `audit-results` artifact under `docs/audits/`.
+Runs on push/PR to `main`: install → `bun run check` → `bun run format:check` → `bun run build` → `bun run audit:links` → `bun x playwright install --with-deps chromium firefox webkit` → `bun run test:e2e` (with `CI=true`) → start `bun run preview` on `:4321` → `bun run audit:a11y` → `bun run audit:lighthouse`. Audit results upload to the `audit-results` artifact under `docs/audits/`.
 
 ## Releases
 
-`pnpm package:release` produces `release/<name>-v<version>.zip`. The exclusion list deliberately drops repo-root CI/agent config (`.github/`, `.agents/`, `.claude/`, `RUBRIC.md`) and this project's internal planning docs (`docs/superpowers/`, `docs/audits/`) — buyer-facing docs in `src/docs/` are untouched and render at `/docs`.
+`bun run package:release` produces `release/<name>-v<version>.zip`. The exclusion list deliberately drops repo-root CI/agent config (`.github/`, `.agents/`, `.claude/`, `RUBRIC.md`) and this project's internal planning docs (`docs/superpowers/`, `docs/audits/`) — buyer-facing docs in `src/docs/` are untouched and render at `/docs`.
 
 Requires the `zip` CLI; not available out of the box on Windows (run from WSL or a CI runner there).
 

@@ -1,7 +1,7 @@
 // Repeatable accessibility + layout audit against a running production
-// preview server. Requires `pnpm build && pnpm preview` (or any static
+// preview server. Requires `bun run build && bun run preview` (or any static
 // server) running first, and Playwright's Chromium installed
-// (`pnpm exec playwright install chromium`).
+// (`bun x playwright install chromium`).
 //
 // Usage: node scripts/audit-a11y.mjs [baseUrl] [path1,path2,...]
 // Defaults to http://localhost:4321 and a representative page set.

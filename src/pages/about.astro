@@ -30,6 +30,44 @@ const principles = [
     title: "Zero-JS by default",
     description: "Interactivity is opt-in and vanilla. A component you don't click never ships a script.",
   },
+  {
+    title: "Composable from primitives",
+    description:
+      "Blocks are built from the same components you get. Hero, Navbar, Pricing — same primitives, no second layer.",
+  },
+  {
+    title: "Accessible by default",
+    description:
+      "Visible focus rings, contrast-checked tokens, semantic HTML, keyboard-friendly overlays — built in, not bolted on.",
+  },
+  {
+    title: "Self-hosted fonts",
+    description:
+      "Display, heading, and mono faces load through Astro's Fonts API. No Google CDN, no render-blocking requests.",
+  },
+];
+
+const whyReasons = [
+  {
+    title: "Most themes are quiet by default",
+    description:
+      "Soft shadows, rounded corners, muted greys, and a single accent. They look professional in the first five seconds and start blending in by the thirtieth. Built to offend no one, they end up being remembered by no one either.",
+  },
+  {
+    title: "Borders are load-bearing",
+    description:
+      "Neubrutalism's thick black outlines aren't decoration — they're the structural language that makes everything else read as deliberate. Strip them out and the same components look like a generic Tailwind starter; keep them and the system holds together.",
+  },
+  {
+    title: "Hard shadows ≠ realism",
+    description:
+      'Modern UI shadows try to simulate light: blur, falloff, layered opacity. A neubrutalist shadow is just a flat offset — zero blur, full saturation. It says "this thing is stacked on that thing," not "this thing is being lit."',
+  },
+  {
+    title: "Six colors is a feature",
+    description:
+      "A small categorical palette forces choices. You can't fall back on a tenth blue, so every accent carries meaning: yellow for action, pink for featured, green for success. Buyers who pick this theme aren't looking for infinite options — they're looking for a system that says yes to a constraint.",
+  },
 ];
 ---
 
@@ -37,8 +75,6 @@ const principles = [
   title={`About — ${site.name}`}
   description={`Why ${site.name} looks the way it does, and who builds it.`}
   navLinks={site.nav}
-  navCtaLabel="Get Theme"
-  navCtaHref="/pricing"
   footerGroups={footerGroups}
 >
   <Container size="md" class="py-20 text-center">
@@ -57,11 +93,42 @@ const principles = [
 
   <FeatureGrid eyebrow="Principles" title="What holds it together" features={principles} />
 
-  <Container size="md" class="pb-20 text-center">
+  <section class="border-y-[3px] border-ink bg-yellow py-20">
+    <Container size="md">
+      <div class="text-center">
+        <span
+          class="inline-block border-2 border-ink-on-accent bg-paper px-3 py-1 font-mono text-xs font-bold text-ink-on-accent uppercase tracking-wide shadow-brutal-sm"
+        >
+          Why
+        </span>
+        <h2 class="mt-4 text-balance font-display text-section-lg font-extrabold uppercase">
+          Most themes are boring clones of other themes
+        </h2>
+        <p class="mx-auto mt-4 max-w-2xl text-pretty text-ink/80">
+          Open a marketplace tab and scroll ten themes. Different logos, different copy, the same beige card with a
+          rounded-2xl shadow that's been the default since 2019. They're built to disappear into the noise. This one
+          isn't.
+        </p>
+      </div>
+
+      <div class="mt-12 grid gap-6 sm:grid-cols-2">
+        {
+          whyReasons.map((reason, i) => (
+            <article class="border-[3px] border-ink bg-paper p-6 shadow-brutal">
+              <p class="font-mono text-xs font-bold uppercase tracking-wide text-ink/60">{`Reason ${String(i + 1).padStart(2, "0")}`}</p>
+              <h3 class="mt-2 font-heading text-xl font-bold">{reason.title}</h3>
+              <p class="mt-2 text-pretty text-ink/70">{reason.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <Container size="md" class="py-20 text-center">
     <h2 class="font-heading text-lg font-bold uppercase tracking-wide">Want the people, not the philosophy?</h2>
     <p class="mx-auto mt-2 max-w-xl text-ink/70">
-      Meet the two-person team building it on the <a href="/team" class="underline decoration-2 underline-offset-4"
-        >team page</a
+      Meet the developer behind it on the <a href="/team" class="underline decoration-2 underline-offset-4">team page</a
       >, or <a href="/contact" class="underline decoration-2 underline-offset-4">get in touch</a> directly.
     </p>
   </Container>

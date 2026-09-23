@@ -1,12 +1,12 @@
 // Repeatable Lighthouse audit (mobile throttling) against a running
-// production preview server. Requires `pnpm build && pnpm preview` running
+// production preview server. Requires `bun run build && bun run preview` running
 // first.
 //
 // Usage: node scripts/audit-lighthouse.mjs [baseUrl] [path1,path2,...]
 //
 // Needs a Chromium binary. Tries, in order: $CHROME_PATH, a system Chrome/
 // Chromium, then Playwright's bundled Chromium (requires
-// `pnpm exec playwright install chromium` — this is what CI without a
+// `bun x playwright install chromium` — this is what CI without a
 // system browser should use).
 
 import lighthouse from "lighthouse";
@@ -37,7 +37,7 @@ function findChrome() {
   } catch {
     // fall through
   }
-  throw new Error("No Chrome/Chromium found. Set CHROME_PATH, or run `pnpm exec playwright install chromium`.");
+  throw new Error("No Chrome/Chromium found. Set CHROME_PATH, or run `bun x playwright install chromium`.");
 }
 
 const chrome = await chromeLauncher.launch({

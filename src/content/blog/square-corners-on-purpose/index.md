@@ -2,7 +2,7 @@
 title: "Square corners, on purpose"
 description: "Zeroing every border-radius, and why native form controls fight you on it."
 publishDate: 2026-04-01
-author: marcus-lin
+author: sean-merriam
 tags: ["design", "forms"]
 heroImage: "./hero.svg"
 ---

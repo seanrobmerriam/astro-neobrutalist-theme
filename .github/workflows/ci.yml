@@ -11,49 +11,50 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.4.2"
 
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       - name: Type check
-        run: pnpm check
+        run: bun run check
 
       # No ESLint is configured for this project (a disclosed, deliberate
       # gap — see the rubric remediation plan's Phase 2 notes); this runs
       # the Prettier formatting check as the closest equivalent "lint" gate.
       - name: Format check
-        run: pnpm format:check
+        run: bun run format:check
 
       - name: Build (includes Pagefind postbuild indexing)
-        run: pnpm build
+        run: bun run build
 
       - name: Check for broken internal links
-        run: pnpm audit:links
+        run: bun run audit:links
 
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium firefox webkit
+        run: bun x playwright install --with-deps chromium firefox webkit
 
       - name: Run e2e tests (Chromium, Firefox, WebKit)
-        run: pnpm test:e2e
+        run: bun run test:e2e
         env:
           CI: true
 
       - name: Start preview server for audits
         run: |
-          pnpm astro preview --port 4321 &
-          pnpm exec wait-on http://localhost:4321 --timeout 60000
+          bun run astro preview --port 4321 &
+          bun x wait-on http://localhost:4321 --timeout 60000
 
       - name: Accessibility audit (axe-core, keyboard, overflow)
-        run: pnpm audit:a11y http://localhost:4321
+        run: bun run audit:a11y http://localhost:4321
 
       - name: Lighthouse audit (mobile, performance + a11y + best-practices + seo)
-        run: pnpm audit:lighthouse http://localhost:4321
+        run: bun run audit:lighthouse http://localhost:4321
 
       - name: Upload Lighthouse/axe artifacts
         if: always()

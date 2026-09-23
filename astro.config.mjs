@@ -47,45 +47,85 @@ export default defineConfig({
     },
     {
       provider: fontProviders.local(),
-      name: "Vaneska",
-      cssVariable: "--font-vaneska",
+      name: "Eustace",
+      cssVariable: "--font-eustace",
       fallbacks: ["sans-serif"],
       options: {
         variants: [
           {
             weight: 400,
             style: "normal",
-            src: ["./src/assets/fonts/Vaneska.woff"],
+            src: ["./src/assets/fonts/Eustace.woff2"],
           },
         ],
       },
     },
     {
       provider: fontProviders.local(),
-      name: "Gorga Grotesque",
-      cssVariable: "--font-gorga-grotesque",
+      name: "Devina Rodent",
+      cssVariable: "--font-devina-rodent",
       fallbacks: ["sans-serif"],
       options: {
         variants: [
           {
+            weight: 100,
+            style: "normal",
+            src: ["./src/assets/fonts/DevinaRodent-Thin.woff2"],
+          },
+          {
+            weight: 100,
+            style: "italic",
+            src: ["./src/assets/fonts/DevinaRodent-ThinItalic.woff2"],
+          },
+          {
+            weight: 400,
+            style: "normal",
+            src: ["./src/assets/fonts/Devina Rodent.woff2"],
+          },
+          {
+            weight: 400,
+            style: "italic",
+            src: ["./src/assets/fonts/DevinaRodent-Italic.woff2"],
+          },
+          {
+            weight: 600,
+            style: "normal",
+            src: ["./src/assets/fonts/DevinaRodent-Semibold.woff2"],
+          },
+          {
             weight: 700,
             style: "normal",
-            src: ["./src/assets/fonts/GorgaGrotesque-Bold.woff2"],
+            src: ["./src/assets/fonts/DevinaRodent-Bold.woff2"],
+          },
+          {
+            weight: 700,
+            style: "italic",
+            src: ["./src/assets/fonts/DevinaRodent-BoldItalic.woff2"],
+          },
+          {
+            weight: 800,
+            style: "normal",
+            src: ["./src/assets/fonts/DevinaRodent-Extrabold.woff2"],
+          },
+          {
+            weight: 800,
+            style: "italic",
+            src: ["./src/assets/fonts/DevinaRodent-ExtraboldItalic.woff2"],
           },
         ],
       },
     },
     {
       provider: fontProviders.local(),
-      name: "TBJ Terminal Mono",
-      cssVariable: "--font-tbj-terminal-mono",
+      name: "Alma Mono",
+      cssVariable: "--font-alma-mono",
       fallbacks: ["monospace"],
       options: {
         variants: [
           {
-            weight: 500,
+            weight: 400,
             style: "normal",
-            src: ["./src/assets/fonts/TBJTerminalMono-Medium.woff2"],
+            src: ["./src/assets/fonts/almamono-regular-webfont.woff2"],
           },
         ],
       },

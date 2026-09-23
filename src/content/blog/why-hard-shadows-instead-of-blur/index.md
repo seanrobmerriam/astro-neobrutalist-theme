@@ -2,7 +2,7 @@
 title: "Why we went with hard shadows instead of blur"
 description: "The case for zero-blur, offset shadows in a design system built for clarity."
 publishDate: 2026-05-14
-author: ava-stone
+author: sean-merriam
 tags: ["design", "tokens"]
 heroImage: "./hero.svg"
 ---
